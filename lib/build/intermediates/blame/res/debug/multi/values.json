@@ -1,0 +1,69 @@
+[
+    {
+        "outputFile": "D:\\Cards\\lib\\build\\intermediates\\res\\merged\\debug\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 45,
+                    "endOffset": 96
+                },
+                "from": {
+                    "file": "D:\\Cards\\lib\\src\\main\\res\\values\\colors.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 101,
+                    "endColumn": 38,
+                    "endOffset": 135
+                },
+                "from": {
+                    "file": "D:\\Cards\\lib\\src\\main\\res\\values\\ids.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 140,
+                    "endColumn": 51,
+                    "endOffset": 187
+                },
+                "from": {
+                    "file": "D:\\Cards\\lib\\src\\main\\res\\values\\strings.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 192,
+                    "endLine": 11,
+                    "endColumn": 12,
+                    "endOffset": 478
+                },
+                "from": {
+                    "file": "D:\\Cards\\lib\\src\\main\\res\\values\\styles.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 483,
+                    "endLine": 14,
+                    "endColumn": 12,
+                    "endOffset": 638
+                },
+                "from": {
+                    "file": "D:\\Cards\\lib\\src\\main\\res\\values\\styles.xml"
+                }
+            }
+        ]
+    }
+]
