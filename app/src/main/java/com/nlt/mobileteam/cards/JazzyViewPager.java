@@ -1,8 +1,5 @@
 package com.nlt.mobileteam.cards;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -18,6 +15,9 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.nineoldandroids.view.ViewHelper;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class JazzyViewPager extends ViewPager {
 
@@ -247,24 +247,91 @@ public class JazzyViewPager extends ViewPager {
 		}
 	}
 
-	private void animateCube(View left, View right, float positionOffset, boolean in) {
+	private void animateCube(View left, View right, float positionOffset, boolean in, int positionOffsetPixels) {
 		if (mState != State.IDLE) {
 			if (left != null) {
 				manageLayer(left, true);
-				mRot = (in ? 90.0f : -90.0f) * positionOffset;
-				ViewHelper.setPivotX(left, left.getMeasuredWidth());
-				ViewHelper.setPivotY(left, left.getMeasuredHeight()*0.5f);
-				ViewHelper.setRotationY(left, mRot);
+				//mRot =  (in ? 90.0f : -90.0f) * positionOffset;
+				mRot = -180.0f * positionOffset;
+				Log.d(TAG, "left: mRot		" + mRot + "offset:	 " + positionOffset + "visib:" + left.getVisibility());
+				//
+				if (mRot < -90.0f) {
+					left.setVisibility(View.INVISIBLE);
+				} else {
+					if (left.getVisibility() == View.INVISIBLE)
+						left.setVisibility(View.VISIBLE);
+
+					mTrans = positionOffsetPixels;
+					// ViewHelper.setPivotX(left, 0);
+					ViewHelper.setPivotX(left, left.getMeasuredWidth() * 0.5f);
+					ViewHelper.setPivotY(left, left.getMeasuredHeight() * 0.5f);
+					ViewHelper.setTranslationX(left, mTrans);
+					ViewHelper.setRotationY(left, mRot);
+
+				}
 			}
+			Log.d(TAG, "-----");
+
 			if (right != null) {
 				manageLayer(right, true);
-				mRot = -(in ? 90.0f : -90.0f) * (1-positionOffset);
-				ViewHelper.setPivotX(right, 0);
-				ViewHelper.setPivotY(right, right.getMeasuredHeight()*0.5f);
-				ViewHelper.setRotationY(right, mRot);
+				//mRot = -(in ? 90.0f : -90.0f) * (1-positionOffset);
+				mRot = 180f * (1 - positionOffset);
+				Log.d(TAG, "right: mRot		" + mRot + "offset:	 " + positionOffset + "visib:" + left.getVisibility());
+
+				if (mRot > 90.0f) {
+					right.setVisibility(View.INVISIBLE);
+				} else {
+					if (right.getVisibility() == View.INVISIBLE)
+						right.setVisibility(View.VISIBLE);
+//
+					//ViewHelper.setPivotX(right, right.getMeasuredWidth()*0.5f);
+					//ViewHelper.setPivotY(right, right.getMeasuredHeight()*0.5f);
+					ViewHelper.setPivotX(right, 0);
+					ViewHelper.setPivotY(right, right.getMeasuredHeight() * 0.5f);
+					ViewHelper.setRotationY(right, mRot);
+				}
+
 			}
 		}
 	}
+
+	private void animateFlipHorizontal(View left, View right, float positionOffset, int positionOffsetPixels) {
+		if (mState != State.IDLE) {
+			if (left != null) {
+				manageLayer(left, true);
+				mRot = 180.0f * positionOffset;
+				if (mRot > 90.0f) {
+					left.setVisibility(View.INVISIBLE);
+				} else {
+					if (left.getVisibility() == View.INVISIBLE)
+						left.setVisibility(View.VISIBLE);
+					mTrans = positionOffsetPixels;
+					//ViewHelper.setPivotX(left, left.getMeasuredWidth()*0.5f);
+					ViewHelper.setTranslationX(left, mTrans);
+					ViewHelper.setRotationY(left, mRot);
+				}
+			}
+			if (right != null) {
+				manageLayer(right, true);
+				mRot = -180.0f * (1 - positionOffset);
+				if (mRot < -90.0f) {
+					right.setVisibility(View.INVISIBLE);
+				} else {
+					if (right.getVisibility() == View.INVISIBLE)
+						right.setVisibility(View.VISIBLE);
+					mTrans = -getWidth() - getPageMargin() + positionOffsetPixels;
+
+					//ViewHelper.setPivotX(right, right.getMeasuredWidth()*0.5f);
+					//ViewHelper.setPivotY(right, right.getMeasuredHeight()*0.5f);
+
+					ViewHelper.setTranslationX(right, mTrans);
+					ViewHelper.setRotationY(right, mRot);
+
+				}
+			}
+		}
+	}
+
 
 	private void animateAccordion(View left, View right, float positionOffset) {
 		if (mState != State.IDLE) {
@@ -329,41 +396,7 @@ public class JazzyViewPager extends ViewPager {
 		}
 	}
 
-	private void animateFlipHorizontal(View left, View right, float positionOffset, int positionOffsetPixels) {
-		if (mState != State.IDLE) {
-			if (left != null) {
-				manageLayer(left, true);
-				mRot = 180.0f * positionOffset;
-				if (mRot > 90.0f) {
-					left.setVisibility(View.INVISIBLE);
-				} else {
-					if (left.getVisibility() == View.INVISIBLE)
-						left.setVisibility(View.VISIBLE);
-					mTrans = positionOffsetPixels;
-					ViewHelper.setPivotX(left, left.getMeasuredWidth()*0.5f);
-					ViewHelper.setPivotY(left, left.getMeasuredHeight()*0.5f);
-					ViewHelper.setTranslationX(left, mTrans);
-					ViewHelper.setRotationY(left, mRot);
-				}
-			}
-			if (right != null) {
-				manageLayer(right, true);
-				mRot = -180.0f * (1-positionOffset);
-				if (mRot < -90.0f) {
-					right.setVisibility(View.INVISIBLE);
-				} else {
-					if (right.getVisibility() == View.INVISIBLE)
-						right.setVisibility(View.VISIBLE);
-					mTrans = -getWidth()-getPageMargin()+positionOffsetPixels;
-					ViewHelper.setPivotX(right, right.getMeasuredWidth()*0.5f);
-					ViewHelper.setPivotY(right, right.getMeasuredHeight()*0.5f);
-					ViewHelper.setTranslationX(right, mTrans);
-					ViewHelper.setRotationY(right, mRot);
-				}
-			}
-		}
-	}
-	
+
 	private void animateFlipVertical(View left, View right, float positionOffset, int positionOffsetPixels) {
 		if(mState != State.IDLE) {
 			if (left != null) {
@@ -493,7 +526,7 @@ public class JazzyViewPager extends ViewPager {
 			mState = State.GOING_LEFT;
 		else if (mState == State.GOING_LEFT && goingRight)
 			mState = State.GOING_RIGHT;
-
+		//Log.d(TAG, "on page scrolled"+position+"off " + positionOffset+" pix " + positionOffsetPixels);
 		float effectOffset = isSmall(positionOffset) ? 0 : positionOffset;
 		
 //		mLeft = getChildAt(position);
@@ -513,10 +546,10 @@ public class JazzyViewPager extends ViewPager {
 			animateTablet(mLeft, mRight, effectOffset);
 			break;
 		case CubeIn:
-			animateCube(mLeft, mRight, effectOffset, true);
+			animateCube(mLeft, mRight, effectOffset, true, positionOffsetPixels);
 			break;
 		case CubeOut:
-			animateCube(mLeft, mRight, effectOffset, false);
+			animateCube(mLeft, mRight, effectOffset, false, positionOffsetPixels);
 			break;
 		case FlipVertical:
 			animateFlipVertical(mLeft, mRight, positionOffset, positionOffsetPixels);

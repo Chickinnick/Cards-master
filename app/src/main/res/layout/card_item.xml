@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.nlt.mobileteam.cards.JazzyViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/jazzy_pager_item"
+    android:layout_width="500dp"
+    android:layout_height="500dp" />

@@ -20,5 +20,7 @@
         <item>RotateDown</item>
         <item>Accordion</item>
     </string-array>
+    <string name="title_activity_main_activity_tabbed">MainActivityTabbed</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>
