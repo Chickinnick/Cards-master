@@ -1,5 +1,7 @@
 package com.nlt.mobileteam.cards;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -7,11 +9,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.nlt.mobileteam.cards.adapter.InfinitePagerAdapter;
 import com.nlt.mobileteam.cards.adapter.MainAdapter;
 
 public class MainActivityTabbed extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -81,10 +86,12 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        if (drawer != null) {
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -141,11 +148,14 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+
+        private static final String LOG_TAG = PlaceholderFragment.class.getSimpleName();
         /**
          * The fragment argument representing the section number for this
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private int mFocusedPage;
 
         public PlaceholderFragment() {
         }
@@ -169,11 +179,23 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                                  Bundle savedInstanceState) {
 
             View rootView = inflater.inflate(R.layout.fragment_main_activity_tabbed, container, false);
+            rootView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    flipCard(v);
+                }
+            });
+            mCardBackLayout = rootView.findViewById(R.id.card_back);
+            mCardFrontLayout = rootView.findViewById(R.id.card_front);
+            loadAnimations();
+            changeCameraDistance();
 
-
-            mJazzy = (JazzyViewPager) rootView.findViewById(R.id.jazzy_pager_item);
-            mJazzy.setTransitionEffect(JazzyViewPager.TransitionEffect.CubeOut);
-            mJazzy.setAdapter(new MainAdapter(getContext(), mJazzy));
+            // mJazzy = (JazzyViewPager) rootView.findViewById(R.id.jazzy_pager_item);
+            // mJazzy.setTransitionEffect(JazzyViewPager.TransitionEffect.CubeOut);
+            // MainAdapter pagerAdapter =  new MainAdapter(getContext(), mJazzy);
+            // PagerAdapter adapter = new InfinitePagerAdapter(pagerAdapter);
+            // mJazzy.setAdapter(adapter);
+           /* mJazzy.setCurrentItem(2);*/
             // mJazzy.setPageMargin(30);
 
 
@@ -181,6 +203,47 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));*/
             return rootView;
         }
+
+
+        private AnimatorSet mSetRightOut;
+        private AnimatorSet mSetLeftIn;
+        private boolean mIsBackVisible = false;
+        private View mCardFrontLayout;
+        private View mCardBackLayout;
+
+
+        private void changeCameraDistance() {
+            int distance = 8000;
+            float scale = getResources().getDisplayMetrics().density * distance;
+            mCardFrontLayout.setCameraDistance(scale);
+            mCardBackLayout.setCameraDistance(scale);
+        }
+
+        private void loadAnimations() {
+            mSetRightOut = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.out_animation);
+            mSetLeftIn = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.in_animation);
+        }
+
+        private void findViews() {
+        }
+
+        public void flipCard(View view) {
+            if (!mIsBackVisible) {
+                mSetRightOut.setTarget(mCardFrontLayout);
+                mSetLeftIn.setTarget(mCardBackLayout);
+                mSetRightOut.start();
+                mSetLeftIn.start();
+                mIsBackVisible = true;
+            } else {
+                mSetRightOut.setTarget(mCardBackLayout);
+                mSetLeftIn.setTarget(mCardFrontLayout);
+                mSetRightOut.start();
+                mSetLeftIn.start();
+                mIsBackVisible = false;
+            }
+        }
+
+
     }
 
     /**

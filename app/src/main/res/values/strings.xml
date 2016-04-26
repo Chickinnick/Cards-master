@@ -23,4 +23,6 @@
     <string name="title_activity_main_activity_tabbed">MainActivityTabbed</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
+    <string name="front">FRONT</string>
+    <string name="back">BACK</string>
 </resources>

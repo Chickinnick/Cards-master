@@ -276,7 +276,7 @@ public class JazzyViewPager extends ViewPager {
 				manageLayer(right, true);
 				//mRot = -(in ? 90.0f : -90.0f) * (1-positionOffset);
 				mRot = 180f * (1 - positionOffset);
-				Log.d(TAG, "right: mRot		" + mRot + "offset:	 " + positionOffset + "visib:" + left.getVisibility());
+//				Log.d(TAG, "right: mRot		" + mRot + "offset:	 " + positionOffset + "visib:" + left.getVisibility());
 
 				if (mRot > 90.0f) {
 					right.setVisibility(View.INVISIBLE);
@@ -607,5 +607,5 @@ public class JazzyViewPager extends ViewPager {
 		}
 		return null;
 	}
-	
+
 }

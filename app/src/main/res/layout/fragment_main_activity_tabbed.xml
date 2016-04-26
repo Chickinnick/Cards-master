@@ -8,11 +8,24 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.nlt.mobileteam.cards.MainActivityTabbed$PlaceholderFragment">
 
-    <com.nlt.mobileteam.cards.JazzyViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_centerInParent="true"
-        android:id="@+id/jazzy_pager_item"
-        android:layout_width="500dp"
-        android:rotation="270"
-        android:layout_height="500dp" />
+    <FrameLayout
+        android:id="@+id/card_back"
+        android:layout_width="300dp"
+        android:layout_height="300dp">
+
+        <include layout="@layout/card_back" />
+
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/card_front"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:gravity="center">
+
+        <include layout="@layout/card_front" />
+
+    </FrameLayout>
 
 </RelativeLayout>

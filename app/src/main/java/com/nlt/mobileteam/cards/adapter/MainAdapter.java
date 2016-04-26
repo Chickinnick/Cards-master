@@ -43,8 +43,9 @@ public class MainAdapter extends PagerAdapter {
                 (int) Math.floor(Math.random() * 128) + 64,
                 (int) Math.floor(Math.random() * 128) + 64);
         text.setBackgroundColor(bg);
-        mJazzy.setObjectForPosition(text, position);
 
+        mJazzy.setObjectForPosition(text, position);
+        container.addView(text, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
     /*    if (pos >= savedViews.length - 1)
             pos = 0;
@@ -52,7 +53,7 @@ public class MainAdapter extends PagerAdapter {
             ++pos;
 
         if (savedViews[pos] == null) {
-            container.addView(text, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
             savedViews[pos] = container;
         } else {
             return savedViews[pos];
@@ -68,7 +69,7 @@ public class MainAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return Integer.MAX_VALUE;
+        return 2;
     }
 
     @Override
