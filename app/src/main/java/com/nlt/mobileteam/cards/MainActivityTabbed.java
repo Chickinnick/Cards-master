@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,15 +18,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.nlt.mobileteam.cards.adapter.InfinitePagerAdapter;
-import com.nlt.mobileteam.cards.adapter.MainAdapter;
+import com.github.pwittchen.swipe.library.Swipe;
+import com.github.pwittchen.swipe.library.SwipeListener;
 
-public class MainActivityTabbed extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivityTabbed extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeListener {
 
+    private static final String TAG = "MainActivity";
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -42,7 +43,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
+    private Swipe swipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +81,20 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             }
         });
 
+
+        swipe = new Swipe();
+        swipe.addListener(this);
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        swipe.dispatchTouchEvent(event);
+        return super.dispatchTouchEvent(event);
+    }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_tabbed);
         if (drawer != null) {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
@@ -144,6 +153,55 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onSwipingLeft(MotionEvent event) {
+        Log.i(TAG, "swiping left");
+    }
+
+    @Override
+    public void onSwipedLeft(MotionEvent event) {
+        Log.i(TAG, "swipED left");
+
+
+    }
+
+    @Override
+    public void onSwipingRight(MotionEvent event) {
+        Log.i(TAG, "swiping Rght");
+
+    }
+
+    @Override
+    public void onSwipedRight(MotionEvent event) {
+        Log.i(TAG, "swipED right");
+    }
+
+    @Override
+    public void onSwipingUp(MotionEvent event) {
+        Log.i(TAG, "swiping up");
+
+    }
+
+    @Override
+    public void onSwipedUp(MotionEvent event) {
+        Log.i(TAG, "swipED up");
+        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCard();
+
+    }
+
+    @Override
+    public void onSwipingDown(MotionEvent event) {
+        Log.i(TAG, "swiping down");
+
+    }
+
+    @Override
+    public void onSwipedDown(MotionEvent event) {
+        Log.i(TAG, "swipED down");
+        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCard();
+
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -179,12 +237,6 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                                  Bundle savedInstanceState) {
 
             View rootView = inflater.inflate(R.layout.fragment_main_activity_tabbed, container, false);
-            rootView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    flipCard(v);
-                }
-            });
             mCardBackLayout = rootView.findViewById(R.id.card_back);
             mCardFrontLayout = rootView.findViewById(R.id.card_front);
             loadAnimations();
@@ -227,18 +279,18 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         private void findViews() {
         }
 
-        public void flipCard(View view) {
+        public void flipCard() {
             if (!mIsBackVisible) {
                 mSetRightOut.setTarget(mCardFrontLayout);
                 mSetLeftIn.setTarget(mCardBackLayout);
-                mSetRightOut.start();
                 mSetLeftIn.start();
+                mSetRightOut.start();
                 mIsBackVisible = true;
             } else {
                 mSetRightOut.setTarget(mCardBackLayout);
                 mSetLeftIn.setTarget(mCardFrontLayout);
-                mSetRightOut.start();
                 mSetLeftIn.start();
+                mSetRightOut.start();
                 mIsBackVisible = false;
             }
         }
@@ -281,5 +333,20 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             }
             return null;
         }
+
+        private Fragment mCurrentFragment;
+
+        public Fragment getCurrentFragment() {
+            return mCurrentFragment;
+        }
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            if (getCurrentFragment() != object) {
+                mCurrentFragment = ((Fragment) object);
+            }
+            super.setPrimaryItem(container, position, object);
+        }
+
     }
 }

@@ -8,10 +8,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.nlt.mobileteam.cards.MainActivityTabbed$PlaceholderFragment">
 
+    <RelativeLayout
+        android:layout_centerInParent="true"
+        android:id="@+id/card_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <FrameLayout
         android:id="@+id/card_back"
-        android:layout_width="300dp"
-        android:layout_height="300dp">
+        android:layout_width="@dimen/card_w"
+        android:layout_height="@dimen/card_h">
 
         <include layout="@layout/card_back" />
 
@@ -20,12 +25,12 @@
 
     <FrameLayout
         android:id="@+id/card_front"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="@dimen/card_w"
+        android:layout_height="@dimen/card_h"
         android:gravity="center">
 
         <include layout="@layout/card_front" />
 
     </FrameLayout>
-
+    </RelativeLayout>
 </RelativeLayout>
