@@ -22,6 +22,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.github.pwittchen.swipe.library.Swipe;
 import com.github.pwittchen.swipe.library.SwipeListener;
@@ -66,11 +67,10 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
+       // mViewPager.setPageTransformer(false, );
 
         Button fab = (Button) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -185,7 +185,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     @Override
     public void onSwipedUp(MotionEvent event) {
         Log.i(TAG, "swipED up");
-        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCard();
+        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCardUp();
 
     }
 
@@ -198,7 +198,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     @Override
     public void onSwipedDown(MotionEvent event) {
         Log.i(TAG, "swipED down");
-        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCard();
+        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCardDown();
 
     }
 
@@ -214,6 +214,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
         private int mFocusedPage;
+        private RelativeLayout mCardLayout;
 
         public PlaceholderFragment() {
         }
@@ -237,6 +238,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                                  Bundle savedInstanceState) {
 
             View rootView = inflater.inflate(R.layout.fragment_main_activity_tabbed, container, false);
+            mCardLayout = (RelativeLayout) rootView.findViewById(R.id.card_layout);
+
             mCardBackLayout = rootView.findViewById(R.id.card_back);
             mCardFrontLayout = rootView.findViewById(R.id.card_front);
             loadAnimations();
@@ -258,6 +261,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
 
         private AnimatorSet mSetRightOut;
+        private AnimatorSet mSetRightOutDown;
+        private AnimatorSet mSetLeftInDown;
         private AnimatorSet mSetLeftIn;
         private boolean mIsBackVisible = false;
         private View mCardFrontLayout;
@@ -265,7 +270,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
 
         private void changeCameraDistance() {
-            int distance = 8000;
+            int distance = 18000;
             float scale = getResources().getDisplayMetrics().density * distance;
             mCardFrontLayout.setCameraDistance(scale);
             mCardBackLayout.setCameraDistance(scale);
@@ -273,13 +278,15 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
         private void loadAnimations() {
             mSetRightOut = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.out_animation);
+            mSetRightOutDown = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.out_animation_down);
             mSetLeftIn = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.in_animation);
+            mSetLeftInDown = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.in_animation_down);
         }
 
         private void findViews() {
         }
 
-        public void flipCard() {
+        public void flipCardUp() {
             if (!mIsBackVisible) {
                 mSetRightOut.setTarget(mCardFrontLayout);
                 mSetLeftIn.setTarget(mCardBackLayout);
@@ -291,6 +298,21 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 mSetLeftIn.setTarget(mCardFrontLayout);
                 mSetLeftIn.start();
                 mSetRightOut.start();
+                mIsBackVisible = false;
+            }
+        }
+        public void flipCardDown() {
+            if (!mIsBackVisible) {
+                mSetRightOutDown.setTarget(mCardFrontLayout);
+                mSetLeftInDown.setTarget(mCardBackLayout);
+                mSetLeftInDown.start();
+                mSetRightOutDown.start();
+                mIsBackVisible = true;
+            } else {
+                mSetRightOutDown.setTarget(mCardBackLayout);
+                mSetLeftInDown.setTarget(mCardFrontLayout);
+                mSetLeftInDown.start();
+                mSetRightOutDown.start();
                 mIsBackVisible = false;
             }
         }
