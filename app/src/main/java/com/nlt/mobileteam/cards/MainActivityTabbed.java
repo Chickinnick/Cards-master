@@ -5,10 +5,7 @@ import android.animation.AnimatorSet;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -27,25 +24,15 @@ import android.widget.RelativeLayout;
 
 import com.github.pwittchen.swipe.library.Swipe;
 import com.github.pwittchen.swipe.library.SwipeListener;
+import com.nlt.mobileteam.cards.adapter.MainFragmentPagerAdapter;
 
 public class MainActivityTabbed extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeListener {
 
     private static final String TAG = "MainActivity";
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
     private Swipe swipe;
+    private MainFragmentPagerAdapter mSectionsPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +54,11 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
        // mViewPager.setPageTransformer(false, );
+        mSectionsPagerAdapter = new MainFragmentPagerAdapter(getFragmentManager());
+        mViewPager.setAdapter(mSectionsPagerAdapter);
 
         Button fab = (Button) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -205,213 +192,6 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        private static final String LOG_TAG = PlaceholderFragment.class.getSimpleName();
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-        private int mFocusedPage;
-        private RelativeLayout mCardLayout;
-        private Fragment fragmentFront;
-        private Fragment fragmentBack;
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        private JazzyViewPager mJazzy;
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            View rootView = inflater.inflate(R.layout.fragment_main_activity_tabbed, container, false);
-            mCardLayout = (RelativeLayout) rootView.findViewById(R.id.card_layout);
 
 
-            fragmentFront = new FrontSideFragment();
-            fragmentBack = new BackSideFragment();
-            mCardBackLayout = rootView.findViewById(R.id.card_back);
-            mCardFrontLayout = rootView.findViewById(R.id.card_front);
-            loadAnimations();
-            changeCameraDistance();
-
-            // mJazzy = (JazzyViewPager) rootView.findViewById(R.id.jazzy_pager_item);
-            // mJazzy.setTransitionEffect(JazzyViewPager.TransitionEffect.CubeOut);
-            // MainAdapter pagerAdapter =  new MainAdapter(getContext(), mJazzy);
-            // PagerAdapter adapter = new InfinitePagerAdapter(pagerAdapter);
-            // mJazzy.setAdapter(adapter);
-           /* mJazzy.setCurrentItem(2);*/
-            // mJazzy.setPageMargin(30);
-
-
-           /* TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));*/
-            return rootView;
-        }
-
-
-        private AnimatorSet mSetRightOut;
-        private AnimatorSet mSetRightOutDown;
-        private AnimatorSet mSetLeftInDown;
-        private AnimatorSet mSetLeftIn;
-        private boolean mIsBackVisible = false;
-        private View mCardFrontLayout;
-        private View mCardBackLayout;
-
-
-        private void changeCameraDistance() {
-            int distance = 18000;
-            float scale = getResources().getDisplayMetrics().density * distance;
-            mCardFrontLayout.setCameraDistance(scale);
-            mCardBackLayout.setCameraDistance(scale);
-        }
-
-        private void loadAnimations() {
-            mSetRightOut = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.out_animation);
-            mSetRightOutDown = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.out_animation_down);
-            mSetLeftIn = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.in_animation);
-            mSetLeftInDown = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.in_animation_down);
-        }
-
-
-        public void flipFragmentToBack() {
-            FragmentManager childFragmentManager = getChildFragmentManager();
-            FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
-
-         /*   fragmentTransaction.setCustomAnimations(
-                    R.anim.in_animation,
-                    R.anim.out_animation
-
-            );*/
-            fragmentTransaction.setCustomAnimations(
-                    R.animator.card_flip_right_in, R.animator.card_flip_right_out,
-                    R.animator.card_flip_left_in, R.animator.card_flip_left_out
-
-            );
-            fragmentTransaction.replace(R.id.card_layout, fragmentBack, "fragmentBack");
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
-
-        }
-
-        public void flipFragmentToFront() {
-
-            FragmentManager childFragmentManager = getChildFragmentManager();
-            FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.card_layout, fragmentFront, "fragmentFront");
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
-        }
-
-
-
-
-
-
-        private void findViews() {
-        }
-
-        public void flipCardUp() {
-            if (!mIsBackVisible) {
-                mSetRightOut.setTarget(mCardFrontLayout);
-                mSetLeftIn.setTarget(mCardBackLayout);
-                mSetLeftIn.start();
-                mSetRightOut.start();
-                mIsBackVisible = true;
-            } else {
-                mSetRightOut.setTarget(mCardBackLayout);
-                mSetLeftIn.setTarget(mCardFrontLayout);
-                mSetLeftIn.start();
-                mSetRightOut.start();
-                mIsBackVisible = false;
-            }
-        }
-        public void flipCardDown() {
-            if (!mIsBackVisible) {
-                mSetRightOutDown.setTarget(mCardFrontLayout);
-                mSetLeftInDown.setTarget(mCardBackLayout);
-                mSetLeftInDown.start();
-                mSetRightOutDown.start();
-                mIsBackVisible = true;
-            } else {
-                mSetRightOutDown.setTarget(mCardBackLayout);
-                mSetLeftInDown.setTarget(mCardFrontLayout);
-                mSetLeftInDown.start();
-                mSetRightOutDown.start();
-                mIsBackVisible = false;
-            }
-        }
-
-
-    }
-
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "SECTION 1";
-                case 1:
-                    return "SECTION 2";
-                case 2:
-                    return "SECTION 3";
-            }
-            return null;
-        }
-
-        private Fragment mCurrentFragment;
-
-        public Fragment getCurrentFragment() {
-            return mCurrentFragment;
-        }
-
-        @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            if (getCurrentFragment() != object) {
-                mCurrentFragment = ((Fragment) object);
-            }
-            super.setPrimaryItem(container, position, object);
-        }
-
-    }
 }
