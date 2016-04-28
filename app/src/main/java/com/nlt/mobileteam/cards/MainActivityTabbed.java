@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -185,7 +186,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     @Override
     public void onSwipedUp(MotionEvent event) {
         Log.i(TAG, "swipED up");
-        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCardUp();
+        //((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCardUp();
+        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipFragmentToFront();
 
     }
 
@@ -198,7 +200,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     @Override
     public void onSwipedDown(MotionEvent event) {
         Log.i(TAG, "swipED down");
-        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCardDown();
+        //  ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCardDown();
+        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipFragmentToBack();
 
     }
 
@@ -215,6 +218,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         private static final String ARG_SECTION_NUMBER = "section_number";
         private int mFocusedPage;
         private RelativeLayout mCardLayout;
+        private Fragment fragmentFront;
+        private Fragment fragmentBack;
 
         public PlaceholderFragment() {
         }
@@ -240,6 +245,9 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             View rootView = inflater.inflate(R.layout.fragment_main_activity_tabbed, container, false);
             mCardLayout = (RelativeLayout) rootView.findViewById(R.id.card_layout);
 
+
+            fragmentFront = new FrontSideFragment();
+            fragmentBack = new BackSideFragment();
             mCardBackLayout = rootView.findViewById(R.id.card_back);
             mCardFrontLayout = rootView.findViewById(R.id.card_front);
             loadAnimations();
@@ -282,6 +290,41 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             mSetLeftIn = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.in_animation);
             mSetLeftInDown = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.in_animation_down);
         }
+
+
+        public void flipFragmentToBack() {
+            FragmentManager childFragmentManager = getChildFragmentManager();
+            FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
+
+         /*   fragmentTransaction.setCustomAnimations(
+                    R.anim.in_animation,
+                    R.anim.out_animation
+
+            );*/
+            fragmentTransaction.setCustomAnimations(
+                    R.animator.card_flip_right_in, R.animator.card_flip_right_out,
+                    R.animator.card_flip_left_in, R.animator.card_flip_left_out
+
+            );
+            fragmentTransaction.replace(R.id.card_layout, fragmentBack, "fragmentBack");
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
+        }
+
+        public void flipFragmentToFront() {
+
+            FragmentManager childFragmentManager = getChildFragmentManager();
+            FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.card_layout, fragmentFront, "fragmentFront");
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+
+
+
+
+
 
         private void findViews() {
         }

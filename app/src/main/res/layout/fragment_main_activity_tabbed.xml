@@ -11,9 +11,13 @@
     <RelativeLayout
         android:layout_centerInParent="true"
         android:id="@+id/card_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="@dimen/card_w"
+        android:layout_height="@dimen/card_h">
+
+    </RelativeLayout>
+
     <FrameLayout
+        android:visibility="gone"
         android:id="@+id/card_back"
         android:layout_width="@dimen/card_w"
         android:layout_height="@dimen/card_h">
@@ -24,6 +28,8 @@
     </FrameLayout>
 
     <FrameLayout
+        android:visibility="gone"
+
         android:id="@+id/card_front"
         android:layout_width="@dimen/card_w"
         android:layout_height="@dimen/card_h"
@@ -32,5 +38,4 @@
         <include layout="@layout/card_front" />
 
     </FrameLayout>
-    </RelativeLayout>
 </RelativeLayout>
