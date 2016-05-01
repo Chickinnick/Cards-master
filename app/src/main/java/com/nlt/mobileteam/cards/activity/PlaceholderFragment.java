@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nlt.mobileteam.cards.R;
+import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.widget.JazzyViewPager;
 
 public class PlaceholderFragment extends Fragment {
@@ -16,24 +17,37 @@ public class PlaceholderFragment extends Fragment {
     private static final String LOG_TAG = PlaceholderFragment.class.getSimpleName();
 
     private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final String ARG_CARD = "arg_card";
     public static final int SWIPED_UP = 1;
     public static final int SWIPED_DOWN = 2;
     private Fragment fragmentFront;
     private Fragment fragmentBack;
     private Fragment tempFragmentToReplace;
+    private Card card;
+
 
     public PlaceholderFragment() {
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Get back arguments
+        card = getArguments().getParcelable(ARG_CARD);
     }
 
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static PlaceholderFragment newInstance(int sectionNumber) {
+    public static PlaceholderFragment newInstance(int sectionNumber, Card card) {
         PlaceholderFragment fragment = new PlaceholderFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putParcelable(ARG_CARD, card);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -45,14 +59,14 @@ public class PlaceholderFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_main_activity_tabbed, container, false);
-
-        fragmentFront = new FrontSideFragment();
-        fragmentBack = new BackSideFragment();
+        rootView.requestFocus();
+        fragmentFront = FrontSideFragment.newInstance(card);
+        fragmentBack = BackSideFragment.newInstance(card);
 
         FragmentManager childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         if (tempFragmentToReplace == null) {
-            tempFragmentToReplace = fragmentBack;
+            tempFragmentToReplace = fragmentFront;
         }
         fragmentTransaction.replace(R.id.card_layout, tempFragmentToReplace);
         fragmentTransaction.addToBackStack(null);

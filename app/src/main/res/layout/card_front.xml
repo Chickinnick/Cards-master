@@ -12,9 +12,11 @@
         android:src="@drawable/rectangle" />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/front"
+        android:layout_centerInParent="true"
+        android:windowSoftInputMode="stateHidden"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edittext"
         android:textColor="@color/white"
         style="@style/Base.TextAppearance.AppCompat.Display1"
         android:gravity="center" />

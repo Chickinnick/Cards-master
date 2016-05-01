@@ -6,39 +6,36 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
 import com.nlt.mobileteam.cards.activity.PlaceholderFragment;
+import com.nlt.mobileteam.cards.model.Card;
+
+import java.util.ArrayList;
 
 /**
  * Created by user on 28.04.2016.
  */
 public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
-    public MainFragmentPagerAdapter(FragmentManager fm) {
+
+    ArrayList<Card> cards;
+    private int size;
+
+
+    public MainFragmentPagerAdapter(FragmentManager fm, ArrayList<Card> cards) {
         super(fm);
+        this.cards = cards;
     }
+
 
     @Override
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return PlaceholderFragment.newInstance(position + 1);
+        return PlaceholderFragment.newInstance(position + 1, cards.get(position));
     }
 
     @Override
     public int getCount() {
         // Show 3 total pages.
-        return 3;
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 0:
-                return "SECTION 1";
-            case 1:
-                return "SECTION 2";
-            case 2:
-                return "SECTION 3";
-        }
-        return null;
+        return size;
     }
 
     private Fragment mCurrentFragment;
@@ -55,4 +52,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
         super.setPrimaryItem(container, position, object);
     }
 
+    public void setSize(int size) {
+        this.size = size;
+    }
 }

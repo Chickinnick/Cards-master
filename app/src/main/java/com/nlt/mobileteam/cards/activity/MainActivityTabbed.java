@@ -22,7 +22,11 @@ import com.github.pwittchen.swipe.library.SwipeListener;
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.adapter.MainFragmentPagerAdapter;
+import com.nlt.mobileteam.cards.controller.StorageController;
+import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.widget.Fab;
+
+import java.util.ArrayList;
 
 public class MainActivityTabbed extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeListener, ViewPager.OnPageChangeListener {
 
@@ -34,13 +38,13 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private MaterialSheetFab<Fab> materialSheetFab;
     private TextView position;
     private TextView size;
-
+    private ArrayList<Card> cards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_activity_tabbed);
-
+        cards = StorageController.getInstance().getFromStorage();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -62,7 +66,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
        // mViewPager.setPageTransformer(false, );
-        mSectionsPagerAdapter = new MainFragmentPagerAdapter(getFragmentManager());
+        mSectionsPagerAdapter = new MainFragmentPagerAdapter(getFragmentManager(), cards);
+        mSectionsPagerAdapter.setSize(cards.size());
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mViewPager.setOnPageChangeListener(this);
