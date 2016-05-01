@@ -38,7 +38,7 @@
     <objectAnimator
         android:valueFrom="0"
         android:valueTo="-180"
-        android:propertyName="rotationY"
+        android:propertyName="rotationX"
         android:interpolator="@android:interpolator/accelerate_decelerate"
         android:duration="@integer/anim_length" />
 
@@ -48,5 +48,5 @@
         android:valueTo="0.0"
         android:propertyName="alpha"
         android:startOffset="@integer/anim_length"
-        android:duration="1" />
+        android:duration="0" />
 </set>

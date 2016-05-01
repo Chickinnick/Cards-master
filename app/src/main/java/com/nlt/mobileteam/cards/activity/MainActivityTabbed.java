@@ -1,11 +1,9 @@
-package com.nlt.mobileteam.cards;
+package com.nlt.mobileteam.cards.activity;
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -13,26 +11,30 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.github.pwittchen.swipe.library.Swipe;
 import com.github.pwittchen.swipe.library.SwipeListener;
+import com.gordonwong.materialsheetfab.MaterialSheetFab;
+import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.adapter.MainFragmentPagerAdapter;
+import com.nlt.mobileteam.cards.widget.Fab;
 
-public class MainActivityTabbed extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeListener {
+public class MainActivityTabbed extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeListener, ViewPager.OnPageChangeListener {
 
     private static final String TAG = "MainActivity";
 
     private ViewPager mViewPager;
     private Swipe swipe;
     private MainFragmentPagerAdapter mSectionsPagerAdapter;
+    private MaterialSheetFab<Fab> materialSheetFab;
+    private TextView position;
+    private TextView size;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +47,16 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_tabbed);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        if (drawer != null) {
+            drawer.setDrawerListener(toggle);
+        }
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
+        position = (TextView) findViewById(R.id.position_tv);
+        size = (TextView) findViewById(R.id.size_tv);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         // Set up the ViewPager with the sections adapter.
@@ -60,7 +65,14 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         mSectionsPagerAdapter = new MainFragmentPagerAdapter(getFragmentManager());
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        Button fab = (Button) findViewById(R.id.fab);
+        mViewPager.setOnPageChangeListener(this);
+        size.setText(String.valueOf(mSectionsPagerAdapter.getCount()));
+        int sheetColor = getResources().getColor(R.color.colorAccent);
+        int fabColor = getResources().getColor(R.color.colorPrimary);
+
+        Fab fab = (Fab) findViewById(R.id.fab);
+        View sheetView = findViewById(R.id.fab_sheet);
+        View overlay = findViewById(R.id.overlay);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,10 +80,17 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                         .setAction("Action", null).show();
             }
         });
-
-
+        materialSheetFab = new MaterialSheetFab<>(fab, sheetView, overlay,
+                sheetColor, fabColor);
         swipe = new Swipe();
         swipe.addListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        position.setText(String.valueOf(mViewPager.getCurrentItem()));
+
     }
 
     @Override
@@ -100,7 +119,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            startActivity(new Intent(MainActivityTabbed.this, FoldersActivity.class));
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -174,7 +193,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     public void onSwipedUp(MotionEvent event) {
         Log.i(TAG, "swipED up");
         //((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCardUp();
-        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipFragmentToFront();
+        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).toggleFragment(PlaceholderFragment.SWIPED_UP);
 
     }
 
@@ -188,10 +207,24 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     public void onSwipedDown(MotionEvent event) {
         Log.i(TAG, "swipED down");
         //  ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCardDown();
-        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipFragmentToBack();
+        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).toggleFragment(PlaceholderFragment.SWIPED_DOWN);
 
     }
 
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        this.position.setText(String.valueOf(position));
 
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
 }

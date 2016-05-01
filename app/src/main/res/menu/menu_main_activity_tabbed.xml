@@ -1,7 +1,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.nlt.mobileteam.cards.MainActivityTabbed">
+    tools:context=".activity.MainActivityTabbed">
+
+    <item
+        android:icon="@drawable/star"
+        android:id="@+id/action_favorite"
+        android:orderInCategory="100"
+        android:title="@string/action_favourite"
+        app:showAsAction="always" />
+    <item
+        android:icon="@drawable/shuffle"
+        android:id="@+id/action_shuffle"
+        android:orderInCategory="100"
+        android:title="@string/action_shuffle"
+        app:showAsAction="always" />
+
+    <item
+        android:icon="@drawable/repeat"
+        android:id="@+id/action_repeat"
+        android:orderInCategory="100"
+        android:title="@string/action_repeat"
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

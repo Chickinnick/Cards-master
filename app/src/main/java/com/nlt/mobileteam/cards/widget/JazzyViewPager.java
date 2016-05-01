@@ -1,4 +1,4 @@
-package com.nlt.mobileteam.cards;
+package com.nlt.mobileteam.cards.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.nineoldandroids.view.ViewHelper;
+import com.nlt.mobileteam.cards.R;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

@@ -5,7 +5,7 @@ import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-import com.nlt.mobileteam.cards.PlaceholderFragment;
+import com.nlt.mobileteam.cards.activity.PlaceholderFragment;
 
 /**
  * Created by user on 28.04.2016.

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Cards</string>
+    <string name="app_name">3D StudyCards</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -25,4 +25,7 @@
 
     <string name="front">FRONT</string>
     <string name="back">BACK</string>
+    <string name="action_shuffle">Random</string>
+    <string name="action_favourite">Favourite</string>
+    <string name="action_repeat">Repeat</string>
 </resources>
