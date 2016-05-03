@@ -128,6 +128,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
+            startActivity(new Intent(MainActivityTabbed.this, ScrollingActivity.class));
 
         } else if (id == R.id.nav_manage) {
 
