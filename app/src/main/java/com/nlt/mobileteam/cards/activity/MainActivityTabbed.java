@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.pwittchen.swipe.library.Swipe;
@@ -41,6 +42,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private TextView positionIndicator;
     private ArrayList<Card> cards;
     private int randomItem;
+    private ImageView backgroundImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         // primary sections of the activity.
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
+        backgroundImage = (ImageView) findViewById(R.id.background);
        // mViewPager.setPageTransformer(false, );
         mSectionsPagerAdapter = new MainFragmentPagerAdapter(getFragmentManager(), cards);
         mSectionsPagerAdapter.setSize(cards.size());
@@ -143,9 +146,9 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
-
+            backgroundImage.setImageResource(R.drawable.bg_1);
         } else if (id == R.id.nav_send) {
-
+            backgroundImage.setImageResource(R.drawable.bg_2);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_tabbed);
