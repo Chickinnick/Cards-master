@@ -24,11 +24,13 @@ import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.adapter.MainFragmentPagerAdapter;
 import com.nlt.mobileteam.cards.controller.StorageController;
 import com.nlt.mobileteam.cards.model.Card;
+import com.nlt.mobileteam.cards.model.Folder;
 import com.nlt.mobileteam.cards.widget.Fab;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-public class MainActivityTabbed extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeListener, ViewPager.OnPageChangeListener {
+public class MainActivityTabbed extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeListener, ViewPager.OnPageChangeListener, View.OnClickListener {
 
     private static final String TAG = "MainActivity";
 
@@ -36,15 +38,16 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private Swipe swipe;
     private MainFragmentPagerAdapter mSectionsPagerAdapter;
     private MaterialSheetFab<Fab> materialSheetFab;
-    private TextView position;
-    private TextView size;
+    private TextView positionIndicator;
     private ArrayList<Card> cards;
+    private int randomItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_activity_tabbed);
-        cards = StorageController.getInstance().getFromStorage();
+        ArrayList<Folder> foldersFromStorage = StorageController.getInstance().getFolderFromStorage();
+        cards = foldersFromStorage.get(0).getCards();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -59,8 +62,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        position = (TextView) findViewById(R.id.position_tv);
-        size = (TextView) findViewById(R.id.size_tv);
+        positionIndicator = (TextView) findViewById(R.id.position_tv);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         // Set up the ViewPager with the sections adapter.
@@ -71,7 +73,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mViewPager.setOnPageChangeListener(this);
-        size.setText(String.valueOf(mSectionsPagerAdapter.getCount()));
+        //  size.setText(String.valueOf(mSectionsPagerAdapter.getCount()));
         int sheetColor = getResources().getColor(R.color.colorAccent);
         int fabColor = getResources().getColor(R.color.colorPrimary);
 
@@ -87,6 +89,11 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         });
         materialSheetFab = new MaterialSheetFab<>(fab, sheetView, overlay,
                 sheetColor, fabColor);
+
+        findViewById(R.id.fab_sheet_item_photo).setOnClickListener(this);
+        findViewById(R.id.fab_sheet_item_add).setOnClickListener(this);
+        findViewById(R.id.fab_sheet_item_load).setOnClickListener(this);
+        findViewById(R.id.fab_sheet_item_remove).setOnClickListener(this);
         swipe = new Swipe();
         swipe.addListener(this);
     }
@@ -94,8 +101,12 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     @Override
     protected void onResume() {
         super.onResume();
-        position.setText(String.valueOf(mViewPager.getCurrentItem()));
+        updateTextIndicator();
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override
@@ -123,12 +134,11 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            startActivity(new Intent(MainActivityTabbed.this, FoldersActivity.class));
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
+        if (id == R.id.nav_view) {
+            //startActivity(new Intent(MainActivityTabbed.this, FoldersActivity.class));
+        } else if (id == R.id.nav_categories) {
             startActivity(new Intent(MainActivityTabbed.this, ScrollingActivity.class));
+        } else if (id == R.id.nav_favourite) {
 
         } else if (id == R.id.nav_manage) {
 
@@ -140,7 +150,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_tabbed);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
+        return false;
     }
 
 
@@ -163,7 +173,41 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             return true;
         }
 
+        if (id == R.id.action_shuffle) {
+            mViewPager.setCurrentItem(getRandomUniquePage());
+            return true;
+        }
+        if (id == R.id.action_favorite) {
+            Card card = getCurrentCard(mViewPager.getCurrentItem());
+            return true;
+        }
+
+        if (id == R.id.action_edit) {
+            ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).enterEditMode();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private Card getCurrentCard(int currentItem) {
+        PlaceholderFragment item = (PlaceholderFragment) mSectionsPagerAdapter.getItem(currentItem);
+        return item.getCard();
+    }
+
+    private int getRandomUniquePage() {
+        int temp = getRandomItem();
+        if (temp != randomItem) {
+            randomItem = temp;
+            return randomItem;
+        } else {
+            getRandomUniquePage();
+        }
+        return randomItem;
+    }
+
+    private int getRandomItem() {
+        return new Random().nextInt(cards.size() + 1);
     }
 
     @Override
@@ -220,8 +264,12 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        this.position.setText(String.valueOf(position));
+        updateTextIndicator();
 
+    }
+
+    private void updateTextIndicator() {
+        positionIndicator.setText(mViewPager.getCurrentItem() + 1 + "/" + cards.size());
     }
 
     @Override
@@ -232,5 +280,30 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.fab_sheet_item_photo:
+                break;
+            case R.id.fab_sheet_item_add:
+                cards.add(new Card("new card", ""));
+                mSectionsPagerAdapter.setSize(cards.size());
+                mSectionsPagerAdapter.notifyDataSetChanged();
+                mViewPager.setCurrentItem(cards.size());
+                break;
+            case R.id.fab_sheet_item_load:
+                break;
+            case R.id.fab_sheet_item_remove:
+
+                mSectionsPagerAdapter.removeCard(mViewPager.getCurrentItem());
+                mViewPager.setCurrentItem(cards.size() - 1);
+
+                break;
+        }
+
+        materialSheetFab.hideSheet();
     }
 }

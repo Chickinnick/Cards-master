@@ -55,4 +55,12 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     public void setSize(int size) {
         this.size = size;
     }
+
+    public void removeCard(int currentItem) {
+        cards.remove(currentItem);
+        size = cards.size();
+        notifyDataSetChanged();
+    }
+
+
 }

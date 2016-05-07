@@ -5,7 +5,7 @@
     android:layout_marginBottom="1dp"
     android:gravity="center"
     android:orientation="horizontal"
-    android:layout_height="match_parent"
+    android:layout_height="?attr/listPreferredItemHeight"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
@@ -38,8 +38,7 @@
 
         <TextView
             android:layout_below="@id/toDoListItemTextview"
-            android:id="@+id/todoListItemTimeTextView"
-            android:text="27 Sept 2015, 22:30"
+            android:id="@+id/countTextView"
             android:textColor="?attr/colorAccent"
             android:textSize="12sp"
             android:gravity="start|center"

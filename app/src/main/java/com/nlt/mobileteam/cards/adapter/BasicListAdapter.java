@@ -13,8 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.nlt.mobileteam.cards.R;
-import com.nlt.mobileteam.cards.model.ToDoItem;
+import com.nlt.mobileteam.cards.model.Folder;
 import com.nlt.mobileteam.cards.widget.ItemTouchHelperClass;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import java.util.Collections;
 
 public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.ViewHolder> implements ItemTouchHelperClass.ItemTouchHelperAdapter {
     private final Context context;
-    private ArrayList<ToDoItem> items;
+    private ArrayList<Folder> items;
 
         @Override
         public void onItemMoved(int fromPosition, int toPosition) {
@@ -73,12 +74,13 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
         @Override
         public BasicListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_circle_try, parent, false);
+
             return new ViewHolder(v);
         }
 
         @Override
         public void onBindViewHolder(final BasicListAdapter.ViewHolder holder, final int position) {
-            ToDoItem item = items.get(position);
+            Folder item = items.get(position);
 //            if(item.getToDoDate()!=null && item.getToDoDate().before(new Date())){
 //                item.setToDoDate(null);
 //            }
@@ -96,36 +98,37 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
         //  }
             holder.linearLayout.setBackgroundColor(bgColor);
 
-            if (item.hasReminder() && item.getToDoDate() != null) {
+        /*    if (item.hasReminder() && item.getToDoDate() != null) {
                 holder.mToDoTextview.setMaxLines(1);
-                holder.mTimeTextView.setVisibility(View.VISIBLE);
+                holder.countTextView.setVisibility(View.VISIBLE);
 //                holder.mToDoTextview.setVisibility(View.GONE);
             } else {
-                holder.mTimeTextView.setVisibility(View.GONE);
+                holder.countTextView.setVisibility(View.GONE);
                 holder.mToDoTextview.setMaxLines(2);
             }
-            holder.mToDoTextview.setText(item.getToDoText());
+        */
+            holder.mToDoTextview.setText(item.getName());
+            holder.countTextView.setText(item.getCards().size() + " cards");
             holder.mToDoTextview.setTextColor(todoTextColor);
 //            holder.mColorTextView.setBackgroundColor(Color.parseColor(item.getTodoColor()));
 
 //            TextDrawable myDrawable = TextDrawable.builder().buildRoundRect(item.getToDoText().substring(0,1),Color.RED, 10);
             //We check if holder.color is set or not
-//            if(item.getTodoColor() == null){
-//                ColorGenerator generator = ColorGenerator.MATERIAL;
-//                int color = generator.getRandomColor();
-//                item.setTodoColor(color+"");
-//            }
-//            Log.d("OskarSchindler", "Color: "+item.getTodoColor());
+            if (item.getColor() == 0) {
+                ColorGenerator generator = ColorGenerator.MATERIAL;
+                int color = generator.getRandomColor();
+                item.setColor(color);
+            }
+
             TextDrawable myDrawable = TextDrawable.builder().beginConfig()
                     .textColor(Color.WHITE)
                     .useFont(Typeface.DEFAULT)
                     .toUpperCase()
                     .endConfig()
-                    .buildRound(item.getToDoText().substring(0, 1), item.getTodoColor());
+                    .buildRound(item.getName().substring(0, 1), item.getColor());
 
-//            TextDrawable myDrawable = TextDrawable.builder().buildRound(item.getToDoText().substring(0,1),holder.color);
             holder.mColorImageView.setImageDrawable(myDrawable);
-            if (item.getToDoDate() != null) {
+      /*      if (item.getToDoDate() != null) {
                 String timeToShow;
                 //  if(android.text.format.DateFormat.is24HourFormat(FoldersActivity.this)){
                 //      timeToShow = AddToDoActivity.formatDate(FoldersActivity.DATE_TIME_FORMAT_24_HOUR, item.getToDoDate());
@@ -133,8 +136,8 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
                 //  else{
                 //      timeToShow = AddToDoActivity.formatDate(FoldersActivity.DATE_TIME_FORMAT_12_HOUR, item.getToDoDate());
                 //  }
-                // holder.mTimeTextView.setText(timeToShow);
-            }
+                // holder.countTextView.setText(timeToShow);
+            }*/
 
 
         }
@@ -144,8 +147,8 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
             return items.size();
         }
 
-        public BasicListAdapter(Context context , ArrayList<ToDoItem> items) {
-this.context=  context;
+    public BasicListAdapter(Context context, ArrayList<Folder> items) {
+        this.context = context;
             this.items = items;
         }
 
@@ -158,7 +161,7 @@ this.context=  context;
             TextView mToDoTextview;
             //            TextView mColorTextView;
             ImageView mColorImageView;
-            TextView mTimeTextView;
+            TextView countTextView;
 //            int color = -1;
 
             public ViewHolder(View v) {
@@ -167,7 +170,7 @@ this.context=  context;
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ToDoItem item = items.get(ViewHolder.this.getAdapterPosition());
+                        Folder item = items.get(ViewHolder.this.getAdapterPosition());
                         Intent i = null;/* new Intent(FoldersActivity.this, AddToDoActivity.class)*/
                         ;
                         //i.putExtra(TODOITEM, item);
@@ -175,7 +178,7 @@ this.context=  context;
                     }
                 });
                 mToDoTextview = (TextView) v.findViewById(R.id.toDoListItemTextview);
-                mTimeTextView = (TextView) v.findViewById(R.id.todoListItemTimeTextView);
+                countTextView = (TextView) v.findViewById(R.id.countTextView);
 //                mColorTextView = (TextView)v.findViewById(R.id.toDoColorTextView);
                 mColorImageView = (ImageView) v.findViewById(R.id.toDoListItemColorImageView);
                 linearLayout = (LinearLayout) v.findViewById(R.id.listItemLinearLayout);

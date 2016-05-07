@@ -11,13 +11,13 @@
         android:padding="16dp"
         android:src="@drawable/rectangle" />
 
-    <EditText
+    <TextView
         android:layout_centerInParent="true"
         android:windowSoftInputMode="stateHidden"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/edittext"
-        android:textColor="@color/white"
+        android:textColor="@color/mdtp_date_picker_month_day"
         style="@style/Base.TextAppearance.AppCompat.Display1"
         android:gravity="center" />
 

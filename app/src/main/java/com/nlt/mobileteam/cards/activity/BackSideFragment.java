@@ -1,7 +1,6 @@
 package com.nlt.mobileteam.cards.activity;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,11 +15,11 @@ import com.nlt.mobileteam.cards.model.Card;
 /**
  * Created by Nick on 28.04.2016.
  */
-public class BackSideFragment extends Fragment {
+public class BackSideFragment extends CardFragment {
 
 
     private static final String CARD_KEY = "card";
-    private TextView editText;
+
 
     public BackSideFragment() {
     }

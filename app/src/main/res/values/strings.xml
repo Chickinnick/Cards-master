@@ -28,7 +28,7 @@
     <string name="action_shuffle">Random</string>
     <string name="action_favourite">Favourite</string>
     <string name="action_repeat">Repeat</string>
-    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="title_activity_scrolling">Categories</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -118,4 +118,5 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="action_edit">Edit</string>
 </resources>

@@ -1,6 +1,8 @@
 package com.nlt.mobileteam.cards.controller;
 
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.nlt.mobileteam.cards.model.Card;
+import com.nlt.mobileteam.cards.model.Folder;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class StorageController {
     }
 
     public static final String DATA_KEY = "datakey";
+    public static final String FOLDERS_DATA_KEY = "folders_key";
 
     public ArrayList<Card> getFromStorage() {
 
@@ -39,4 +42,17 @@ public class StorageController {
     }
 
 
+    public ArrayList<Folder> getFolderFromStorage() {
+        return Hawk.get(FOLDERS_DATA_KEY, getDefaultFoldersList());
+    }
+
+
+    public ArrayList<Folder> getDefaultFoldersList() {
+        ArrayList<Folder> folders = new ArrayList<>();
+        Folder defaultFolder = new Folder("DefaultFolder");
+        defaultFolder.setColor(ColorGenerator.MATERIAL.getRandomColor());
+        defaultFolder.setCards(getDefaultCards());
+        folders.add(defaultFolder);
+        return folders;
+    }
 }

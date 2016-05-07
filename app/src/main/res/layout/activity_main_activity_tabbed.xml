@@ -21,6 +21,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
             <android.support.v4.view.ViewPager
                 android:id="@+id/container"
                 android:layout_width="match_parent"
@@ -29,12 +35,29 @@
 
 
             <com.nlt.mobileteam.cards.widget.Fab
-
                 style="@style/Widget.MaterialSheetFab.Fab"
                 android:id="@+id/fab"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true" />
+
+            <LinearLayout
+                android:layout_marginTop="?actionBarSize"
+                android:layout_alignParentEnd="true"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:background="@drawable/indicator_bg"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:layout_margin="20dp"
+                    android:id="@+id/position_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
 
             <!-- Overlay that dims the screen -->
@@ -43,29 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <LinearLayout
-                android:background="@color/amber"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:text="0"
-                    android:id="@+id/position_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:text="/"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:text="0"
-                    android:id="@+id/size_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
             <!-- Circular reveal container for the sheet -->
             <io.codetail.widget.RevealLinearLayout
                 android:layout_width="match_parent"
@@ -86,6 +87,17 @@
 
 
                         <!-- Photo -->
+                        <TextView
+                            android:layout_width="match_parent"
+
+                            style="@style/TextAppearance.MaterialSheetFab.Sheet.Item"
+
+                            android:layout_height="wrap_content"
+                            android:id="@+id/fab_sheet_item_remove"
+                            android:drawableLeft="@drawable/ic_menu_remove"
+                            android:drawableStart="@drawable/ic_menu_remove"
+                            android:text="Remove" />
+
                         <TextView
                             android:layout_width="match_parent"
 
@@ -120,7 +132,7 @@
                                 android:layout_width="match_parent"
 
                                 android:layout_height="wrap_content"
-                                android:id="@+id/fab_sheet_item_note"
+                                android:id="@+id/fab_sheet_item_add"
                                 android:drawableLeft="@drawable/ic_menu_manage"
                                 android:drawableStart="@drawable/ic_menu_manage"
                                 android:text="Add" />
@@ -145,6 +157,7 @@
     </android.support.v4.widget.DrawerLayout>
 
     <android.support.v7.widget.Toolbar
+        android:titleTextColor="@color/white"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

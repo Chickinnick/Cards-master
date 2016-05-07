@@ -20,9 +20,9 @@ public class PlaceholderFragment extends Fragment {
     private static final String ARG_CARD = "arg_card";
     public static final int SWIPED_UP = 1;
     public static final int SWIPED_DOWN = 2;
-    private Fragment fragmentFront;
-    private Fragment fragmentBack;
-    private Fragment tempFragmentToReplace;
+    private CardFragment fragmentFront;
+    private CardFragment fragmentBack;
+    private CardFragment tempFragmentToReplace;
     private Card card;
 
 
@@ -123,5 +123,20 @@ public class PlaceholderFragment extends Fragment {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        tempFragmentToReplace = null;
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public void enterEditMode() {
+        tempFragmentToReplace.editText();
     }
 }
