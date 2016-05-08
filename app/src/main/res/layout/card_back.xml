@@ -13,6 +13,18 @@
         android:tint="@color/colorPrimaryDark" />
 
     <TextView
+        android:id="@+id/textview"
+
+        style="@style/Base.TextAppearance.AppCompat.Display1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:windowSoftInputMode="stateHidden" />
+
+    <EditText
+        android:visibility="gone"
         android:id="@+id/edittext"
 
         style="@style/Base.TextAppearance.AppCompat.Display1"

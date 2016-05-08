@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -48,9 +49,10 @@ public class FrontSideFragment extends CardFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.card_front, container, false);
         rootView.requestFocus();
-        editText = (TextView) rootView.findViewById(R.id.edittext);
-        editText.setText(card.getFrontText());
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        textView = (TextView) rootView.findViewById(R.id.textview);
+        editText = (EditText) rootView.findViewById(R.id.edittext);
+        textView.setText(card.getFrontText());
+        textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -58,7 +60,7 @@ public class FrontSideFragment extends CardFragment {
                 }
             }
         });
-        hideKeyboard(editText);
+        hideKeyboard(textView);
 
         return rootView;
     }

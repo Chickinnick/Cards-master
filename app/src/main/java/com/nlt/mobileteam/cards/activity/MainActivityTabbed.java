@@ -43,6 +43,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private ArrayList<Card> cards;
     private int randomItem;
     private ImageView backgroundImage;
+    private boolean isEditing;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         backgroundImage = (ImageView) findViewById(R.id.background);
+
        // mViewPager.setPageTransformer(false, );
         mSectionsPagerAdapter = new MainFragmentPagerAdapter(getFragmentManager(), cards);
         mSectionsPagerAdapter.setSize(cards.size());
@@ -97,6 +100,9 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         findViewById(R.id.fab_sheet_item_add).setOnClickListener(this);
         findViewById(R.id.fab_sheet_item_load).setOnClickListener(this);
         findViewById(R.id.fab_sheet_item_remove).setOnClickListener(this);
+
+
+        // circleButton.setOnClickListener(this);
         swipe = new Swipe();
         swipe.addListener(this);
     }
@@ -186,7 +192,15 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         }
 
         if (id == R.id.action_edit) {
-            ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).enterEditMode();
+            if (!isEditing) {
+                isEditing = true;
+                ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).enterEditMode();
+            } else {
+                ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).exitEditMode();
+                isEditing = false;
+            }
+         /*   circleButton.setVisibility(View.VISIBLE);
+circleButton.setOnClickListener(this);*/
             return true;
         }
 
@@ -305,8 +319,15 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 mViewPager.setCurrentItem(cards.size() - 1);
 
                 break;
+         /* case R.id.done_editing_btn:
+
+            //  ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).exitEditMode();
+            // circleButton.setVisibility(View.GONE);
+                break;*/
         }
 
         materialSheetFab.hideSheet();
     }
+
+
 }

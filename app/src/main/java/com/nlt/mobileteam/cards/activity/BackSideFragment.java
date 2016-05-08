@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.nlt.mobileteam.cards.R;
@@ -46,9 +47,10 @@ public class BackSideFragment extends CardFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.card_back, container, false);
-        editText = (TextView) rootView.findViewById(R.id.edittext);
-        editText.setText(card.getBackText());
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        textView = (TextView) rootView.findViewById(R.id.textview);
+        editText = (EditText) rootView.findViewById(R.id.edittext);
+        textView.setText(card.getBackText());
+        textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -56,7 +58,7 @@ public class BackSideFragment extends CardFragment {
                 }
             }
         });
-        hideKeyboard(editText);
+        hideKeyboard(textView);
         return rootView;
     }
 

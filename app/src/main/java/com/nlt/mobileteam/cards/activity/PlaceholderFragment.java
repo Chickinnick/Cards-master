@@ -139,4 +139,8 @@ public class PlaceholderFragment extends Fragment {
     public void enterEditMode() {
         tempFragmentToReplace.editText();
     }
+
+    public void exitEditMode() {
+        tempFragmentToReplace.saveText();
+    }
 }
