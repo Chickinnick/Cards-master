@@ -22,6 +22,7 @@ import com.github.pwittchen.swipe.library.Swipe;
 import com.github.pwittchen.swipe.library.SwipeListener;
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.nlt.mobileteam.cards.R;
+import com.nlt.mobileteam.cards.Util;
 import com.nlt.mobileteam.cards.adapter.MainFragmentPagerAdapter;
 import com.nlt.mobileteam.cards.controller.StorageController;
 import com.nlt.mobileteam.cards.model.Card;
@@ -44,14 +45,15 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private int randomItem;
     private ImageView backgroundImage;
     private boolean isEditing;
-
+    private Folder currentFolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_activity_tabbed);
         ArrayList<Folder> foldersFromStorage = StorageController.getInstance().getFolderFromStorage();
-        cards = foldersFromStorage.get(0).getCards();
+        currentFolder = foldersFromStorage.get(0);
+        cards = currentFolder.getCards();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -146,7 +148,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         if (id == R.id.nav_view) {
             //startActivity(new Intent(MainActivityTabbed.this, FoldersActivity.class));
         } else if (id == R.id.nav_categories) {
-            startActivity(new Intent(MainActivityTabbed.this, ScrollingActivity.class));
+            Intent intent = new Intent(MainActivityTabbed.this, ScrollingActivity.class);
+            startActivityForResult(intent, Util.PICK_FOLDER_REQUEST);
         } else if (id == R.id.nav_favourite) {
 
         } else if (id == R.id.nav_manage) {
@@ -162,6 +165,20 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         return false;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case Util.PICK_FOLDER_REQUEST:
+                    currentFolder = data.getParcelableExtra(Util.SELECTED_FOLDER_EXTRA);
+                    Log.d(TAG, "now folder is " + currentFolder.getName());
+                    //setTitle
+                    break;
+
+            }
+
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

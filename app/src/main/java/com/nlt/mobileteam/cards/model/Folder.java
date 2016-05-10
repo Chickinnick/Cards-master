@@ -1,10 +1,12 @@
 package com.nlt.mobileteam.cards.model;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Folder implements Serializable {
+public class Folder implements Parcelable {
 
     private String name;
     private UUID identifier;
@@ -47,5 +49,36 @@ public class Folder implements Serializable {
         return identifier;
     }
 
+
+    public Folder(Parcel in) {
+        this.identifier = (UUID) in.readSerializable();
+        this.color = in.readInt();
+        ArrayList<Card> cardsTemp = new ArrayList<>();
+        in.readTypedList(cardsTemp, Card.CREATOR);
+        this.cards = cardsTemp;
+        this.name = in.readString();
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeSerializable(identifier);
+        dest.writeInt(color);
+        dest.writeList(cards);
+        dest.writeString(name);
+    }
+
+    public static final Parcelable.Creator<Folder> CREATOR = new Parcelable.Creator<Folder>() {
+        public Folder createFromParcel(Parcel in) {
+            return new Folder(in);
+        }
+
+        public Folder[] newArray(int size) {
+            return new Folder[size];
+        }
+    };
 }
 

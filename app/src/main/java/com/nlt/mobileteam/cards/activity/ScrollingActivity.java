@@ -1,6 +1,8 @@
 package com.nlt.mobileteam.cards.activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +18,7 @@ import android.view.View;
 
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.nlt.mobileteam.cards.R;
+import com.nlt.mobileteam.cards.Util;
 import com.nlt.mobileteam.cards.adapter.BasicListAdapter;
 import com.nlt.mobileteam.cards.controller.StorageController;
 import com.nlt.mobileteam.cards.model.Folder;
@@ -23,7 +26,7 @@ import com.nlt.mobileteam.cards.widget.ItemTouchHelperClass;
 
 import java.util.ArrayList;
 
-public class ScrollingActivity extends AppCompatActivity {
+public class ScrollingActivity extends AppCompatActivity implements BasicListAdapter.OnItemClickListener {
 
     private FloatingActionButton fab;
     private BasicListAdapter adapter;
@@ -94,6 +97,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
         foldersArrayList = StorageController.getInstance().getFolderFromStorage();
         adapter = new BasicListAdapter(this, foldersArrayList);
+        adapter.setOnItemClickListener(this);
 
         //  foldersRecyclerView.setHasFixedSize(true);
         foldersRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -123,6 +127,9 @@ public class ScrollingActivity extends AppCompatActivity {
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(foldersRecyclerView);
         foldersRecyclerView.setAdapter(adapter);
+
+
+//        foldersRecyclerView.setOn
 //        setUpTransitions();
 
     }
@@ -130,5 +137,14 @@ public class ScrollingActivity extends AppCompatActivity {
     private void addToDataStore(Folder item) {
         foldersArrayList.add(item);
         adapter.notifyItemInserted(foldersArrayList.size() - 1);
+    }
+
+    @Override
+    public void onItemClick(Folder folder) {
+
+        Intent intent = new Intent();
+        intent.putExtra(Util.SELECTED_FOLDER_EXTRA, folder);
+        setResult(Activity.RESULT_OK, intent);
+        finish();
     }
 }

@@ -49,11 +49,8 @@ public class Card implements Parcelable {
     }
 
     public Card(Parcel in) {
-        String[] data = new String[3];
-
-        in.readStringArray(data);
-        this.backText = data[0];
-        this.frontText = data[1];
+        this.frontText = in.readString();
+        this.backText = in.readString();
         this.position = in.readInt();
     }
 
@@ -63,9 +60,11 @@ public class Card implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringArray(new String[]{
-                this.frontText,
-                this.backText});
+        dest.writeString(
+                this.frontText);
+        dest.writeString(
+                this.backText);
+        dest.writeInt(this.position);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

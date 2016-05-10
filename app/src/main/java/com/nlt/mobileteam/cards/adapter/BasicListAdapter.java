@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,9 @@ import java.util.Collections;
 public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.ViewHolder> implements ItemTouchHelperClass.ItemTouchHelperAdapter {
     private final Context context;
     private ArrayList<Folder> items;
+    private OnItemClickListener onItemClickListener;
 
-        @Override
+    @Override
         public void onItemMoved(int fromPosition, int toPosition) {
             if (fromPosition < toPosition) {
                 for (int i = fromPosition; i < toPosition; i++) {
@@ -75,7 +77,8 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
         public BasicListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_circle_try, parent, false);
 
-            return new ViewHolder(v);
+            ViewHolder viewHolder = new ViewHolder(v);
+            return viewHolder;
         }
 
         @Override
@@ -152,9 +155,17 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
             this.items = items;
         }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
-        @SuppressWarnings("deprecation")
-        public class ViewHolder extends RecyclerView.ViewHolder {
+    public interface OnItemClickListener {
+        void onItemClick(Folder folder);
+    }
+
+
+    @SuppressWarnings("deprecation")
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
             View mView;
             LinearLayout linearLayout;
@@ -162,6 +173,7 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
             //            TextView mColorTextView;
             ImageView mColorImageView;
             TextView countTextView;
+        private String LOG_TAG = "HolderView";
 //            int color = -1;
 
             public ViewHolder(View v) {
@@ -172,7 +184,8 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
                     public void onClick(View v) {
                         Folder item = items.get(ViewHolder.this.getAdapterPosition());
                         Intent i = null;/* new Intent(FoldersActivity.this, AddToDoActivity.class)*/
-                        ;
+                        onItemClickListener.onItemClick(item);
+                        Log.d(LOG_TAG, "on item click" + item.getIdentifier());
                         //i.putExtra(TODOITEM, item);
                         //startActivityForResult(i, REQUEST_ID_TODO_ITEM);
                     }
@@ -182,8 +195,9 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
 //                mColorTextView = (TextView)v.findViewById(R.id.toDoColorTextView);
                 mColorImageView = (ImageView) v.findViewById(R.id.toDoListItemColorImageView);
                 linearLayout = (LinearLayout) v.findViewById(R.id.listItemLinearLayout);
+
             }
 
 
-        }
+    }
     }
