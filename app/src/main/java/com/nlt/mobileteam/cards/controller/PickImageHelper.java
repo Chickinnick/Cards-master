@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.squareup.picasso.Picasso;
 
@@ -20,6 +21,8 @@ import pl.tajchert.nammu.PermissionCallback;
  */
 public class PickImageHelper {
 
+    private static final String LOG_TAG = PickImageHelper.class.getSimpleName();
+
 
     Activity activity;
 
@@ -27,7 +30,29 @@ public class PickImageHelper {
         this.activity = activity;
     }
 
-    protected void onPickFromDocumentsClicked() {
+    public void onTakePhotoClicked() {
+
+        /**Permission check only required if saving pictures to root of sdcard*/
+        int permissionCheck = ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            EasyImage.openCamera(activity, 0);
+        } else {
+            Nammu.askForPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE, new PermissionCallback() {
+                @Override
+                public void permissionGranted() {
+                    EasyImage.openCamera(activity, 0);
+                }
+
+                @Override
+                public void permissionRefused() {
+
+                }
+            });
+        }
+    }
+
+
+    public void onPickFromDocumentsClicked() {
         /** Some devices such as Samsungs which have their own gallery app require write permission. Testing is advised! */
 
         int permissionCheck = ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -48,20 +73,20 @@ public class PickImageHelper {
         }
     }
 
-    protected void onPickFromGaleryClicked() {
+    public void onPickFromGaleryClicked() {
         /** Some devices such as Samsungs which have their own gallery app require write permission. Testing is advised! */
         EasyImage.openGallery(activity, 0);
     }
 
-    protected void onChooserClicked() {
+    public void onChooserClicked() {
         EasyImage.openChooserWithDocuments(activity, "Pick source", 0);
     }
 
-    protected void onChooserWithGalleryClicked() {
+    public void onChooserWithGalleryClicked() {
         EasyImage.openChooserWithGallery(activity, "Pick source", 0);
     }
 
-    protected void onActivityResult(final Activity activity, int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(final Activity activity, int requestCode, int resultCode, Intent data) {
         EasyImage.handleActivityResult(requestCode, resultCode, data, activity, new DefaultCallback() {
             @Override
             public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
@@ -85,12 +110,13 @@ public class PickImageHelper {
         });
     }
 
-    private void onPhotoReturned(File photoFile) {
-      /*  Picasso.with(this)
+    public void onPhotoReturned(File photoFile) {
+        Log.d(LOG_TAG, "photo picked:" + photoFile.getAbsolutePath());
+        /* Picasso.with(activity)
                 .load(photoFile)
                 .fit()
                 .centerCrop()
-                .into(imageView);*/
+                .into(); */
     }
 
 }

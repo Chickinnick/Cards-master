@@ -2,6 +2,7 @@ package com.nlt.mobileteam.cards.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +25,7 @@ import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.Util;
 import com.nlt.mobileteam.cards.adapter.MainFragmentPagerAdapter;
+import com.nlt.mobileteam.cards.controller.PickImageHelper;
 import com.nlt.mobileteam.cards.controller.StorageController;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.model.Folder;
@@ -46,6 +48,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private ImageView backgroundImage;
     private boolean isEditing;
     private Folder currentFolder;
+    private PickImageHelper pickImageHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +110,9 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         // circleButton.setOnClickListener(this);
         swipe = new Swipe();
         swipe.addListener(this);
+
+
+        pickImageHelper = new PickImageHelper(this);
     }
 
     @Override
@@ -178,6 +184,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             }
 
         }
+
+        pickImageHelper.onActivityResult(this, resultCode, requestCode, data);
     }
 
     @Override
@@ -321,6 +329,7 @@ circleButton.setOnClickListener(this);*/
 
         switch (v.getId()) {
             case R.id.fab_sheet_item_photo:
+                pickImageHelper.onTakePhotoClicked();
                 break;
             case R.id.fab_sheet_item_add:
                 cards.add(new Card("new card", ""));
@@ -329,6 +338,8 @@ circleButton.setOnClickListener(this);*/
                 mViewPager.setCurrentItem(cards.size());
                 break;
             case R.id.fab_sheet_item_load:
+
+                pickImageHelper.onChooserClicked();
                 break;
             case R.id.fab_sheet_item_remove:
 
