@@ -21,6 +21,11 @@
         style="@style/Base.TextAppearance.AppCompat.Display1"
         android:gravity="center" />
 
+
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <EditText
         android:visibility="gone"
         android:layout_centerInParent="true"

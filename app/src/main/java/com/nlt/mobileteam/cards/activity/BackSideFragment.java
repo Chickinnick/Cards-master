@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nlt.mobileteam.cards.R;
@@ -58,6 +59,8 @@ public class BackSideFragment extends CardFragment {
                 }
             }
         });
+
+        imageView = (ImageView) rootView.findViewById(R.id.imageview);
         hideKeyboard(textView);
         return rootView;
     }

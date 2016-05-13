@@ -23,6 +23,11 @@
         android:textColor="@color/white"
         android:windowSoftInputMode="stateHidden" />
 
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <EditText
         android:visibility="gone"
         android:id="@+id/edittext"

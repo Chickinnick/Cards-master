@@ -7,10 +7,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.widget.JazzyViewPager;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 
 public class PlaceholderFragment extends Fragment {
 
@@ -24,6 +28,7 @@ public class PlaceholderFragment extends Fragment {
     private CardFragment fragmentBack;
     private CardFragment tempFragmentToReplace;
     private Card card;
+    private ImageView imageView;
 
 
     public PlaceholderFragment() {
@@ -142,5 +147,17 @@ public class PlaceholderFragment extends Fragment {
 
     public void exitEditMode() {
         tempFragmentToReplace.saveText();
+    }
+
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public void loadPicture(MainActivityTabbed mainActivityTabbed, File photoFile) {
+        Picasso.with(mainActivityTabbed)
+                .load(photoFile)
+                .fit()
+                .centerCrop()
+                .into(tempFragmentToReplace.getImageView());
     }
 }

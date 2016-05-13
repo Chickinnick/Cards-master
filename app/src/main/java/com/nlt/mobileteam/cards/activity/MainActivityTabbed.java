@@ -1,10 +1,13 @@
 package com.nlt.mobileteam.cards.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -25,16 +28,24 @@ import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.Util;
 import com.nlt.mobileteam.cards.adapter.MainFragmentPagerAdapter;
-import com.nlt.mobileteam.cards.controller.PickImageHelper;
 import com.nlt.mobileteam.cards.controller.StorageController;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.model.Folder;
 import com.nlt.mobileteam.cards.widget.Fab;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
+import pl.tajchert.nammu.Nammu;
+import pl.tajchert.nammu.PermissionCallback;
+
 public class MainActivityTabbed extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeListener, ViewPager.OnPageChangeListener, View.OnClickListener {
+
+    private static final String LOG_TAG = MainActivityTabbed.class.getSimpleName();
 
     private static final String TAG = "MainActivity";
 
@@ -48,8 +59,6 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private ImageView backgroundImage;
     private boolean isEditing;
     private Folder currentFolder;
-    private PickImageHelper pickImageHelper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +121,10 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         swipe.addListener(this);
 
 
-        pickImageHelper = new PickImageHelper(this);
+        EasyImage.configuration(this)
+                .setImagesFolderName("CardImages")
+                .saveInAppExternalFilesDir()
+                .setCopyExistingPicturesToPublicLocation(true);
     }
 
     @Override
@@ -130,6 +142,12 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     public boolean dispatchTouchEvent(MotionEvent event) {
         swipe.dispatchTouchEvent(event);
         return super.dispatchTouchEvent(event);
+    }
+    @Override
+    protected void onDestroy() {
+        // Clear any configuration that was done!
+        EasyImage.clearConfiguration(this);
+        super.onDestroy();
     }
 
     @Override
@@ -184,8 +202,27 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             }
 
         }
+        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+            @Override
+            public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
+                //Some error handling
+            }
 
-        pickImageHelper.onActivityResult(this, resultCode, requestCode, data);
+            @Override
+            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
+                //Handle the image
+                onPhotoReturned(imageFile);
+            }
+
+            @Override
+            public void onCanceled(EasyImage.ImageSource source, int type) {
+                //Cancel handling, you might wanna remove taken photo if it was canceled
+                if (source == EasyImage.ImageSource.CAMERA) {
+                    File photoFile = EasyImage.lastlyTakenButCanceledPhoto(MainActivityTabbed.this);
+                    if (photoFile != null) photoFile.delete();
+                }
+            }
+        });
     }
 
     @Override
@@ -329,7 +366,7 @@ circleButton.setOnClickListener(this);*/
 
         switch (v.getId()) {
             case R.id.fab_sheet_item_photo:
-                pickImageHelper.onTakePhotoClicked();
+                onTakePhotoClicked();
                 break;
             case R.id.fab_sheet_item_add:
                 cards.add(new Card("new card", ""));
@@ -338,8 +375,7 @@ circleButton.setOnClickListener(this);*/
                 mViewPager.setCurrentItem(cards.size());
                 break;
             case R.id.fab_sheet_item_load:
-
-                pickImageHelper.onChooserClicked();
+                onPickFromDocumentsClicked();
                 break;
             case R.id.fab_sheet_item_remove:
 
@@ -357,5 +393,58 @@ circleButton.setOnClickListener(this);*/
         materialSheetFab.hideSheet();
     }
 
+    public void onPhotoReturned(File photoFile) {
+        Log.d(LOG_TAG, "photo picked:" + photoFile.getAbsolutePath());
+
+        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).loadPicture(this, photoFile);
+    }
+
+    public void onTakePhotoClicked() {
+
+        /**Permission check only required if saving pictures to root of sdcard*/
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            EasyImage.openCamera(this, 0);
+        } else {
+            Nammu.askForPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, new PermissionCallback() {
+                @Override
+                public void permissionGranted() {
+                    EasyImage.openCamera(MainActivityTabbed.this, 0);
+                }
+
+                @Override
+                public void permissionRefused() {
+
+                }
+            });
+        }
+    }
+
+    public void onPickFromDocumentsClicked() {
+        /** Some devices such as Samsungs which have their own gallery app require write permission. Testing is advised! */
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            EasyImage.openDocuments(this, 0);
+        } else {
+            Nammu.askForPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, new PermissionCallback() {
+                @Override
+                public void permissionGranted() {
+                    EasyImage.openDocuments(MainActivityTabbed.this, 0);
+                }
+
+                @Override
+                public void permissionRefused() {
+
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Nammu.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 
 }

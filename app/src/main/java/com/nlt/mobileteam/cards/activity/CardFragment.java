@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import pl.aprilapps.easyphotopicker.EasyImage;
@@ -14,6 +15,7 @@ import pl.aprilapps.easyphotopicker.EasyImage;
 public class CardFragment extends Fragment {
     protected TextView textView;
     protected EditText editText;
+    protected ImageView imageView;
 
     public void editText() {
         CharSequence text = textView.getText();
@@ -29,12 +31,9 @@ public class CardFragment extends Fragment {
         textView.setText(text);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EasyImage.configuration(getActivity())
-                .setImagesFolderName("CardImages")
-                .saveInAppExternalFilesDir()
-                .setCopyExistingPicturesToPublicLocation(true);
+
+    public ImageView getImageView() {
+
+        return imageView;
     }
 }
