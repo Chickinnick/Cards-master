@@ -12,12 +12,11 @@ public class Folder implements Parcelable {
     private UUID identifier;
     private int color;
 
-    private ArrayList<Card> cards;
+    private ArrayList<Card> cards = new ArrayList<>();
 
     public Folder(String todoBody) {
         name = todoBody;
         color = 1677725;
-        cards = new ArrayList<>();
         identifier = UUID.randomUUID();
     }
 
@@ -54,8 +53,8 @@ public class Folder implements Parcelable {
         this.identifier = (UUID) in.readSerializable();
         this.color = in.readInt();
         ArrayList<Card> cardsTemp = new ArrayList<>();
-        in.readTypedList(cardsTemp, Card.CREATOR);
-        this.cards = cardsTemp;
+        in.readTypedList(this.cards, Card.CREATOR);
+
         this.name = in.readString();
     }
 
@@ -67,7 +66,7 @@ public class Folder implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeSerializable(identifier);
         dest.writeInt(color);
-        dest.writeList(cards);
+        dest.writeTypedList(cards);
         dest.writeString(name);
     }
 

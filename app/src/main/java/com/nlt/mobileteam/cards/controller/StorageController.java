@@ -55,4 +55,8 @@ public class StorageController {
         folders.add(defaultFolder);
         return folders;
     }
+
+    public void saveFolders(ArrayList<Folder> foldersArrayList) {
+        Hawk.put(FOLDERS_DATA_KEY, foldersArrayList);
+    }
 }

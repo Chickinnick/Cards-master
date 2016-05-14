@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,9 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
     private final Context context;
     private ArrayList<Folder> items;
     private OnItemClickListener onItemClickListener;
+    private Folder mJustDeletedItem;
+    private int mIndexOfDeletedItem;
+    private LinearLayout layout;
 
     @Override
         public void onItemMoved(int fromPosition, int toPosition) {
@@ -46,31 +50,20 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
             //Remove this line if not using Google Analytics
 //            app.send(this, "Action", "Swiped Todo Away");
 
-        //    mJustDeletedToDoItem = items.remove(position);
-        //    mIndexOfDeletedToDoItem = position;
-            Intent i = null;
-           // deleteAlarm(i, mJustDeletedToDoItem.getIdentifier().hashCode());
+            mJustDeletedItem = items.remove(position);
+            mIndexOfDeletedItem = position;
             notifyItemRemoved(position);
-
-//            String toShow = (mJustDeletedToDoItem.getToDoText().length()>20)?mJustDeletedToDoItem.getToDoText().substring(0, 20)+"...":mJustDeletedToDoItem.getToDoText();
-            String toShow = "Todo";
-          // Snackbar.make(mCoordLayout, "Deleted " + toShow, Snackbar.LENGTH_SHORT)
-          //         .setAction("UNDO", new View.OnClickListener() {
-          //             @Override
-          //             public void onClick(View v) {
-
-          //                 //Comment the line below if not using Google Analytics
-          //            /*     app.send(this, "Action", "UNDO Pressed");
-          //                 items.add(mIndexOfDeletedToDoItem, mJustDeletedToDoItem);
-          //                 if(mJustDeletedToDoItem.getToDoDate()!=null && mJustDeletedToDoItem.hasReminder()){
-          //                     Intent i = new Intent(FoldersActivity.this, TodoNotificationService.class);
-          //                     i.putExtra(TodoNotificationService.TODOTEXT, mJustDeletedToDoItem.getToDoText());
-          //                     i.putExtra(TodoNotificationService.TODOUUID, mJustDeletedToDoItem.getIdentifier());
-          //                     createAlarm(i, mJustDeletedToDoItem.getIdentifier().hashCode(), mJustDeletedToDoItem.getToDoDate().getTime());
-          //                 }
-          //                 notifyItemInserted(mIndexOfDeletedToDoItem);*/
-          //             }
-          //         }).show();
+            String toShow = (mJustDeletedItem.getName().length() > 20) ? mJustDeletedItem.getName().substring(0, 20) + "..." : mJustDeletedItem.getName();
+            if (layout != null) {
+                Snackbar.make(layout, "Deleted " + toShow, Snackbar.LENGTH_LONG)
+                        .setAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                items.add(mIndexOfDeletedItem, mJustDeletedItem);
+                                notifyItemInserted(mIndexOfDeletedItem);
+                            }
+                        }).show();
+            }
         }
 
         @Override
@@ -100,7 +93,7 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
         //      todoTextColor = Color.WHITE;
         //  }
             holder.linearLayout.setBackgroundColor(bgColor);
-
+            layout = holder.linearLayout;
         /*    if (item.hasReminder() && item.getToDoDate() != null) {
                 holder.mToDoTextview.setMaxLines(1);
                 holder.countTextView.setVisibility(View.VISIBLE);
@@ -198,6 +191,10 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
 
             }
 
+        public LinearLayout getLinearLayout() {
+            return linearLayout;
+        }
+    }
 
-    }
-    }
+
+}

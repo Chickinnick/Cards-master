@@ -21,6 +21,7 @@ import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.Util;
 import com.nlt.mobileteam.cards.adapter.BasicListAdapter;
 import com.nlt.mobileteam.cards.controller.StorageController;
+import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.model.Folder;
 import com.nlt.mobileteam.cards.widget.ItemTouchHelperClass;
 
@@ -66,6 +67,9 @@ public class ScrollingActivity extends AppCompatActivity implements BasicListAda
                         int color = ColorGenerator.MATERIAL.getRandomColor();
                         Folder item = new Folder(name);
                         item.setColor(color);
+                        ArrayList<Card> defaultCards = new ArrayList<Card>();
+                        defaultCards.add(new Card("", ""));
+                        item.setCards(defaultCards);
                         boolean existed = false;
                         for (int i = 0; i < foldersArrayList.size(); i++) {
                             if (item.getIdentifier().equals(foldersArrayList.get(i).getIdentifier())) {
@@ -137,6 +141,7 @@ public class ScrollingActivity extends AppCompatActivity implements BasicListAda
     private void addToDataStore(Folder item) {
         foldersArrayList.add(item);
         adapter.notifyItemInserted(foldersArrayList.size() - 1);
+        StorageController.getInstance().saveFolders(foldersArrayList);
     }
 
     @Override

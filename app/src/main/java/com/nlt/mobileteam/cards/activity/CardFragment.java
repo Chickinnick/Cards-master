@@ -1,13 +1,14 @@
 package com.nlt.mobileteam.cards.activity;
 
 import android.app.Fragment;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import pl.aprilapps.easyphotopicker.EasyImage;
+import com.nlt.mobileteam.cards.model.Card;
+
+import java.util.ArrayList;
 
 /**
  * Created by Nick on 07.05.2016.
@@ -35,5 +36,9 @@ public class CardFragment extends Fragment {
     public ImageView getImageView() {
 
         return imageView;
+    }
+
+    public void update(ArrayList<Card> cards) {
+
     }
 }

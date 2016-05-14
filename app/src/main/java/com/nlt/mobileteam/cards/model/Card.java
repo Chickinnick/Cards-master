@@ -67,7 +67,7 @@ public class Card implements Parcelable {
         dest.writeInt(this.position);
     }
 
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+    public static final Parcelable.Creator<Card> CREATOR = new Parcelable.Creator<Card>() {
         public Card createFromParcel(Parcel in) {
             return new Card(in);
         }

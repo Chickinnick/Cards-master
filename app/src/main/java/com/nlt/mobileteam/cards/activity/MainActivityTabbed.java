@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -32,7 +31,6 @@ import com.nlt.mobileteam.cards.controller.StorageController;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.model.Folder;
 import com.nlt.mobileteam.cards.widget.Fab;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,14 +57,19 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private ImageView backgroundImage;
     private boolean isEditing;
     private Folder currentFolder;
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Nammu.init(this);
         setContentView(R.layout.activity_main_activity_tabbed);
         ArrayList<Folder> foldersFromStorage = StorageController.getInstance().getFolderFromStorage();
         currentFolder = foldersFromStorage.get(0);
         cards = currentFolder.getCards();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(currentFolder.getName());
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_tabbed);
@@ -194,9 +197,13 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Util.PICK_FOLDER_REQUEST:
-                    currentFolder = data.getParcelableExtra(Util.SELECTED_FOLDER_EXTRA);
-                    Log.d(TAG, "now folder is " + currentFolder.getName());
-                    //setTitle
+                    currentFolder = (Folder) data.getExtras().get(Util.SELECTED_FOLDER_EXTRA);
+                    toolbar.setTitle(currentFolder.getName());
+                    mSectionsPagerAdapter.setCards(currentFolder.getCards());
+                    mViewPager.setAdapter(mSectionsPagerAdapter);
+                    cards = currentFolder.getCards();
+
+                    updateTextIndicator();
                     break;
 
             }
@@ -370,8 +377,7 @@ circleButton.setOnClickListener(this);*/
                 break;
             case R.id.fab_sheet_item_add:
                 cards.add(new Card("new card", ""));
-                mSectionsPagerAdapter.setSize(cards.size());
-                mSectionsPagerAdapter.notifyDataSetChanged();
+                mSectionsPagerAdapter.setCards(cards);
                 mViewPager.setCurrentItem(cards.size());
                 break;
             case R.id.fab_sheet_item_load:
@@ -379,7 +385,9 @@ circleButton.setOnClickListener(this);*/
                 break;
             case R.id.fab_sheet_item_remove:
 
-                mSectionsPagerAdapter.removeCard(mViewPager.getCurrentItem());
+                // mSectionsPagerAdapter.removeCard();
+                cards.remove(mViewPager.getCurrentItem());
+                mSectionsPagerAdapter.setCards(cards);
                 mViewPager.setCurrentItem(cards.size() - 1);
 
                 break;

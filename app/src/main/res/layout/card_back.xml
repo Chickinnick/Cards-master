@@ -9,24 +9,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        android:src="@drawable/rectangle"
-        android:tint="@color/colorPrimaryDark" />
+        android:src="@drawable/card" />
 
+    <ImageView
+        android:layout_centerInParent="true"
+        android:id="@+id/imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <TextView
         android:id="@+id/textview"
-
         style="@style/Base.TextAppearance.AppCompat.Display1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:textColor="@color/white"
+        android:textColor="@color/grey600"
         android:windowSoftInputMode="stateHidden" />
 
-    <ImageView
-        android:id="@+id/imageview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
 
     <EditText
         android:visibility="gone"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:textColor="@color/white"
+        android:textColor="@color/grey600"
         android:windowSoftInputMode="stateHidden" />
 
 

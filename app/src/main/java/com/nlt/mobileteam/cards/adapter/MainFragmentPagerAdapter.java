@@ -15,12 +15,14 @@ import java.util.ArrayList;
  */
 public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
+    private FragmentManager fragmentManager;
     ArrayList<Card> cards;
     private int size;
 
 
     public MainFragmentPagerAdapter(FragmentManager fm, ArrayList<Card> cards) {
         super(fm);
+        this.fragmentManager = fm;
         this.cards = cards;
     }
 
@@ -37,6 +39,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
         // Show 3 total pages.
         return size;
     }
+
 
     private Fragment mCurrentFragment;
 
@@ -63,4 +66,13 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     }
 
 
+    public void setCards(ArrayList<Card> cards) {
+        size = cards.size();
+
+        for (int i = 0; i < cards.size(); i++) {
+            fragmentManager.beginTransaction().remove(mCurrentFragment).commit();
+        }
+        this.cards = cards;
+        notifyDataSetChanged();
+    }
 }
