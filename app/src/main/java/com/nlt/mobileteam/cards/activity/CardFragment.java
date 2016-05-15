@@ -20,6 +20,7 @@ public class CardFragment extends Fragment {
     protected TextView textView;
     protected EditText editText;
     protected ImageView imageView;
+    protected static int position;
 
 
     public void editText() {
@@ -56,9 +57,11 @@ public class CardFragment extends Fragment {
         } else if (this instanceof FrontSideFragment) {
             Log.d(LOG_TAG, "class was FrontSideFragment");
             CardDataController.getInstance().setFrontText(textView.getText().toString());
-
         }
 
+        Log.d(LOG_TAG, "trying to save : " + position);
+
+        CardDataController.getInstance().saveInStorageAndRemove(position);
         super.onDestroyView();
 
     }
@@ -68,5 +71,6 @@ public class CardFragment extends Fragment {
         super.onDestroy();
 
     }
+
 
 }

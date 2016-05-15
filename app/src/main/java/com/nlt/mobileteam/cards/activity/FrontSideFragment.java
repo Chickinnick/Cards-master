@@ -27,6 +27,7 @@ public class FrontSideFragment extends CardFragment {
     private static final String CARD_KEY_FRONT_TEXT = "card_front_text";
 
 
+
     private RelativeLayout mCardLayout;
 
 
@@ -34,7 +35,8 @@ public class FrontSideFragment extends CardFragment {
     }
 
     public static FrontSideFragment newInstance(Card card) {
-
+        position = card.getPosition();
+        Log.d(LOG_TAG, "on Front pos " + position);
         FrontSideFragment fragment = new FrontSideFragment();
         Bundle args = new Bundle();
         args.putString(CARD_KEY_FRONT_TEXT, card.getFrontText());

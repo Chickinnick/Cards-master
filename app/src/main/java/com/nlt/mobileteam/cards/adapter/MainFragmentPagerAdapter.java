@@ -69,9 +69,9 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     public void setCards(ArrayList<Card> cards) {
         size = cards.size();
 
-        for (int i = 0; i < cards.size(); i++) {
-            fragmentManager.beginTransaction().remove(mCurrentFragment).commit();
-        }
+        //   for (int i = 0; i < cards.size(); i++) {
+        //       fragmentManager.beginTransaction().remove(mCurrentFragment).commit();
+        //   }
         this.cards = cards;
         notifyDataSetChanged();
     }

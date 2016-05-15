@@ -1,5 +1,6 @@
 package com.nlt.mobileteam.cards.controller;
 
+import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
 
 /**
@@ -7,7 +8,7 @@ import com.nlt.mobileteam.cards.model.Card;
  */
 public class CardDataController {
     private static CardDataController ourInstance = new CardDataController();
-    private final Card mCard;
+    private Card mCard;
 
     public static CardDataController getInstance() {
         return ourInstance;
@@ -35,4 +36,14 @@ public class CardDataController {
         return mCard.getBackText();
     }
 
+    public void saveInStorageAndRemove(int position) {
+        BroadcastManager.getInstance().sendBroadcastWithInt(Action.SAVE_STATE.name(), position);
+        mCard = null;
+        mCard = new Card();
+    }
+
+
+    public Card getCard() {
+        return mCard;
+    }
 }

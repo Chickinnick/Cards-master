@@ -1,8 +1,10 @@
 package com.nlt.mobileteam.cards.activity;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -29,7 +31,10 @@ import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.Util;
 import com.nlt.mobileteam.cards.adapter.MainFragmentPagerAdapter;
+import com.nlt.mobileteam.cards.controller.BroadcastManager;
+import com.nlt.mobileteam.cards.controller.CardDataController;
 import com.nlt.mobileteam.cards.controller.StorageController;
+import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.model.Folder;
 import com.nlt.mobileteam.cards.widget.Fab;
@@ -44,6 +49,26 @@ import pl.tajchert.nammu.Nammu;
 import pl.tajchert.nammu.PermissionCallback;
 
 public class MainActivityTabbed extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeListener, ViewPager.OnPageChangeListener, View.OnClickListener {
+
+
+    public class StorageActionReciever extends BroadcastReceiver {
+
+        public StorageActionReciever() {
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Action.SAVE_STATE.name())) {
+
+                int position = intent.getIntExtra(BroadcastManager.EXTRA_DATA, 0);
+                cards.set(position, CardDataController.getInstance().getCard());
+                currentFolder.setCards(cards);
+
+                //  StorageController.getInstance().saveFolders();
+            }
+        }
+    }
+
 
     private static final String LOG_TAG = MainActivityTabbed.class.getSimpleName();
 
@@ -60,11 +85,15 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private boolean isEditing;
     private Folder currentFolder;
     private Toolbar toolbar;
-
+    StorageActionReciever storageActionReciever;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Nammu.init(this);
+        storageActionReciever = new StorageActionReciever();
+
+        IntentFilter intentFilter = createIntentFilter();
+        this.registerReceiver(storageActionReciever, intentFilter);
         setContentView(R.layout.activity_main_activity_tabbed);
         ArrayList<Folder> foldersFromStorage = StorageController.getInstance().getFolderFromStorage();
         currentFolder = foldersFromStorage.get(0);
@@ -154,6 +183,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     protected void onDestroy() {
         // Clear any configuration that was done!
         EasyImage.clearConfiguration(this);
+        unregisterReceiver(storageActionReciever);
         super.onDestroy();
     }
 
@@ -167,6 +197,14 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 super.onBackPressed();
             }
         }
+    }
+
+
+    private IntentFilter createIntentFilter() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Action.SAVE_STATE.name());
+
+        return intentFilter;
     }
 
 
@@ -316,7 +354,7 @@ circleButton.setOnClickListener(this);*/
 
     @Override
     public void onSwipingLeft(MotionEvent event) {
-        Log.i(TAG, "swiping left");
+
     }
 
     @Override
@@ -328,7 +366,7 @@ circleButton.setOnClickListener(this);*/
 
     @Override
     public void onSwipingRight(MotionEvent event) {
-        Log.i(TAG, "swiping Rght");
+
 
     }
 
@@ -352,7 +390,7 @@ circleButton.setOnClickListener(this);*/
 
     private void saveCardState() {
         Card card = getCurrentCard(mViewPager.getCurrentItem());
-        Log.i(TAG, "card:" + card.toString());
+//        Log.i(TAG, "card:" + card.toString());
 
     }
 
@@ -402,7 +440,7 @@ circleButton.setOnClickListener(this);*/
             case R.id.fab_sheet_item_add:
                 cards.add(new Card("new card", ""));
                 mSectionsPagerAdapter.setCards(cards);
-                mViewPager.setCurrentItem(cards.size());
+                mViewPager.setCurrentItem(cards.size() - 1);
                 break;
             case R.id.fab_sheet_item_load:
                 onPickFromDocumentsClicked();

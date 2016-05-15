@@ -40,6 +40,7 @@ public class PlaceholderFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // Get back arguments
         card = getArguments().getParcelable(ARG_CARD);
+        card.setPosition(getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
     /**
