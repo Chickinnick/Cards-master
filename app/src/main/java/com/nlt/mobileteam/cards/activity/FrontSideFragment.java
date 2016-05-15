@@ -3,6 +3,7 @@ package com.nlt.mobileteam.cards.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nlt.mobileteam.cards.R;
+import com.nlt.mobileteam.cards.controller.CardDataController;
 import com.nlt.mobileteam.cards.model.Card;
 
 /**
@@ -21,10 +23,12 @@ import com.nlt.mobileteam.cards.model.Card;
 public class FrontSideFragment extends CardFragment {
 
     private static final String CARD_KEY = "card";
+    private static final String LOG_TAG = FrontSideFragment.class.getSimpleName();
+    private static final String CARD_KEY_FRONT_TEXT = "card_front_text";
+
 
     private RelativeLayout mCardLayout;
 
-    Card card;
 
     public FrontSideFragment() {
     }
@@ -33,7 +37,7 @@ public class FrontSideFragment extends CardFragment {
 
         FrontSideFragment fragment = new FrontSideFragment();
         Bundle args = new Bundle();
-        args.putParcelable(CARD_KEY, card);
+        args.putString(CARD_KEY_FRONT_TEXT, card.getFrontText());
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,7 +46,8 @@ public class FrontSideFragment extends CardFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        card = getArguments().getParcelable(CARD_KEY);
+        String cardText = getArguments().getString(CARD_KEY_FRONT_TEXT);
+        CardDataController.getInstance().setFrontText(cardText);
     }
 
     @Nullable
@@ -52,7 +57,8 @@ public class FrontSideFragment extends CardFragment {
         rootView.requestFocus();
         textView = (TextView) rootView.findViewById(R.id.textview);
         editText = (EditText) rootView.findViewById(R.id.edittext);
-        textView.setText(card.getFrontText());
+        textView.setText(CardDataController.getInstance().getFrontText());
+        Log.d(LOG_TAG, "onCrerateFront");
         textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {

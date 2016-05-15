@@ -76,4 +76,13 @@ public class Card implements Parcelable {
             return new Card[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "position=" + position +
+                ", frontText='" + frontText + '\'' +
+                ", backText='" + backText + '\'' +
+                '}';
+    }
 }

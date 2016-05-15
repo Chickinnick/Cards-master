@@ -33,6 +33,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/edittext"
+        android:hint="Type question here"
+
         android:textColor="@color/mdtp_date_picker_month_day"
         style="@style/Base.TextAppearance.AppCompat.Display1"
         android:gravity="center" />

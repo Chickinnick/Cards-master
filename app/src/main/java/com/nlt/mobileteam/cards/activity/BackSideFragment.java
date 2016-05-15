@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nlt.mobileteam.cards.R;
+import com.nlt.mobileteam.cards.controller.CardDataController;
 import com.nlt.mobileteam.cards.model.Card;
 
 /**
@@ -21,18 +22,17 @@ public class BackSideFragment extends CardFragment {
 
 
     private static final String CARD_KEY = "card";
+    private static final String CARD_KEY_BACK_TEXT = "card_back";
 
 
     public BackSideFragment() {
     }
 
-    Card card;
-
     public static BackSideFragment newInstance(Card card) {
 
         BackSideFragment fragment = new BackSideFragment();
         Bundle args = new Bundle();
-        args.putParcelable(CARD_KEY, card);
+        args.putString(CARD_KEY_BACK_TEXT, card.getBackText());
         fragment.setArguments(args);
         return fragment;
     }
@@ -40,7 +40,8 @@ public class BackSideFragment extends CardFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        card = getArguments().getParcelable(CARD_KEY);
+        String text = getArguments().getString(CARD_KEY_BACK_TEXT);
+        CardDataController.getInstance().setBackText(text);
         super.onCreate(savedInstanceState);
     }
 
@@ -50,7 +51,7 @@ public class BackSideFragment extends CardFragment {
         View rootView = inflater.inflate(R.layout.card_back, container, false);
         textView = (TextView) rootView.findViewById(R.id.textview);
         editText = (EditText) rootView.findViewById(R.id.edittext);
-        textView.setText(card.getBackText());
+        textView.setText(CardDataController.getInstance().getBackText());
         textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {

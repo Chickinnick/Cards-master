@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        android:src="@drawable/card" />
+        android:src="@drawable/card_rev" />
 
     <ImageView
         android:layout_centerInParent="true"
@@ -31,7 +31,7 @@
     <EditText
         android:visibility="gone"
         android:id="@+id/edittext"
-
+        android:hint="Type answer here"
         style="@style/Base.TextAppearance.AppCompat.Display1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

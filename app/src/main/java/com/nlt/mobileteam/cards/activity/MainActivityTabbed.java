@@ -1,6 +1,7 @@
 package com.nlt.mobileteam.cards.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -90,7 +92,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         mViewPager = (ViewPager) findViewById(R.id.container);
         backgroundImage = (ImageView) findViewById(R.id.background);
 
-       // mViewPager.setPageTransformer(false, );
+        // mViewPager.setPageTransformer(false, );
         mSectionsPagerAdapter = new MainFragmentPagerAdapter(getFragmentManager(), cards);
         mSectionsPagerAdapter.setSize(cards.size());
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -138,6 +140,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     @Override
     protected void onPause() {
+        saveCardState();
         super.onPause();
     }
 
@@ -146,6 +149,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         swipe.dispatchTouchEvent(event);
         return super.dispatchTouchEvent(event);
     }
+
     @Override
     protected void onDestroy() {
         // Clear any configuration that was done!
@@ -263,10 +267,13 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         if (id == R.id.action_edit) {
             if (!isEditing) {
                 isEditing = true;
+                item.setChecked(true);
+                item.setIcon(R.drawable.ic_ok_btn);
                 ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).enterEditMode();
             } else {
-                ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).exitEditMode();
-                isEditing = false;
+                item.setChecked(false);
+                item.setIcon(R.drawable.edit);
+                doneClick();
             }
          /*   circleButton.setVisibility(View.VISIBLE);
 circleButton.setOnClickListener(this);*/
@@ -274,6 +281,17 @@ circleButton.setOnClickListener(this);*/
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void doneClick() {
+        if (isEditing) {
+            ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).exitEditMode();
+            final InputMethodManager imm = (InputMethodManager) getSystemService(
+                    Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
+            isEditing = false;
+
+        }
     }
 
     private Card getCurrentCard(int currentItem) {
@@ -321,8 +339,6 @@ circleButton.setOnClickListener(this);*/
 
     @Override
     public void onSwipingUp(MotionEvent event) {
-        Log.i(TAG, "swiping up");
-
     }
 
     @Override
@@ -330,13 +346,18 @@ circleButton.setOnClickListener(this);*/
         Log.i(TAG, "swipED up");
         //((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCardUp();
         ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).toggleFragment(PlaceholderFragment.SWIPED_UP);
+        doneClick();
+        saveCardState();
+    }
+
+    private void saveCardState() {
+        Card card = getCurrentCard(mViewPager.getCurrentItem());
+        Log.i(TAG, "card:" + card.toString());
 
     }
 
     @Override
     public void onSwipingDown(MotionEvent event) {
-        Log.i(TAG, "swiping down");
-
     }
 
     @Override
@@ -344,6 +365,8 @@ circleButton.setOnClickListener(this);*/
         Log.i(TAG, "swipED down");
         //  ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCardDown();
         ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).toggleFragment(PlaceholderFragment.SWIPED_DOWN);
+        doneClick();
+        saveCardState();
 
     }
 
@@ -365,6 +388,7 @@ circleButton.setOnClickListener(this);*/
 
     @Override
     public void onPageScrollStateChanged(int state) {
+        doneClick();
 
     }
 
