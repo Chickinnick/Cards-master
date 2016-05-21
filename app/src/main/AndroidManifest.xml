@@ -26,7 +26,10 @@
             android:label="@string/title_activity_scrolling"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".activity.BgPickerActivity"
+            android:label="@string/title_activity_bg_picker"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

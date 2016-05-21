@@ -23,21 +23,21 @@ public class StorageController {
     public static final String DATA_KEY = "datakey";
     public static final String FOLDERS_DATA_KEY = "folders_key";
 
-    public ArrayList<Card> getFromStorage() {
-
-        ArrayList<Card> cards = Hawk.get(DATA_KEY, getDefaultCards());
-        if (cards == null) {
-            cards = getDefaultCards();
-            Hawk.put(DATA_KEY, cards);
-        }
-        return cards;
-    }
 
     private ArrayList<Card> getDefaultCards() {
         ArrayList<Card> cards = new ArrayList<>();
-        cards.add(new Card("Type the Question here!", "Here is an Answer"));
-        cards.add(new Card("What is the capital of Great Britan?", "London"));
-        cards.add(new Card("Awesome question?", "answer"));
+        //cards.add(new Card("Type the Question here!", "Here is an Answer"));
+        //cards.add(new Card("What is the capital of Great Britan?", "London"));
+        //cards.add(new Card("Awesome question?", "answer"));
+        cards.add(new Card("A ", "AA"));
+        cards.add(new Card("B ", "BB"));
+        cards.add(new Card("C", "CC"));
+        cards.add(new Card("D", "DD"));
+        cards.add(new Card("E", "EE"));
+        cards.add(new Card("F", "FF"));
+        cards.add(new Card("G", "GG"));
+        cards.add(new Card("H", "HH"));
+        cards.add(new Card("I", "II"));
         return cards;
     }
 

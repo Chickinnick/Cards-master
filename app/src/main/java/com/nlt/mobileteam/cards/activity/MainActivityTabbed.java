@@ -31,13 +31,13 @@ import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.Util;
 import com.nlt.mobileteam.cards.adapter.MainFragmentPagerAdapter;
-import com.nlt.mobileteam.cards.controller.BroadcastManager;
 import com.nlt.mobileteam.cards.controller.CardDataController;
 import com.nlt.mobileteam.cards.controller.StorageController;
 import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.model.Folder;
 import com.nlt.mobileteam.cards.widget.Fab;
+import com.orhanobut.hawk.Hawk;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -60,11 +60,11 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(Action.SAVE_STATE.name())) {
 
-                int position = intent.getIntExtra(BroadcastManager.EXTRA_DATA, 0);
-                cards.set(position, CardDataController.getInstance().getCard());
-                currentFolder.setCards(cards);
 
-                //  StorageController.getInstance().saveFolders();
+                cards.set(mViewPager.getCurrentItem(), CardDataController.getInstance().getCard());
+                currentFolder.setCards(cards);
+                mSectionsPagerAdapter.notifyDataSetChanged();
+//
             }
         }
     }
@@ -86,6 +86,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private Folder currentFolder;
     private Toolbar toolbar;
     StorageActionReciever storageActionReciever;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,9 +121,10 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         backgroundImage = (ImageView) findViewById(R.id.background);
-
+        //  Picasso.with(this).load(Hawk.get(Util.SELECTED_BG_EXTRA, R.drawable.bg_1)).centerInside().into(backgroundImage);
+        backgroundImage.setImageResource(Hawk.get(Util.SELECTED_BG_EXTRA, R.drawable.bg_1));
         // mViewPager.setPageTransformer(false, );
-        mSectionsPagerAdapter = new MainFragmentPagerAdapter(getFragmentManager(), cards);
+        mSectionsPagerAdapter = new MainFragmentPagerAdapter(getFragmentManager(), cards, this);
         mSectionsPagerAdapter.setSize(cards.size());
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -221,13 +223,15 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             startActivityForResult(intent, Util.PICK_FOLDER_REQUEST);
         } else if (id == R.id.nav_favourite) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-            backgroundImage.setImageResource(R.drawable.bg_1);
-        } else if (id == R.id.nav_send) {
-            backgroundImage.setImageResource(R.drawable.bg_2);
+        } else if (id == R.id.nav_backr) {
+            Intent intent = new Intent(MainActivityTabbed.this, BgPickerActivity.class);
+            startActivityForResult(intent, Util.PICK_BG_REQUEST);
         }
+        // } else if (id == R.id.nav_share) {
+//    //       backgroundImage.setImageResource(R.drawable.bg_1);
+        // } else if (id == R.id.nav_send) {
+//    //       backgroundImage.setImageResource(R.drawable.bg_2);
+        // }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_tabbed);
         drawer.closeDrawer(GravityCompat.START);
@@ -246,6 +250,12 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                     cards = currentFolder.getCards();
 
                     updateTextIndicator();
+                    break;
+
+                case Util.PICK_BG_REQUEST:
+                    int selectedResBgID = data.getIntExtra(Util.SELECTED_BG_EXTRA, R.drawable.bg_1);
+                    backgroundImage.setImageResource(selectedResBgID);
+                    Hawk.put(Util.SELECTED_BG_EXTRA, selectedResBgID);
                     break;
 
             }
@@ -412,7 +422,6 @@ circleButton.setOnClickListener(this);*/
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         updateTextIndicator();
-
     }
 
     private void updateTextIndicator() {

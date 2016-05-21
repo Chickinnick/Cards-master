@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import android.widget.ImageView;
 
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.model.Card;
-import com.nlt.mobileteam.cards.widget.JazzyViewPager;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -29,7 +29,7 @@ public class PlaceholderFragment extends Fragment {
     private CardFragment tempFragmentToReplace;
     private Card card;
     private ImageView imageView;
-
+    int sectionNumber;
 
     public PlaceholderFragment() {
     }
@@ -39,25 +39,32 @@ public class PlaceholderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Get back arguments
+
         card = getArguments().getParcelable(ARG_CARD);
         card.setPosition(getArguments().getInt(ARG_SECTION_NUMBER));
+        sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
+        Log.w("PAGE", " onCreate  " + card.toString());
+
+        fragmentFront = FrontSideFragment.newInstance(card);
+        fragmentBack = BackSideFragment.newInstance(card);
+
+
     }
+
 
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static PlaceholderFragment newInstance(int sectionNumber, Card card) {
+    public static Fragment newInstance(int sectionNumber, Card card) {
         PlaceholderFragment fragment = new PlaceholderFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         args.putParcelable(ARG_CARD, card);
         fragment.setArguments(args);
-
+        Log.w("PAGE", " newInstance  " + card.toString());
         return fragment;
     }
-
-    private JazzyViewPager mJazzy;
 
 
     @Override
@@ -66,9 +73,9 @@ public class PlaceholderFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main_activity_tabbed, container, false);
         rootView.requestFocus();
-        fragmentFront = FrontSideFragment.newInstance(card);
-        fragmentBack = BackSideFragment.newInstance(card);
 
+        //
+        Log.w("PAGE", "onCreateView" + card.toString());
         FragmentManager childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         if (tempFragmentToReplace == null) {
@@ -132,11 +139,6 @@ public class PlaceholderFragment extends Fragment {
     }
 
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        tempFragmentToReplace = null;
-    }
 
     public Card getCard() {
         return card;
@@ -157,7 +159,7 @@ public class PlaceholderFragment extends Fragment {
     public void loadPicture(MainActivityTabbed mainActivityTabbed, File photoFile) {
         Picasso.with(mainActivityTabbed)
                 .load(photoFile)
-                .fit()
+                .resize(300, 200)
                 .centerCrop()
                 .into(tempFragmentToReplace.getImageView());
     }

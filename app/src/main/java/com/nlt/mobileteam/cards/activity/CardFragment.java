@@ -35,6 +35,15 @@ public class CardFragment extends Fragment {
         editText.setVisibility(View.GONE);
         textView.setVisibility(View.VISIBLE);
         textView.setText(text);
+        if (this instanceof BackSideFragment) {
+            CardDataController.getInstance().setBackText(textView.getText().toString());
+            Log.d(LOG_TAG, "class was BackSideFragment");
+
+        } else if (this instanceof FrontSideFragment) {
+            Log.d(LOG_TAG, "class was FrontSideFragment");
+            CardDataController.getInstance().setFrontText(textView.getText().toString());
+        }
+        CardDataController.getInstance().saveInStorageAndRemove();
     }
 
 
@@ -48,6 +57,15 @@ public class CardFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+
+        Log.w(LOG_TAG, "pauseView  !" + CardDataController.getInstance().getCard().toString());
+
+        super.onPause();
+    }
+
+
+    @Override
     public void onDestroyView() {
         Log.d(LOG_TAG, "onDestroy View ");
         if (this instanceof BackSideFragment) {
@@ -59,11 +77,9 @@ public class CardFragment extends Fragment {
             CardDataController.getInstance().setFrontText(textView.getText().toString());
         }
 
-        Log.d(LOG_TAG, "trying to save : " + position);
 
-        CardDataController.getInstance().saveInStorageAndRemove(position);
         super.onDestroyView();
-
+        // CardDataController.getInstance().saveInStorageAndRemove(position);
     }
 
     @Override

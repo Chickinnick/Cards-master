@@ -8,7 +8,8 @@ public class Card implements Parcelable {
     int position;
     private String frontText;
     private String backText;
-
+    private String linkToFrontImage;
+    private String linkToBackImage;
     public Card() {
     }
 
@@ -52,6 +53,8 @@ public class Card implements Parcelable {
         this.frontText = in.readString();
         this.backText = in.readString();
         this.position = in.readInt();
+        this.linkToBackImage = in.readString();
+        this.linkToFrontImage = in.readString();
     }
 
     public int describeContents() {
@@ -65,6 +68,8 @@ public class Card implements Parcelable {
         dest.writeString(
                 this.backText);
         dest.writeInt(this.position);
+        dest.writeString(this.linkToFrontImage);
+        dest.writeString(this.linkToBackImage);
     }
 
     public static final Parcelable.Creator<Card> CREATOR = new Parcelable.Creator<Card>() {

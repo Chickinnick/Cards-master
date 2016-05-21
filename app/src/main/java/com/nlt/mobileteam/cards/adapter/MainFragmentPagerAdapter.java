@@ -2,7 +2,9 @@ package com.nlt.mobileteam.cards.adapter;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.content.Context;
+import android.support.v13.app.FragmentStatePagerAdapter;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.nlt.mobileteam.cards.activity.PlaceholderFragment;
@@ -13,15 +15,17 @@ import java.util.ArrayList;
 /**
  * Created by user on 28.04.2016.
  */
-public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
+public class MainFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
+    private Context context;
     private FragmentManager fragmentManager;
     ArrayList<Card> cards;
     private int size;
 
 
-    public MainFragmentPagerAdapter(FragmentManager fm, ArrayList<Card> cards) {
+    public MainFragmentPagerAdapter(FragmentManager fm, ArrayList<Card> cards, Context context) {
         super(fm);
+        this.context = context;
         this.fragmentManager = fm;
         this.cards = cards;
     }
@@ -31,6 +35,8 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
+        //return
+        Log.i("PAGERADAPTER", cards.get(position).toString());
         return PlaceholderFragment.newInstance(position + 1, cards.get(position));
     }
 

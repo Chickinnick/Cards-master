@@ -1,5 +1,7 @@
 package com.nlt.mobileteam.cards.controller;
 
+import android.util.Log;
+
 import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
 
@@ -36,14 +38,23 @@ public class CardDataController {
         return mCard.getBackText();
     }
 
-    public void saveInStorageAndRemove(int position) {
-        BroadcastManager.getInstance().sendBroadcastWithInt(Action.SAVE_STATE.name(), position);
-        mCard = null;
-        mCard = new Card();
+    public void saveInStorageAndRemove() {
+        BroadcastManager.getInstance().sendBroadcast(Action.SAVE_STATE.name());
+        Log.d("CARDDATA:", "save state " + mCard.toString());
+    /*    mCard = null;
+        mCard = new Card();*/
     }
 
 
     public Card getCard() {
         return mCard;
+    }
+
+    public void setPosition(int position) {
+        mCard.setPosition(position);
+    }
+
+    public void setCard(Card card) {
+        this.mCard = card;
     }
 }

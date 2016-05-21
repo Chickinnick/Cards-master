@@ -26,6 +26,7 @@ public class FrontSideFragment extends CardFragment {
     private static final String LOG_TAG = FrontSideFragment.class.getSimpleName();
     private static final String CARD_KEY_FRONT_TEXT = "card_front_text";
 
+    private static final String CARD_KEY_BACK_TEXT = "card_back";
 
 
     private RelativeLayout mCardLayout;
@@ -36,11 +37,13 @@ public class FrontSideFragment extends CardFragment {
 
     public static FrontSideFragment newInstance(Card card) {
         position = card.getPosition();
-        Log.d(LOG_TAG, "on Front pos " + position);
+        Log.d(LOG_TAG, "on Front pos " + card.toString());
         FrontSideFragment fragment = new FrontSideFragment();
         Bundle args = new Bundle();
         args.putString(CARD_KEY_FRONT_TEXT, card.getFrontText());
+        args.putString(CARD_KEY_BACK_TEXT, card.getBackText());
         fragment.setArguments(args);
+        CardDataController.getInstance().setPosition(position);
         return fragment;
     }
 
@@ -49,6 +52,9 @@ public class FrontSideFragment extends CardFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String cardText = getArguments().getString(CARD_KEY_FRONT_TEXT);
+
+        String text = getArguments().getString(CARD_KEY_BACK_TEXT);
+        CardDataController.getInstance().setBackText(text);
         CardDataController.getInstance().setFrontText(cardText);
     }
 
