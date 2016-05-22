@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.nlt.mobileteam.cards.R;
+import com.nlt.mobileteam.cards.activity.ScrollingActivity;
 import com.nlt.mobileteam.cards.model.Folder;
 import com.nlt.mobileteam.cards.widget.ItemTouchHelperClass;
 
@@ -25,6 +26,7 @@ import java.util.Collections;
 
 public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.ViewHolder> implements ItemTouchHelperClass.ItemTouchHelperAdapter {
     private final Context context;
+    private final View rootViewGroup;
     private ArrayList<Folder> items;
     private OnItemClickListener onItemClickListener;
     private Folder mJustDeletedItem;
@@ -54,8 +56,8 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
             mIndexOfDeletedItem = position;
             notifyItemRemoved(position);
             String toShow = (mJustDeletedItem.getName().length() > 20) ? mJustDeletedItem.getName().substring(0, 20) + "..." : mJustDeletedItem.getName();
-            if (layout != null) {
-                Snackbar.make(layout, "Deleted " + toShow, Snackbar.LENGTH_LONG)
+            if (layout != null && layout.getContext() != null) {
+                Snackbar.make(rootViewGroup, "Deleted " + toShow, Snackbar.LENGTH_LONG)
                         .setAction("UNDO", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -145,6 +147,7 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
 
     public BasicListAdapter(Context context, ArrayList<Folder> items) {
         this.context = context;
+        this.rootViewGroup = ((ScrollingActivity) context).findViewById(R.id.foldersRecyclerView);
             this.items = items;
         }
 

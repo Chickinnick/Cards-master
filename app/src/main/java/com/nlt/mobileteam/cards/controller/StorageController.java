@@ -59,4 +59,8 @@ public class StorageController {
     public void saveFolders(ArrayList<Folder> foldersArrayList) {
         Hawk.put(FOLDERS_DATA_KEY, foldersArrayList);
     }
+
+
+    public void saveInFavourites(Card card) {
+    }
 }

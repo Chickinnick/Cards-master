@@ -51,6 +51,8 @@ import pl.tajchert.nammu.PermissionCallback;
 public class MainActivityTabbed extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeListener, ViewPager.OnPageChangeListener, View.OnClickListener {
 
 
+    private ArrayList<Folder> foldersFromStorage;
+
     public class StorageActionReciever extends BroadcastReceiver {
 
         public StorageActionReciever() {
@@ -64,7 +66,19 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 cards.set(mViewPager.getCurrentItem(), CardDataController.getInstance().getCard());
                 currentFolder.setCards(cards);
                 mSectionsPagerAdapter.notifyDataSetChanged();
+                foldersFromStorage = StorageController.getInstance().getFolderFromStorage();
+                for (int i = 0; i < foldersFromStorage.size(); i++) {
+
+                    Folder folder = foldersFromStorage.get(i);
+                    if (currentFolder.getIdentifier().equals(folder.getIdentifier())) {
+                        foldersFromStorage.set(i, currentFolder);
+                        break;
+                    }
+                }
 //
+
+                StorageController.getInstance().saveFolders(foldersFromStorage);
+
             }
         }
     }
@@ -96,7 +110,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         IntentFilter intentFilter = createIntentFilter();
         this.registerReceiver(storageActionReciever, intentFilter);
         setContentView(R.layout.activity_main_activity_tabbed);
-        ArrayList<Folder> foldersFromStorage = StorageController.getInstance().getFolderFromStorage();
+        foldersFromStorage = StorageController.getInstance().getFolderFromStorage();
         currentFolder = foldersFromStorage.get(0);
         cards = currentFolder.getCards();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -309,6 +323,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         }
         if (id == R.id.action_favorite) {
             Card card = getCurrentCard(mViewPager.getCurrentItem());
+            StorageController.getInstance().saveInFavourites(card);
             return true;
         }
 
@@ -342,9 +357,8 @@ circleButton.setOnClickListener(this);*/
         }
     }
 
-    private Card getCurrentCard(int currentItem) {
-        PlaceholderFragment item = (PlaceholderFragment) mSectionsPagerAdapter.getItem(currentItem);
-        return item.getCard();
+    private Card getCurrentCard(int currentItemIndex) {
+        return mSectionsPagerAdapter.getCard(currentItemIndex);
     }
 
     private int getRandomUniquePage() {

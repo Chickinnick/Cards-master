@@ -57,4 +57,9 @@ public class CardDataController {
     public void setCard(Card card) {
         this.mCard = card;
     }
+
+    public void clear() {
+        mCard = null;
+        mCard = new Card();
+    }
 }

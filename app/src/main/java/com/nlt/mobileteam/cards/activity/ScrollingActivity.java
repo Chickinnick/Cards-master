@@ -20,6 +20,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.Util;
 import com.nlt.mobileteam.cards.adapter.BasicListAdapter;
+import com.nlt.mobileteam.cards.controller.CardDataController;
 import com.nlt.mobileteam.cards.controller.StorageController;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.model.Folder;
@@ -150,6 +151,7 @@ public class ScrollingActivity extends AppCompatActivity implements BasicListAda
         Intent intent = new Intent();
         intent.putExtra(Util.SELECTED_FOLDER_EXTRA, folder);
         setResult(Activity.RESULT_OK, intent);
+        CardDataController.getInstance().clear();
         finish();
     }
 }

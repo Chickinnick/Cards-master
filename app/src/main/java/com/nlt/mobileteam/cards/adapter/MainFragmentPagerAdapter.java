@@ -81,4 +81,8 @@ public class MainFragmentPagerAdapter extends FragmentStatePagerAdapter {
         this.cards = cards;
         notifyDataSetChanged();
     }
+
+    public Card getCard(int currentItemIndex) {
+        return cards.get(currentItemIndex);
+    }
 }
