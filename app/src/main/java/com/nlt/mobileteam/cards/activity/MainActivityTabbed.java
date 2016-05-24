@@ -288,7 +288,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
                 onPhotoReturned(imageFile);
                 ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).savePhotoInModel(imageFile);
-                doneClick();
+                CardDataController.getInstance().saveInStorageAndRemove();
             }
 
             @Override
