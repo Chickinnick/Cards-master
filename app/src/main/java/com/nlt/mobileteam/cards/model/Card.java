@@ -82,6 +82,22 @@ public class Card implements Parcelable {
         }
     };
 
+    public String getLinkToFrontImage() {
+        return linkToFrontImage;
+    }
+
+    public void setLinkToFrontImage(String linkToFrontImage) {
+        this.linkToFrontImage = linkToFrontImage;
+    }
+
+    public String getLinkToBackImage() {
+        return linkToBackImage;
+    }
+
+    public void setLinkToBackImage(String linkToBackImage) {
+        this.linkToBackImage = linkToBackImage;
+    }
+
     @Override
     public String toString() {
         return "Card{" +

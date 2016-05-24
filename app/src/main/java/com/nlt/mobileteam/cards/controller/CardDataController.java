@@ -5,6 +5,8 @@ import android.util.Log;
 import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
 
+import java.io.File;
+
 /**
  * Created by Nick on 15.05.2016.
  */
@@ -61,5 +63,22 @@ public class CardDataController {
     public void clear() {
         mCard = null;
         mCard = new Card();
+    }
+
+    public void setBackImage(File imageFile) {
+        mCard.setLinkToBackImage(imageFile.getAbsolutePath());
+    }
+
+    public void setFrontImage(File imageFile) {
+        mCard.setLinkToFrontImage(imageFile.getAbsolutePath());
+
+    }
+
+    public String getFrontImage() {
+        return mCard.getLinkToFrontImage();
+    }
+
+    public String getBackImage() {
+        return mCard.getLinkToBackImage();
     }
 }

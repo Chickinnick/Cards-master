@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.nlt.mobileteam.cards.controller.CardDataController;
 import com.nlt.mobileteam.cards.model.Card;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -89,4 +90,14 @@ public class CardFragment extends Fragment {
     }
 
 
+    public void savePhoto(File imageFile) {
+        if (this instanceof BackSideFragment) {
+            CardDataController.getInstance().setBackImage(imageFile);
+            Log.d(LOG_TAG, "class was BackSideFragment");
+
+        } else if (this instanceof FrontSideFragment) {
+            Log.d(LOG_TAG, "class was FrontSideFragment");
+            CardDataController.getInstance().setFrontImage(imageFile);
+        }
+    }
 }

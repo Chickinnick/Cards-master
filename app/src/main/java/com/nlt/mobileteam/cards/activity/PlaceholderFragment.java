@@ -163,4 +163,8 @@ public class PlaceholderFragment extends Fragment {
                 .centerCrop()
                 .into(tempFragmentToReplace.getImageView());
     }
+
+    public void savePhotoInModel(File imageFile) {
+        tempFragmentToReplace.savePhoto(imageFile);
+    }
 }

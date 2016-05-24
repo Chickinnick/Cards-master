@@ -284,7 +284,11 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             @Override
             public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
                 //Handle the image
+                Log.d(TAG, "on image picked" + source + " " + imageFile.getAbsolutePath());
+
                 onPhotoReturned(imageFile);
+                ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).savePhotoInModel(imageFile);
+                doneClick();
             }
 
             @Override

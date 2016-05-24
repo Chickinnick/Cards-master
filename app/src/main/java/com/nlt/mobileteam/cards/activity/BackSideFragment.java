@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.controller.CardDataController;
 import com.nlt.mobileteam.cards.model.Card;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Nick on 28.04.2016.
@@ -62,6 +63,11 @@ public class BackSideFragment extends CardFragment {
         });
 
         imageView = (ImageView) rootView.findViewById(R.id.imageview);
+        Picasso.with(getActivity())
+                .load(CardDataController.getInstance().getBackImage())
+                .resize(300, 200)
+                .centerCrop()
+                .into(imageView);
         hideKeyboard(textView);
         return rootView;
     }
