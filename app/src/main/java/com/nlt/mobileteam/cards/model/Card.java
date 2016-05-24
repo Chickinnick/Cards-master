@@ -104,6 +104,8 @@ public class Card implements Parcelable {
                 "position=" + position +
                 ", frontText='" + frontText + '\'' +
                 ", backText='" + backText + '\'' +
+                ", linkToFrontImage='" + linkToFrontImage + '\'' +
+                ", linkToBackImage='" + linkToBackImage + '\'' +
                 '}';
     }
 }

@@ -3,6 +3,7 @@ package com.nlt.mobileteam.cards.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.controller.CardDataController;
 import com.nlt.mobileteam.cards.model.Card;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
 
 /**
  * Created by Nick on 28.04.2016.
@@ -78,8 +81,16 @@ public class FrontSideFragment extends CardFragment {
         });
         hideKeyboard(textView);
         imageView = (ImageView) rootView.findViewById(R.id.imageview);
-        Picasso.with(getActivity())
-                .load(CardDataController.getInstance().getFrontImage())
+
+        String path = CardDataController.getInstance().getFrontImage();
+        File file;
+        if (!TextUtils.isEmpty(path)) {
+            file = new File(path);
+        } else {
+            file = null;
+        }
+        Picasso.with(getActivity().getApplicationContext())
+                .load(file)
                 .resize(300, 200)
                 .centerCrop()
                 .into(imageView);
