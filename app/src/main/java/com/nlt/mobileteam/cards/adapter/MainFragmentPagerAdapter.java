@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v13.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.ViewGroup;
 
@@ -46,6 +47,10 @@ public class MainFragmentPagerAdapter extends FragmentStatePagerAdapter {
         return size;
     }
 
+    @Override
+    public int getItemPosition(Object object) {
+        return PagerAdapter.POSITION_NONE;
+    }
 
     private Fragment mCurrentFragment;
 
