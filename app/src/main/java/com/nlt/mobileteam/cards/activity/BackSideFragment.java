@@ -27,6 +27,7 @@ public class BackSideFragment extends CardFragment {
 
     private static final String CARD_KEY = "card";
     private static final String CARD_KEY_BACK_TEXT = "card_back";
+    private static final String CARD_IMAGE_LINK = "link_back";
 
 
     public BackSideFragment() {
@@ -37,6 +38,8 @@ public class BackSideFragment extends CardFragment {
         BackSideFragment fragment = new BackSideFragment();
         Bundle args = new Bundle();
         args.putString(CARD_KEY_BACK_TEXT, card.getBackText());
+        args.putString(CARD_IMAGE_LINK, card.getLinkToBackImage());
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,7 +48,16 @@ public class BackSideFragment extends CardFragment {
     public void onCreate(Bundle savedInstanceState) {
 
         String text = getArguments().getString(CARD_KEY_BACK_TEXT);
+        String imageLink = getArguments().getString(CARD_IMAGE_LINK);
         CardDataController.getInstance().setBackText(text);
+
+        File file;
+        if (!TextUtils.isEmpty(imageLink)) {
+            file = new File(imageLink);
+        } else {
+            file = null;
+        }
+        CardDataController.getInstance().setBackImage(file);
         super.onCreate(savedInstanceState);
     }
 
@@ -74,11 +86,13 @@ public class BackSideFragment extends CardFragment {
         } else {
             file = null;
         }
-        Picasso.with(getActivity().getApplicationContext())
-                .load(file)
-                .resize(300, 200)
-                .centerCrop()
-                .into(imageView);
+        if (file != null) {
+            Picasso.with(getActivity().getApplicationContext())
+                    .load(file)
+                    .resize(300, 200)
+                    .centerCrop()
+                    .into(imageView);
+        }
         hideKeyboard(textView);
         return rootView;
     }

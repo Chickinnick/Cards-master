@@ -30,6 +30,8 @@ public class FrontSideFragment extends CardFragment {
     private static final String LOG_TAG = FrontSideFragment.class.getSimpleName();
     private static final String CARD_KEY_FRONT_TEXT = "card_front_text";
 
+    private static final String CARD_IMAGE_LINK = "link_front";
+
     private static final String CARD_KEY_BACK_TEXT = "card_back";
 
 
@@ -46,6 +48,7 @@ public class FrontSideFragment extends CardFragment {
         Bundle args = new Bundle();
         args.putString(CARD_KEY_FRONT_TEXT, card.getFrontText());
         args.putString(CARD_KEY_BACK_TEXT, card.getBackText());
+        args.putString(CARD_IMAGE_LINK, card.getLinkToFrontImage());
         fragment.setArguments(args);
         CardDataController.getInstance().setPosition(position);
         return fragment;
@@ -56,10 +59,19 @@ public class FrontSideFragment extends CardFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String cardText = getArguments().getString(CARD_KEY_FRONT_TEXT);
+        String imageLink = getArguments().getString(CARD_IMAGE_LINK);
 
+        File file;
+        if (!TextUtils.isEmpty(imageLink)) {
+            file = new File(imageLink);
+        } else {
+            file = null;
+        }
         String text = getArguments().getString(CARD_KEY_BACK_TEXT);
         CardDataController.getInstance().setBackText(text);
         CardDataController.getInstance().setFrontText(cardText);
+        CardDataController.getInstance().setFrontImage(file);
+
     }
 
     @Nullable
@@ -89,17 +101,19 @@ public class FrontSideFragment extends CardFragment {
         } else {
             file = null;
         }
-        Picasso.with(getActivity().getApplicationContext())
-                .load(file)
-                .resize(300, 200)
-                .centerCrop()
-                .into(imageView);
+        if (file != null) {
+            Picasso.with(getActivity().getApplicationContext())
+                    .load(file)
+                    .resize(300, 200)
+                    .centerCrop()
+                    .into(imageView);
+        }
         return rootView;
     }
 
 
     public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

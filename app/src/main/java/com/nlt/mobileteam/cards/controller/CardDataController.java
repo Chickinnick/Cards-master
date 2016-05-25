@@ -66,10 +66,19 @@ public class CardDataController {
     }
 
     public void setBackImage(File imageFile) {
+        if (imageFile == null) {
+            mCard.setLinkToBackImage("");
+            return;
+        }
         mCard.setLinkToBackImage(imageFile.getAbsolutePath());
     }
 
     public void setFrontImage(File imageFile) {
+        if (imageFile == null) {
+            mCard.setLinkToFrontImage("");
+
+            return;
+        }
         mCard.setLinkToFrontImage(imageFile.getAbsolutePath());
 
     }
