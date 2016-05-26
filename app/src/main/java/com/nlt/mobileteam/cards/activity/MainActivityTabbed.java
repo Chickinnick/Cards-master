@@ -65,7 +65,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
                 cards.set(mViewPager.getCurrentItem(), CardDataController.getInstance().getCard());
                 currentFolder.setCards(cards);
-                mSectionsPagerAdapter.notifyDataSetChanged();
+               /* mSectionsPagerAdapter.notifyDataSetChanged();*/
                 foldersFromStorage = StorageController.getInstance().getFolderFromStorage();
                 for (int i = 0; i < foldersFromStorage.size(); i++) {
 
@@ -75,8 +75,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                         break;
                     }
                 }
-//
-
+// 
                 StorageController.getInstance().saveFolders(foldersFromStorage);
 
             }
