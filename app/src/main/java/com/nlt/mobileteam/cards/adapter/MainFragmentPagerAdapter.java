@@ -3,7 +3,6 @@ package com.nlt.mobileteam.cards.adapter;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by user on 28.04.2016.
  */
-public class MainFragmentPagerAdapter extends FragmentStatePagerAdapter {
+public class MainFragmentPagerAdapter extends FixedFragmentStatePagerAdapter {
 
     private Context context;
     private FragmentManager fragmentManager;
@@ -39,6 +38,12 @@ public class MainFragmentPagerAdapter extends FragmentStatePagerAdapter {
         //return
         Log.i("PAGERADAPTER", cards.get(position).toString());
         return PlaceholderFragment.newInstance(position + 1, cards.get(position));
+    }
+
+
+    @Override
+    public String getTag(int position) {
+        return String.valueOf(cards.get(position).getPosition());
     }
 
     @Override

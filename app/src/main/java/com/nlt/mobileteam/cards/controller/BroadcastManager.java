@@ -2,10 +2,9 @@ package com.nlt.mobileteam.cards.controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 
 import com.nlt.mobileteam.cards.App;
-
-import java.io.Serializable;
 
 /**
  * Created by Nick on 15.05.2016.
@@ -51,7 +50,7 @@ public class BroadcastManager {
         context.sendBroadcast(intent);
     }
 
-    public void sendBroadcastWithSerializable(String action, Serializable data) {
+    public void sendBroadcastWithParcelable(String action, Parcelable data) {
         Intent intent = new Intent(action);
         intent.putExtra(EXTRA_DATA, data);
         context.sendBroadcast(intent);

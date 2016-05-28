@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nlt.mobileteam.cards.R;
-import com.nlt.mobileteam.cards.controller.CardDataController;
 import com.nlt.mobileteam.cards.model.Card;
 import com.squareup.picasso.Picasso;
 
@@ -25,49 +25,50 @@ import java.io.File;
 public class BackSideFragment extends CardFragment {
 
 
-    private static final String CARD_KEY = "card";
-    private static final String CARD_KEY_BACK_TEXT = "card_back";
-    private static final String CARD_IMAGE_LINK = "link_back";
+    public static final String CARD_KEY = "card";
+    public static final String CARD_KEY_BACK_TEXT = "card_back";
+    public static final String CARD_IMAGE_LINK = "link_back";
+    public static final String LOG_TAG = FrontSideFragment.class.getSimpleName();
+    private static final String CARD_KEY_BACK_TEXT_SS = "card_back_ss";
 
+    public static final String CARD_KEY_FRONT_TEXT = "card_front_text";
 
     public BackSideFragment() {
     }
 
     public static BackSideFragment newInstance(Card card) {
+        Log.d(LOG_TAG, "onBack pos " + card.toString());
 
         BackSideFragment fragment = new BackSideFragment();
         Bundle args = new Bundle();
+        args.putString(CARD_KEY_FRONT_TEXT, card.getFrontText());
+
         args.putString(CARD_KEY_BACK_TEXT, card.getBackText());
         args.putString(CARD_IMAGE_LINK, card.getLinkToBackImage());
-
         fragment.setArguments(args);
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-
-        String text = getArguments().getString(CARD_KEY_BACK_TEXT);
-        String imageLink = getArguments().getString(CARD_IMAGE_LINK);
-        CardDataController.getInstance().setBackText(text);
-
-        File file;
-        if (!TextUtils.isEmpty(imageLink)) {
-            file = new File(imageLink);
-        } else {
-            file = null;
-        }
-        CardDataController.getInstance().setBackImage(file);
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.card_back, container, false);
+        Bundle args = getArguments();
+
+
+        String cardText = null;
+        if (savedInstanceState == null) {
+            cardText = args.getString(CARD_KEY_BACK_TEXT);
+        } else {
+            cardText = savedInstanceState.getString(CARD_KEY_BACK_TEXT_SS);
+        }
+
+
+
         textView = (TextView) rootView.findViewById(R.id.textview);
         editText = (EditText) rootView.findViewById(R.id.edittext);
-        textView.setText(CardDataController.getInstance().getBackText());
+        textView.setText(cardText);
         textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -78,8 +79,11 @@ public class BackSideFragment extends CardFragment {
         });
 
         imageView = (ImageView) rootView.findViewById(R.id.imageview);
+        String text = getArguments().getString(CARD_KEY_BACK_TEXT);
+        String imageLink = getArguments().getString(CARD_IMAGE_LINK);
 
-        String path = CardDataController.getInstance().getBackImage();
+
+        String path = null; //= CardDataController.getInstance().getBackImage();
         File file;
         if (!TextUtils.isEmpty(path)) {
             file = new File(path);
@@ -97,6 +101,11 @@ public class BackSideFragment extends CardFragment {
         return rootView;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(CARD_KEY_BACK_TEXT_SS, getArguments().getString(CARD_KEY_BACK_TEXT));
+    }
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);

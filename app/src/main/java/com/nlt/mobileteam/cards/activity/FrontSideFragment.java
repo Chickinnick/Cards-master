@@ -15,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nlt.mobileteam.cards.R;
-import com.nlt.mobileteam.cards.controller.CardDataController;
 import com.nlt.mobileteam.cards.model.Card;
 import com.squareup.picasso.Picasso;
 
@@ -26,13 +25,14 @@ import java.io.File;
  */
 public class FrontSideFragment extends CardFragment {
 
-    private static final String CARD_KEY = "card";
-    private static final String LOG_TAG = FrontSideFragment.class.getSimpleName();
-    private static final String CARD_KEY_FRONT_TEXT = "card_front_text";
+    public static final String CARD_KEY = "card";
+    public static final String LOG_TAG = FrontSideFragment.class.getSimpleName();
+    public static final String CARD_IMAGE_LINK = "link_front";
 
-    private static final String CARD_IMAGE_LINK = "link_front";
+    public static final String CARD_KEY_BACK_TEXT = "card_back";
 
-    private static final String CARD_KEY_BACK_TEXT = "card_back";
+    public static final String CARD_KEY_FRONT_TEXT = "card_front_text";
+    public static final String CARD_KEY_FRONT_TEXT_SS = "card_front_text_ss";
 
 
     private RelativeLayout mCardLayout;
@@ -50,28 +50,8 @@ public class FrontSideFragment extends CardFragment {
         args.putString(CARD_KEY_BACK_TEXT, card.getBackText());
         args.putString(CARD_IMAGE_LINK, card.getLinkToFrontImage());
         fragment.setArguments(args);
-        CardDataController.getInstance().setPosition(position);
+        //CardDataController.getInstance().setPosition(position);
         return fragment;
-    }
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        String cardText = getArguments().getString(CARD_KEY_FRONT_TEXT);
-        String imageLink = getArguments().getString(CARD_IMAGE_LINK);
-
-        File file;
-        if (!TextUtils.isEmpty(imageLink)) {
-            file = new File(imageLink);
-        } else {
-            file = null;
-        }
-        String text = getArguments().getString(CARD_KEY_BACK_TEXT);
-        CardDataController.getInstance().setBackText(text);
-        CardDataController.getInstance().setFrontText(cardText);
-        CardDataController.getInstance().setFrontImage(file);
-
     }
 
     @Nullable
@@ -79,10 +59,21 @@ public class FrontSideFragment extends CardFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.card_front, container, false);
         rootView.requestFocus();
+        Bundle args = getArguments();
+
+
+        String cardText = null;
+        if (savedInstanceState == null) {
+            cardText = args.getString(CARD_KEY_FRONT_TEXT);
+        } else {
+            cardText = savedInstanceState.getString(CARD_KEY_FRONT_TEXT_SS);
+        }
+        String imageLink = getArguments().getString(CARD_IMAGE_LINK);
+        String text = getArguments().getString(CARD_KEY_BACK_TEXT);
+
         textView = (TextView) rootView.findViewById(R.id.textview);
         editText = (EditText) rootView.findViewById(R.id.edittext);
-        textView.setText(CardDataController.getInstance().getFrontText());
-        Log.d(LOG_TAG, "onCrerateFront");
+        textView.setText(cardText);
         textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -94,8 +85,8 @@ public class FrontSideFragment extends CardFragment {
         hideKeyboard(textView);
         imageView = (ImageView) rootView.findViewById(R.id.imageview);
 
-        String path = CardDataController.getInstance().getFrontImage();
-        File file;
+        String path = "";//todo
+        File file = null;
         if (!TextUtils.isEmpty(path)) {
             file = new File(path);
         } else {
@@ -111,6 +102,11 @@ public class FrontSideFragment extends CardFragment {
         return rootView;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(CARD_KEY_FRONT_TEXT_SS, getArguments().getString(CARD_KEY_FRONT_TEXT));
+    }
 
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);

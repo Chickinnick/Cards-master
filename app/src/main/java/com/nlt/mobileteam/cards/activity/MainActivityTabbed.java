@@ -31,7 +31,7 @@ import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.Util;
 import com.nlt.mobileteam.cards.adapter.MainFragmentPagerAdapter;
-import com.nlt.mobileteam.cards.controller.CardDataController;
+import com.nlt.mobileteam.cards.controller.BroadcastManager;
 import com.nlt.mobileteam.cards.controller.StorageController;
 import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
@@ -62,8 +62,9 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(Action.SAVE_STATE.name())) {
 
-
-                cards.set(mViewPager.getCurrentItem(), CardDataController.getInstance().getCard());
+                Card changedCard = intent.getExtras().getParcelable(BroadcastManager.EXTRA_DATA);
+                Log.d("changed", "c: " + changedCard.toString());
+                cards.set(mViewPager.getCurrentItem(), changedCard);
                 currentFolder.setCards(cards);
                /* mSectionsPagerAdapter.notifyDataSetChanged();*/
                 foldersFromStorage = StorageController.getInstance().getFolderFromStorage();
@@ -287,7 +288,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
                 onPhotoReturned(imageFile);
                 ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).savePhotoInModel(imageFile);
-                CardDataController.getInstance().saveInStorageAndRemove();
+                // CardDataController.getInstance().saveInStorageAndRemove();
             }
 
             @Override
@@ -464,7 +465,7 @@ circleButton.setOnClickListener(this);*/
                 onTakePhotoClicked();
                 break;
             case R.id.fab_sheet_item_add:
-                cards.add(new Card("new card", ""));
+                cards.add(new Card("", ""));
                 mSectionsPagerAdapter.setCards(cards);
                 mViewPager.setCurrentItem(cards.size() - 1);
                 break;

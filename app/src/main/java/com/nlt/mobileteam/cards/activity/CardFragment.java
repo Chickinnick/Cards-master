@@ -1,13 +1,15 @@
 package com.nlt.mobileteam.cards.activity;
 
 import android.app.Fragment;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nlt.mobileteam.cards.controller.CardDataController;
+import com.nlt.mobileteam.cards.controller.BroadcastManager;
+import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
 
 import java.io.File;
@@ -22,6 +24,12 @@ public class CardFragment extends Fragment {
     protected EditText editText;
     protected ImageView imageView;
     protected static int position;
+   /* private Card card;
+
+
+    public void newInstance(Card card){
+         this.card = new Card();
+    }*/
 
 
     public void editText() {
@@ -36,15 +44,24 @@ public class CardFragment extends Fragment {
         editText.setVisibility(View.GONE);
         textView.setVisibility(View.VISIBLE);
         textView.setText(text);
+        Card cardTosave = new Card();
+
+        Bundle arguments = getArguments();
         if (this instanceof BackSideFragment) {
-            CardDataController.getInstance().setBackText(textView.getText().toString());
             Log.d(LOG_TAG, "class was BackSideFragment");
+            Log.d(LOG_TAG, "class was FrontSideFragment");
+            cardTosave.setBackText(text.toString());
+            cardTosave.setFrontText(arguments.getString(BackSideFragment.CARD_KEY_FRONT_TEXT));
 
         } else if (this instanceof FrontSideFragment) {
             Log.d(LOG_TAG, "class was FrontSideFragment");
-            CardDataController.getInstance().setFrontText(textView.getText().toString());
+            cardTosave.setFrontText(text.toString());
+            cardTosave.setBackText(arguments.getString(BackSideFragment.CARD_KEY_BACK_TEXT));
         }
-        CardDataController.getInstance().saveInStorageAndRemove();
+
+
+        //  CardDataController.getInstance().saveInStorageAndRemove();
+        BroadcastManager.getInstance().sendBroadcastWithParcelable(Action.SAVE_STATE.name(), cardTosave);
     }
 
 
@@ -57,25 +74,19 @@ public class CardFragment extends Fragment {
 
     }
 
-    @Override
-    public void onPause() {
 
-        Log.w(LOG_TAG, "pauseView  !" + CardDataController.getInstance().getCard().toString());
-
-        super.onPause();
-    }
 
 
     @Override
     public void onDestroyView() {
         Log.d(LOG_TAG, "onDestroy View ");
         if (this instanceof BackSideFragment) {
-            CardDataController.getInstance().setBackText(textView.getText().toString());
+            //CardDataController.getInstance().setBackText(textView.getText().toString());
             Log.d(LOG_TAG, "class was BackSideFragment");
 
         } else if (this instanceof FrontSideFragment) {
             Log.d(LOG_TAG, "class was FrontSideFragment");
-            CardDataController.getInstance().setFrontText(textView.getText().toString());
+            //CardDataController.getInstance().setFrontText(textView.getText().toString());
         }
 
 
@@ -92,12 +103,12 @@ public class CardFragment extends Fragment {
 
     public void savePhoto(File imageFile) {
         if (this instanceof BackSideFragment) {
-            CardDataController.getInstance().setBackImage(imageFile);
+            //  CardDataController.getInstance().setBackImage(imageFile);
             Log.d(LOG_TAG, "class was BackSideFragment");
 
         } else if (this instanceof FrontSideFragment) {
             Log.d(LOG_TAG, "class was FrontSideFragment");
-            CardDataController.getInstance().setFrontImage(imageFile);
+            // CardDataController.getInstance().setFrontImage(imageFile);
         }
     }
 }
