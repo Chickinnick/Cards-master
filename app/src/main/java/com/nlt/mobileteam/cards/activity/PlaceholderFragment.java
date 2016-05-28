@@ -12,7 +12,6 @@ import android.widget.ImageView;
 
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.model.Card;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
@@ -156,15 +155,14 @@ public class PlaceholderFragment extends Fragment {
         return imageView;
     }
 
-    public void loadPicture(MainActivityTabbed mainActivityTabbed, File photoFile) {
-        Picasso.with(mainActivityTabbed)
-                .load(photoFile)
-                .resize(300, 200)
-                .centerCrop()
-                .into(tempFragmentToReplace.getImageView());
-    }
+
 
     public void savePhotoInModel(File imageFile) {
-        tempFragmentToReplace.savePhoto(imageFile);
+        tempFragmentToReplace.savePhoto(imageFile, getActivity().getApplicationContext());
+        FragmentManager childFragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
+        fragmentTransaction.detach(tempFragmentToReplace);
+        fragmentTransaction.attach(tempFragmentToReplace);
+        fragmentTransaction.commit();
     }
 }

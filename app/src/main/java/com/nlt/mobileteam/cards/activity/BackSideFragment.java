@@ -1,6 +1,7 @@
 package com.nlt.mobileteam.cards.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -27,11 +28,14 @@ public class BackSideFragment extends CardFragment {
 
     public static final String CARD_KEY = "card";
     public static final String CARD_KEY_BACK_TEXT = "card_back";
-    public static final String CARD_IMAGE_LINK = "link_back";
+    public static final String CARD_IMAGE_LINK_BACK = "link_back";
     public static final String LOG_TAG = FrontSideFragment.class.getSimpleName();
     private static final String CARD_KEY_BACK_TEXT_SS = "card_back_ss";
+    private static final String CARD_IMAGE_LINK_FRONT = "link_front";
 
+    public ImageView imageViewBack;
     public static final String CARD_KEY_FRONT_TEXT = "card_front_text";
+    private static final String CARD_IMAGE_LINK_SS = "card_image_ss";
 
     public BackSideFragment() {
     }
@@ -42,9 +46,9 @@ public class BackSideFragment extends CardFragment {
         BackSideFragment fragment = new BackSideFragment();
         Bundle args = new Bundle();
         args.putString(CARD_KEY_FRONT_TEXT, card.getFrontText());
-
         args.putString(CARD_KEY_BACK_TEXT, card.getBackText());
-        args.putString(CARD_IMAGE_LINK, card.getLinkToBackImage());
+        args.putString(CARD_IMAGE_LINK_BACK, card.getLinkToBackImage());
+        args.putString(CARD_IMAGE_LINK_FRONT, card.getLinkToFrontImage());
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,12 +82,15 @@ public class BackSideFragment extends CardFragment {
             }
         });
 
-        imageView = (ImageView) rootView.findViewById(R.id.imageview);
-        String text = getArguments().getString(CARD_KEY_BACK_TEXT);
-        String imageLink = getArguments().getString(CARD_IMAGE_LINK);
+        imageViewBack = (ImageView) rootView.findViewById(R.id.imageview);
+        String imageLink = null;
+        if (savedInstanceState == null) {
+            imageLink = args.getString(CARD_IMAGE_LINK_BACK);
+        } else {
+            imageLink = savedInstanceState.getString(CARD_IMAGE_LINK_SS);
+        }
 
-
-        String path = null; //= CardDataController.getInstance().getBackImage();
+        String path = imageLink;
         File file;
         if (!TextUtils.isEmpty(path)) {
             file = new File(path);
@@ -95,7 +102,7 @@ public class BackSideFragment extends CardFragment {
                     .load(file)
                     .resize(300, 200)
                     .centerCrop()
-                    .into(imageView);
+                    .into(imageViewBack);
         }
         hideKeyboard(textView);
         return rootView;
@@ -105,9 +112,20 @@ public class BackSideFragment extends CardFragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(CARD_KEY_BACK_TEXT_SS, getArguments().getString(CARD_KEY_BACK_TEXT));
+        outState.putString(CARD_IMAGE_LINK_SS, getArguments().getString(CARD_IMAGE_LINK_BACK));
     }
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public void showImage(File imageFile, Context applicationContext) {
+
+        Picasso.with(applicationContext)//todo MAYBE to child move method
+                .load(imageFile)
+                .resize(300, 200)
+                .centerCrop()
+                .into((((BackSideFragment) this).imageViewBack));
+
     }
 }

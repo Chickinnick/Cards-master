@@ -61,9 +61,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(Action.SAVE_STATE.name())) {
-
                 Card changedCard = intent.getExtras().getParcelable(BroadcastManager.EXTRA_DATA);
-                Log.d("changed", "c: " + changedCard.toString());
+                Log.d("changed", "recieve: " + changedCard.toString());
                 cards.set(mViewPager.getCurrentItem(), changedCard);
                 currentFolder.setCards(cards);
                /* mSectionsPagerAdapter.notifyDataSetChanged();*/
@@ -284,11 +283,12 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             @Override
             public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
                 //Handle the image
-                Log.d(TAG, "on image picked" + source + " " + imageFile.getAbsolutePath());
+                Log.d("picked", "on image picked" + source + " " + imageFile.getAbsolutePath());
 
-                onPhotoReturned(imageFile);
+               /* onPhotoReturned(imageFile);*/
                 ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).savePhotoInModel(imageFile);
                 // CardDataController.getInstance().saveInStorageAndRemove();
+                mSectionsPagerAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -490,11 +490,7 @@ circleButton.setOnClickListener(this);*/
         materialSheetFab.hideSheet();
     }
 
-    public void onPhotoReturned(File photoFile) {
-        Log.d(LOG_TAG, "photo picked:" + photoFile.getAbsolutePath());
 
-        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).loadPicture(this, photoFile);
-    }
 
     public void onTakePhotoClicked() {
 
