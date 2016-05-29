@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#078EC4</color>
+    <color name="colorPrimaryDark">#077FB1</color>
 
     <color name="holo_blue">#FF33E5B5</color>
     <color name="cardFront">#cacfc3</color>
@@ -23,7 +23,7 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
 
-    <color name="grey600">#757575</color>
+    <color name="textcolor">#99000000</color>
     <color name="grey300">#E0E0E0</color>
 
     <color name="primary_ligher">#E1E4F4</color>

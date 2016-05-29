@@ -130,8 +130,9 @@ public class PlaceholderFragment extends Fragment {
 
             );
         }
-
         fragmentTransaction.replace(R.id.card_layout, tempFragmentToReplace);
+        fragmentTransaction.detach(tempFragmentToReplace);
+        fragmentTransaction.attach(tempFragmentToReplace);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
@@ -164,5 +165,6 @@ public class PlaceholderFragment extends Fragment {
         fragmentTransaction.detach(tempFragmentToReplace);
         fragmentTransaction.attach(tempFragmentToReplace);
         fragmentTransaction.commit();
+
     }
 }

@@ -46,8 +46,12 @@ public class CardFragment extends Fragment {
         textView.setText(text);
 
         Card cardTosave = new Card();
-
         Bundle arguments = getArguments();
+        cardTosave.setLinkToFrontImage(arguments.getString(BackSideFragment.CARD_IMAGE_LINK_FRONT));
+        cardTosave.setLinkToBackImage(arguments.getString(BackSideFragment.CARD_IMAGE_LINK_BACK));
+
+
+
         if (this instanceof BackSideFragment) {
             Log.d(LOG_TAG, "class was BackSideFragment");
             Log.d(LOG_TAG, "class was FrontSideFragment");
@@ -105,7 +109,7 @@ public class CardFragment extends Fragment {
             //CardDataController.getInstance().setBackText(textView.getText().toString());
             Log.d(LOG_TAG, "class was BackSideFragment");
             cardTosave.setLinkToBackImage(imageFile.getAbsolutePath());
-            cardTosave.setLinkToFrontImage(arguments.getString(FrontSideFragment.CARD_IMAGE_LINK_FRONT));
+            cardTosave.setLinkToFrontImage(arguments.getString(BackSideFragment.CARD_IMAGE_LINK_FRONT));
 
             ((BackSideFragment) this).showImage(imageFile, applicationContext);
         } else if (this instanceof FrontSideFragment) {

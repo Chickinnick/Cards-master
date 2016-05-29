@@ -1,5 +1,7 @@
 package com.nlt.mobileteam.cards.controller;
 
+import android.util.Log;
+
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.model.Folder;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
  * Created by Nick on 01.05.2016.
  */
 public class StorageController {
+    private static final String FAV_DATA_KEY = "favourite";
     private static StorageController ourInstance = new StorageController();
 
     public static StorageController getInstance() {
@@ -62,5 +65,20 @@ public class StorageController {
 
 
     public void saveInFavourites(Card card) {
+        Log.d("Storage", "fav:" + card.toString());
+        Folder fav = getFavourite();
+        ArrayList<Card> cards = fav.getCards();
+        cards.add(card);
+        Hawk.put(FAV_DATA_KEY, fav);
+    }
+
+    public Folder getFavourite() {
+        return Hawk.get(FAV_DATA_KEY, getEmptyFavoutite());
+    }
+
+    private Folder getEmptyFavoutite() {
+        Folder fav = new Folder("Favourite");
+        fav.setCards(new ArrayList<Card>());
+        return fav;
     }
 }

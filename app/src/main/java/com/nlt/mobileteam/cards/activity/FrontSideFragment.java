@@ -34,7 +34,7 @@ public class FrontSideFragment extends CardFragment {
 
     public static final String CARD_KEY_FRONT_TEXT = "card_front_text";
     public static final String CARD_KEY_FRONT_TEXT_SS = "card_front_text_ss";
-    private static final String CARD_IMAGE_LINK_SS = "link_front_ss";
+    private static final String CARD_IMAGE_LINK_SSFRONT = "link_front_ss";
 
     public ImageView imageViewFront;
 
@@ -92,7 +92,7 @@ public class FrontSideFragment extends CardFragment {
         if (savedInstanceState == null) {
             path = args.getString(CARD_IMAGE_LINK_FRONT);
         } else {
-            path = savedInstanceState.getString(CARD_IMAGE_LINK_SS);
+            path = savedInstanceState.getString(CARD_IMAGE_LINK_SSFRONT);
         }
 
         File file = null;
@@ -111,11 +111,12 @@ public class FrontSideFragment extends CardFragment {
         return rootView;
     }
 
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(CARD_KEY_FRONT_TEXT_SS, getArguments().getString(CARD_KEY_FRONT_TEXT));
-        outState.putString(CARD_IMAGE_LINK_SS, getArguments().getString(CARD_IMAGE_LINK_FRONT));
+        outState.putString(CARD_IMAGE_LINK_SSFRONT, getArguments().getString(CARD_IMAGE_LINK_FRONT));
     }
 
     public void hideKeyboard(View view) {

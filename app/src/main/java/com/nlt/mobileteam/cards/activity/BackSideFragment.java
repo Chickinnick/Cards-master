@@ -30,8 +30,9 @@ public class BackSideFragment extends CardFragment {
     public static final String CARD_KEY_BACK_TEXT = "card_back";
     public static final String CARD_IMAGE_LINK_BACK = "link_back";
     public static final String LOG_TAG = FrontSideFragment.class.getSimpleName();
-    private static final String CARD_KEY_BACK_TEXT_SS = "card_back_ss";
-    private static final String CARD_IMAGE_LINK_FRONT = "link_front";
+    public static final String CARD_KEY_BACK_TEXT_SS = "card_back_ss";
+    public static final String CARD_IMAGE_LINK_FRONT = "link_front";
+    private static final String CARD_IMAGE_LINK_SSFR = "card_image_ssfr";
 
     public ImageView imageViewBack;
     public static final String CARD_KEY_FRONT_TEXT = "card_front_text";
@@ -113,6 +114,7 @@ public class BackSideFragment extends CardFragment {
         super.onSaveInstanceState(outState);
         outState.putString(CARD_KEY_BACK_TEXT_SS, getArguments().getString(CARD_KEY_BACK_TEXT));
         outState.putString(CARD_IMAGE_LINK_SS, getArguments().getString(CARD_IMAGE_LINK_BACK));
+        outState.putString(CARD_IMAGE_LINK_SSFR, getArguments().getString(CARD_IMAGE_LINK_FRONT));
     }
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);

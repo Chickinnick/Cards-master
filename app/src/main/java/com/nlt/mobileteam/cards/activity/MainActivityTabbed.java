@@ -51,6 +51,8 @@ import pl.tajchert.nammu.PermissionCallback;
 public class MainActivityTabbed extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeListener, ViewPager.OnPageChangeListener, View.OnClickListener {
 
 
+    private static final int TYPE_FAVOURITE = 1;
+    private static final int TYPE_FOLDERS = 2;
     private ArrayList<Folder> foldersFromStorage;
 
     public class StorageActionReciever extends BroadcastReceiver {
@@ -61,7 +63,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(Action.SAVE_STATE.name())) {
-                Card changedCard = intent.getExtras().getParcelable(BroadcastManager.EXTRA_DATA);
+                Card changedCard = (Card) intent.getParcelableExtra(BroadcastManager.EXTRA_DATA);
                 Log.d("changed", "recieve: " + changedCard.toString());
                 cards.set(mViewPager.getCurrentItem(), changedCard);
                 currentFolder.setCards(cards);
@@ -230,11 +232,14 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         int id = item.getItemId();
 
         if (id == R.id.nav_view) {
+            updateDataset(TYPE_FOLDERS);
             //startActivity(new Intent(MainActivityTabbed.this, FoldersActivity.class));
         } else if (id == R.id.nav_categories) {
             Intent intent = new Intent(MainActivityTabbed.this, ScrollingActivity.class);
             startActivityForResult(intent, Util.PICK_FOLDER_REQUEST);
         } else if (id == R.id.nav_favourite) {
+            updateDataset(TYPE_FAVOURITE);
+
 
         } else if (id == R.id.nav_backr) {
             Intent intent = new Intent(MainActivityTabbed.this, BgPickerActivity.class);
@@ -249,6 +254,21 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_tabbed);
         drawer.closeDrawer(GravityCompat.START);
         return false;
+    }
+
+    private void updateDataset(int type) {
+
+        if (TYPE_FAVOURITE == type) {
+            currentFolder = StorageController.getInstance().getFavourite();
+        } else if (TYPE_FOLDERS == type) {
+
+            currentFolder = (Folder) foldersFromStorage.get(0);
+        }
+        toolbar.setTitle(currentFolder.getName());
+        mSectionsPagerAdapter.setCards(currentFolder.getCards());
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        cards = currentFolder.getCards();
+        updateTextIndicator();
     }
 
     @Override
@@ -339,7 +359,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).enterEditMode();
             } else {
                 item.setChecked(false);
-                item.setIcon(R.drawable.edit);
+                item.setIcon(R.drawable.ic_edit);
                 doneClick();
             }
          /*   circleButton.setVisibility(View.VISIBLE);

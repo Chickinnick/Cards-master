@@ -53,8 +53,8 @@ public class Card implements Parcelable {
         this.frontText = in.readString();
         this.backText = in.readString();
         this.position = in.readInt();
-        this.linkToBackImage = in.readString();
         this.linkToFrontImage = in.readString();
+        this.linkToBackImage = in.readString();
     }
 
     public int describeContents() {
