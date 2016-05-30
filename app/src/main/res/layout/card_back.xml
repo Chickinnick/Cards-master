@@ -5,50 +5,59 @@
     android:orientation="vertical">
 
 
-    <ImageView
+    <LinearLayout
         android:id="@+id/bg"
-        android:layout_margin="12dp"
 
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/card_rev" />
+        android:layout_height="@dimen/card_h"
+        android:layout_margin="12dp"
+        android:background="@drawable/card_rev"
+        android:maxHeight="@dimen/card_h"
+        android:orientation="horizontal" />
 
     <ImageView
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/text"
+        android:paddingTop="40dp"
         android:id="@+id/imageview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="280dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/bg"
+        android:layout_margin="20dp"
+        android:layout_marginBottom="5dp"
+        android:maxHeight="@dimen/card_h" />
+
 
     <RelativeLayout
+
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/bg"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/textview"
-        style="@style/Base.TextAppearance.AppCompat.Display1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:textColor="@color/textcolor"
-        android:windowSoftInputMode="stateHidden" />
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/textview"
+            style="@style/Base.TextAppearance.AppCompat.Display1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textColor="@color/textcolor"
+            android:windowSoftInputMode="stateHidden" />
 
 
-
-    <EditText
-        android:visibility="gone"
-        android:id="@+id/edittext"
-        android:hint="Type answer here"
-        style="@style/Base.TextAppearance.AppCompat.Display1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:textColor="@color/textcolor"
-        android:windowSoftInputMode="stateHidden" />
+        <EditText
+            android:id="@+id/edittext"
+            style="@style/Base.TextAppearance.AppCompat.Display1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:hint="Type answer here"
+            android:textColor="@color/textcolor"
+            android:visibility="gone"
+            android:windowSoftInputMode="stateHidden" />
     </RelativeLayout>
 
 
