@@ -33,6 +33,7 @@ import com.nlt.mobileteam.cards.Util;
 import com.nlt.mobileteam.cards.adapter.MainFragmentPagerAdapter;
 import com.nlt.mobileteam.cards.controller.BroadcastManager;
 import com.nlt.mobileteam.cards.controller.StorageController;
+import com.nlt.mobileteam.cards.fragment.PlaceholderFragment;
 import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.model.Folder;
@@ -277,11 +278,12 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             switch (requestCode) {
                 case Util.PICK_FOLDER_REQUEST:
                     currentFolder = (Folder) data.getExtras().get(Util.SELECTED_FOLDER_EXTRA);
+                    int position = (int) data.getExtras().get(Util.SELECTED_CARD_POS_EXTRA);
                     toolbar.setTitle(currentFolder.getName());
                     mSectionsPagerAdapter.setCards(currentFolder.getCards());
                     mViewPager.setAdapter(mSectionsPagerAdapter);
                     cards = currentFolder.getCards();
-
+                    mViewPager.setCurrentItem(position);
                     updateTextIndicator();
                     break;
 

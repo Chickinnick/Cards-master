@@ -1,4 +1,4 @@
-package com.nlt.mobileteam.cards.activity;
+package com.nlt.mobileteam.cards.fragment;
 
 import android.app.Fragment;
 import android.content.Context;

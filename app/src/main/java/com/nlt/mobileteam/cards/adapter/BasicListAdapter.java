@@ -97,12 +97,12 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
             holder.linearLayout.setBackgroundColor(bgColor);
             layout = holder.linearLayout;
         /*    if (item.hasReminder() && item.getToDoDate() != null) {
-                holder.mToDoTextview.setMaxLines(1);
+                holder.textView.setMaxLines(1);
                 holder.countTextView.setVisibility(View.VISIBLE);
-//                holder.mToDoTextview.setVisibility(View.GONE);
+//                holder.textView.setVisibility(View.GONE);
             } else {
                 holder.countTextView.setVisibility(View.GONE);
-                holder.mToDoTextview.setMaxLines(2);
+                holder.textView.setMaxLines(2);
             }
         */
             holder.mToDoTextview.setText(item.getName());

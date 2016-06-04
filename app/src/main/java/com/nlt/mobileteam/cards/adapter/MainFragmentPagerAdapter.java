@@ -7,7 +7,7 @@ import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.ViewGroup;
 
-import com.nlt.mobileteam.cards.activity.PlaceholderFragment;
+import com.nlt.mobileteam.cards.fragment.PlaceholderFragment;
 import com.nlt.mobileteam.cards.model.Card;
 
 import java.util.ArrayList;
