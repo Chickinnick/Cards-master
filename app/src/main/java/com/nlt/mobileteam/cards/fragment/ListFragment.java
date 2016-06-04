@@ -92,7 +92,7 @@ public class ListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         foldersRecyclerView = (RecyclerView) view.findViewById(R.id.foldersRecyclerView);
         foldersArrayList = StorageController.getInstance().getFolderFromStorage();
-        adapter = new BasicListAdapter(getContext(), foldersArrayList);
+        adapter = new BasicListAdapter(getActivity(), foldersArrayList, foldersRecyclerView);
         adapter.setOnItemClickListener((ScrollingActivity) getActivity());
 
         //  foldersRecyclerView.setHasFixedSize(true);

@@ -7,6 +7,7 @@ import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.ViewGroup;
 
+import com.nlt.mobileteam.cards.activity.MainActivityTabbed;
 import com.nlt.mobileteam.cards.fragment.PlaceholderFragment;
 import com.nlt.mobileteam.cards.model.Card;
 
@@ -22,6 +23,7 @@ public class MainFragmentPagerAdapter extends FixedFragmentStatePagerAdapter {
     ArrayList<Card> cards;
     private int size;
 
+    private Fragment mCurrentFragment;
 
     public MainFragmentPagerAdapter(FragmentManager fm, ArrayList<Card> cards, Context context) {
         super(fm);
@@ -57,7 +59,6 @@ public class MainFragmentPagerAdapter extends FixedFragmentStatePagerAdapter {
         return PagerAdapter.POSITION_NONE;
     }
 
-    private Fragment mCurrentFragment;
 
     public Fragment getCurrentFragment() {
         return mCurrentFragment;
@@ -67,6 +68,7 @@ public class MainFragmentPagerAdapter extends FixedFragmentStatePagerAdapter {
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
         if (getCurrentFragment() != object) {
             mCurrentFragment = ((Fragment) object);
+            ((PlaceholderFragment) mCurrentFragment).setOnFragmentClickListener((MainActivityTabbed) context);
         }
         super.setPrimaryItem(container, position, object);
     }

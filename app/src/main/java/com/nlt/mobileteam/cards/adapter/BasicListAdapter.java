@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.nlt.mobileteam.cards.R;
-import com.nlt.mobileteam.cards.activity.ScrollingActivity;
 import com.nlt.mobileteam.cards.model.Folder;
 import com.nlt.mobileteam.cards.widget.ItemTouchHelperClass;
 
@@ -26,12 +25,19 @@ import java.util.Collections;
 
 public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.ViewHolder> implements ItemTouchHelperClass.ItemTouchHelperAdapter {
     private final Context context;
-    private final View rootViewGroup;
+    private final RecyclerView rootView;
     private ArrayList<Folder> items;
     private OnItemClickListener onItemClickListener;
     private Folder mJustDeletedItem;
     private int mIndexOfDeletedItem;
     private LinearLayout layout;
+
+    public BasicListAdapter(Context context, ArrayList<Folder> items, RecyclerView recyclerView) {
+        this.context = context;
+        this.items = items;
+        this.rootView = recyclerView;
+    }
+
 
     @Override
         public void onItemMoved(int fromPosition, int toPosition) {
@@ -57,7 +63,7 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
             notifyItemRemoved(position);
             String toShow = (mJustDeletedItem.getName().length() > 20) ? mJustDeletedItem.getName().substring(0, 20) + "..." : mJustDeletedItem.getName();
             if (layout != null && layout.getContext() != null) {
-                Snackbar.make(rootViewGroup, "Deleted " + toShow, Snackbar.LENGTH_LONG)
+                Snackbar.make(rootView, "Deleted " + toShow, Snackbar.LENGTH_LONG)
                         .setAction("UNDO", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -145,11 +151,6 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
             return items.size();
         }
 
-    public BasicListAdapter(Context context, ArrayList<Folder> items) {
-        this.context = context;
-        this.rootViewGroup = ((ScrollingActivity) context).findViewById(R.id.foldersRecyclerView);
-            this.items = items;
-        }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;

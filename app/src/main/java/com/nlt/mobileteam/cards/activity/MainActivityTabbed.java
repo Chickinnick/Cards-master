@@ -49,12 +49,20 @@ import pl.aprilapps.easyphotopicker.EasyImage;
 import pl.tajchert.nammu.Nammu;
 import pl.tajchert.nammu.PermissionCallback;
 
-public class MainActivityTabbed extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeListener, ViewPager.OnPageChangeListener, View.OnClickListener {
+public class MainActivityTabbed extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeListener,
+        ViewPager.OnPageChangeListener, View.OnClickListener,
+        PlaceholderFragment.OnFragmentClickListener {
 
 
     private static final int TYPE_FAVOURITE = 1;
     private static final int TYPE_FOLDERS = 2;
     private ArrayList<Folder> foldersFromStorage;
+
+    @Override
+    public void onFragmentClick(View v) {
+        toggleMenu();
+        editCard();
+    }
 
     public class StorageActionReciever extends BroadcastReceiver {
 
@@ -102,6 +110,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private Folder currentFolder;
     private Toolbar toolbar;
     StorageActionReciever storageActionReciever;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +152,6 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         mSectionsPagerAdapter = new MainFragmentPagerAdapter(getFragmentManager(), cards, this);
         mSectionsPagerAdapter.setSize(cards.size());
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
         mViewPager.setOnPageChangeListener(this);
         //  size.setText(String.valueOf(mSectionsPagerAdapter.getCount()));
         int sheetColor = getResources().getColor(R.color.colorAccent);
@@ -328,6 +336,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_activity_tabbed, menu);
+        this.menu = menu;
         return true;
     }
 
@@ -348,28 +357,48 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             return true;
         }
         if (id == R.id.action_favorite) {
-            Card card = getCurrentCard(mViewPager.getCurrentItem());
-            StorageController.getInstance().saveInFavourites(card);
+
+            Card card = currentFolder.getCards().get(mViewPager.getCurrentItem());
+            if (card.isFavourite()) {
+                card.setFavourite(false);
+                StorageController.getInstance().removeFromFavourites(card);
+
+            } else {
+                card.setFavourite(true);
+                StorageController.getInstance().saveInFavourites(card);
+            }
+            updateStarByPosition();
+            BroadcastManager.getInstance().sendBroadcastWithParcelable(Action.SAVE_STATE.name(), card);
             return true;
         }
 
         if (id == R.id.action_edit) {
-            if (!isEditing) {
-                isEditing = true;
-                item.setChecked(true);
-                item.setIcon(R.drawable.ic_ok_btn);
-                ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).enterEditMode();
-            } else {
-                item.setChecked(false);
-                item.setIcon(R.drawable.ic_edit);
-                doneClick();
-            }
-         /*   circleButton.setVisibility(View.VISIBLE);
-circleButton.setOnClickListener(this);*/
+            toggleMenu();
+            editCard();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void toggleMenu() {
+        MenuItem item = menu.findItem(R.id.action_edit);
+        if (!isEditing) {
+            item.setChecked(true);
+            item.setIcon(R.drawable.ic_ok_btn);
+        } else {
+            item.setChecked(false);
+            item.setIcon(R.drawable.ic_edit);
+        }
+    }
+
+    private void editCard() {
+        if (!isEditing) {
+            isEditing = true;
+            ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).enterEditMode();
+        } else {
+            doneClick();
+        }
     }
 
     private void doneClick() {
@@ -462,6 +491,24 @@ circleButton.setOnClickListener(this);*/
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         updateTextIndicator();
+        updateStarByPosition();
+    }
+
+    private void updateStarByPosition() {
+        if (menu == null) {
+            return;
+        }
+        MenuItem item = menu.findItem(R.id.action_favorite);
+        Card card = cards.get(mViewPager.getCurrentItem());
+
+        if (card.isFavourite()) {
+            item.setChecked(true);
+            item.setIcon(R.drawable.ic_star_selected);
+        } else {
+            item.setChecked(false);
+            item.setIcon(R.drawable.ic_star);
+        }
+
     }
 
     private void updateTextIndicator() {
@@ -502,16 +549,11 @@ circleButton.setOnClickListener(this);*/
                 mViewPager.setCurrentItem(cards.size() - 1);
 
                 break;
-         /* case R.id.done_editing_btn:
 
-            //  ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).exitEditMode();
-            // circleButton.setVisibility(View.GONE);
-                break;*/
         }
 
         materialSheetFab.hideSheet();
     }
-
 
 
     public void onTakePhotoClicked() {

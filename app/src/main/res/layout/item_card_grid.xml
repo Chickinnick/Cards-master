@@ -31,4 +31,14 @@
         android:textColor="@color/mdtp_date_picker_month_day"
         android:windowSoftInputMode="stateHidden" />
 
+    <ImageButton
+        android:background="@drawable/circle_star_bg"
+        android:id="@+id/favourite_btn"
+        android:layout_margin="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </RelativeLayout>

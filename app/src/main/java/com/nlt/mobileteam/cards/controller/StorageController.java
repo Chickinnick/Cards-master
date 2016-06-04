@@ -81,4 +81,12 @@ public class StorageController {
         fav.setCards(new ArrayList<Card>());
         return fav;
     }
+
+    public void removeFromFavourites(Card card) {
+        Log.d("Storage", "fav:" + card.toString());
+        Folder fav = getFavourite();
+        ArrayList<Card> cards = fav.getCards();
+        cards.remove(card);
+        Hawk.put(FAV_DATA_KEY, fav);
+    }
 }

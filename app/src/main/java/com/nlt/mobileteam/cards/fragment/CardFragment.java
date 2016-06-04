@@ -39,7 +39,7 @@ public class CardFragment extends Fragment {
 
     public void saveText() {
         CharSequence text = null;
-
+        if (editText != null) {
         text = editText.getText();
         editText.setVisibility(View.GONE);
         textView.setVisibility(View.VISIBLE);
@@ -66,7 +66,8 @@ public class CardFragment extends Fragment {
 
         }
         //  CardDataController.getInstance().saveInStorageAndRemove();
-        BroadcastManager.getInstance().sendBroadcastWithParcelable(Action.SAVE_STATE.name(), cardTosave);
+            BroadcastManager.getInstance().sendBroadcastWithParcelable(Action.SAVE_STATE.name(), cardTosave);
+        }
     }
 
 

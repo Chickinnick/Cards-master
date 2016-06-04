@@ -10,6 +10,8 @@ public class Card implements Parcelable {
     private String backText;
     private String linkToFrontImage;
     private String linkToBackImage;
+    private boolean isFavourite;
+
     public Card() {
     }
 
@@ -55,6 +57,9 @@ public class Card implements Parcelable {
         this.position = in.readInt();
         this.linkToFrontImage = in.readString();
         this.linkToBackImage = in.readString();
+        boolean[] arr = new boolean[1];
+        in.readBooleanArray(arr);
+        this.isFavourite = arr[0];
     }
 
     public int describeContents() {
@@ -70,6 +75,7 @@ public class Card implements Parcelable {
         dest.writeInt(this.position);
         dest.writeString(this.linkToFrontImage);
         dest.writeString(this.linkToBackImage);
+        dest.writeBooleanArray(new boolean[]{this.isFavourite});
     }
 
     public static final Parcelable.Creator<Card> CREATOR = new Parcelable.Creator<Card>() {
@@ -107,5 +113,13 @@ public class Card implements Parcelable {
                 ", linkToFrontImage='" + linkToFrontImage + '\'' +
                 ", linkToBackImage='" + linkToBackImage + '\'' +
                 '}';
+    }
+
+    public boolean isFavourite() {
+        return isFavourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        isFavourite = favourite;
     }
 }

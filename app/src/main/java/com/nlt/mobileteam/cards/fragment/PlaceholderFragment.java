@@ -29,6 +29,15 @@ public class PlaceholderFragment extends Fragment {
     private Card card;
     private ImageView imageView;
     int sectionNumber;
+    private OnFragmentClickListener onFragmentClickListener;
+
+    public void setOnFragmentClickListener(OnFragmentClickListener onFragmentClickListener) {
+        this.onFragmentClickListener = onFragmentClickListener;
+    }
+
+    public interface OnFragmentClickListener {
+        void onFragmentClick(View v);
+    }
 
     public PlaceholderFragment() {
     }
@@ -72,7 +81,13 @@ public class PlaceholderFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main_activity_tabbed, container, false);
         rootView.requestFocus();
+        rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFragmentClickListener.onFragmentClick(v);
 
+            }
+        });
         //
         Log.w("PAGE", "onCreateView" + card.toString());
         FragmentManager childFragmentManager = getChildFragmentManager();

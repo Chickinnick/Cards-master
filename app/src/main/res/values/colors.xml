@@ -40,6 +40,7 @@
 
     <color name="text_black_87">#de000000</color>
     <color name="text_white_87">#deFFFFFF</color>
+    <color name="gray_bg_star">#323232</color>
 
     <array name="note_neutral_colors">
         <item>#9E9E9E</item>

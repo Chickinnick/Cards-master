@@ -9,12 +9,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nlt.mobileteam.cards.R;
-import com.nlt.mobileteam.cards.activity.ScrollingActivity;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.widget.ItemTouchHelperClass;
 import com.squareup.picasso.Picasso;
@@ -30,7 +30,7 @@ import java.util.Collections;
 
 public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.ViewHolder> implements ItemTouchHelperClass.ItemTouchHelperAdapter {
     private final Context context;
-    private final View rootViewGroup;
+    private final RecyclerView rootView;
     private ArrayList<Card> items;
     private OnItemClickListener onItemClickListener;
     private Card mJustDeletedItem;
@@ -58,7 +58,7 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
         notifyItemRemoved(position);
         String toShow = (mJustDeletedItem.getFrontText().length() > 20) ? mJustDeletedItem.getFrontText().substring(0, 20) + "..." : mJustDeletedItem.getFrontText();
         if (layout != null && layout.getContext() != null) {
-            Snackbar.make(rootViewGroup, "Deleted " + toShow, Snackbar.LENGTH_LONG)
+            Snackbar.make(rootView, "Deleted " + toShow, Snackbar.LENGTH_LONG)
                     .setAction("UNDO", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -107,7 +107,12 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
             }
         */
         holder.textView.setText(item.getFrontText());
+        if (item.isFavourite()) {
+            holder.starImageBtn.setImageResource(R.drawable.ic_star_selected);
+        } else {
+            holder.starImageBtn.setImageResource(R.drawable.ic_star);
 
+        }
 
         String path = item.getLinkToFrontImage();
         File file;
@@ -164,10 +169,11 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
         return items.size();
     }
 
-    public BasicGridAdapter(Context context, ArrayList<Card> items) {
+    public BasicGridAdapter(Context context, ArrayList<Card> items, RecyclerView root) {
         this.context = context;
-        this.rootViewGroup = ((ScrollingActivity) context).findViewById(R.id.cardsRecyclerView);
         this.items = items;
+        this.rootView = root;
+
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -187,6 +193,7 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
         TextView textView;
         //            TextView mColorTextView;
         ImageView cardImageView;
+        ImageButton starImageBtn;
         private String LOG_TAG = "HolderView";
 //            int color = -1;
 
@@ -207,7 +214,19 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
 //                mColorTextView = (TextView)v.findViewById(R.id.toDoColorTextView);
             cardImageView = (ImageView) v.findViewById(R.id.item_imageview);
             relativeLayout = (RelativeLayout) v.findViewById(R.id.item_grid_root);
+            starImageBtn = (ImageButton) v.findViewById(R.id.favourite_btn);
+            starImageBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Card item = items.get(ViewHolder.this.getAdapterPosition());
+                    if (item.isFavourite()) {
+                        starImageBtn.setImageResource(R.drawable.ic_star_selected);
+                    } else {
+                        starImageBtn.setImageResource(R.drawable.ic_star);
 
+                    }
+                }
+            });
         }
 
         public RelativeLayout getRelativeLayout() {

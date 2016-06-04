@@ -1,8 +1,11 @@
 package com.nlt.mobileteam.cards.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -59,7 +62,7 @@ public class GridFragment extends Fragment implements BasicGridAdapter.OnItemCli
         View view = inflater.inflate(R.layout.fragment_grid, container, false);
         foldersRecyclerView = (RecyclerView) view.findViewById(R.id.cardsRecyclerView);
         cardsArrayList = currentFolder.getCards();
-        gridAdapter = new BasicGridAdapter(getContext(), cardsArrayList);//TODO create adapter
+        gridAdapter = new BasicGridAdapter(getActivity(), cardsArrayList, foldersRecyclerView);
         gridAdapter.setOnItemClickListener(this);
 
         //  foldersRecyclerView.setHasFixedSize(true);
@@ -93,7 +96,37 @@ public class GridFragment extends Fragment implements BasicGridAdapter.OnItemCli
     }
 
     public void onFabClicked(View view) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
 
+        final AppCompatEditText edittext = new AppCompatEditText(getContext());
+
+        alert.setTitle("Search");
+
+        alert.setView(edittext);
+
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+                String query = edittext.getText().toString();
+
+
+                for (int i = 0; i < cardsArrayList.size(); i++) {
+                    Card card = cardsArrayList.get(i);
+                    if (card.getFrontText().toString().contains(query)) {
+                        foldersRecyclerView.getLayoutManager().smoothScrollToPosition(foldersRecyclerView, null, i);
+                        break;
+                    }
+                }
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            }
+        });
+
+        alert.show();
     }
 
     @Override
