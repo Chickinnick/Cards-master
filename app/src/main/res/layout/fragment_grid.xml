@@ -5,7 +5,7 @@
     tools:context="com.nlt.mobileteam.cards.fragment.GridFragment">
 
 
-    <android.support.v7.widget.RecyclerView
+    <com.nlt.mobileteam.cards.widget.ScrollRecyclerView
         android:id="@+id/cardsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

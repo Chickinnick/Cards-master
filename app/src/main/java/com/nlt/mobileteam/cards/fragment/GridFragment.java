@@ -19,6 +19,7 @@ import com.nlt.mobileteam.cards.adapter.BasicGridAdapter;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.model.Folder;
 import com.nlt.mobileteam.cards.widget.ItemTouchHelperClass;
+import com.nlt.mobileteam.cards.widget.ScrollRecyclerView;
 
 import java.util.ArrayList;
 
@@ -60,7 +61,7 @@ public class GridFragment extends Fragment implements BasicGridAdapter.OnItemCli
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_grid, container, false);
-        foldersRecyclerView = (RecyclerView) view.findViewById(R.id.cardsRecyclerView);
+        foldersRecyclerView = (ScrollRecyclerView) view.findViewById(R.id.cardsRecyclerView);
         cardsArrayList = currentFolder.getCards();
         gridAdapter = new BasicGridAdapter(getActivity(), cardsArrayList, foldersRecyclerView);
         gridAdapter.setOnItemClickListener(this);

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nlt.mobileteam.cards.R;
+import com.nlt.mobileteam.cards.controller.BroadcastManager;
+import com.nlt.mobileteam.cards.controller.StorageController;
+import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.widget.ItemTouchHelperClass;
 import com.squareup.picasso.Picasso;
@@ -218,13 +222,22 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
             starImageBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Card item = items.get(ViewHolder.this.getAdapterPosition());
-                    if (item.isFavourite()) {
+                    Log.d("adapter", " onClick");
+                    Card card = items.get(ViewHolder.this.getAdapterPosition());
+                    if (!card.isFavourite()) {
                         starImageBtn.setImageResource(R.drawable.ic_star_selected);
                     } else {
                         starImageBtn.setImageResource(R.drawable.ic_star);
-
                     }
+                    if (card.isFavourite()) {
+                        card.setFavourite(false);
+                        StorageController.getInstance().removeFromFavourites(card);
+
+                    } else {
+                        card.setFavourite(true);
+                        StorageController.getInstance().saveInFavourites(card);
+                    }
+                    BroadcastManager.getInstance().sendBroadcastWithParcelable(Action.SAVE_STATE.name(), card);
                 }
             });
         }

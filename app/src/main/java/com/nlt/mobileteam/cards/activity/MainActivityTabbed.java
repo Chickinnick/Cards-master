@@ -293,6 +293,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                     cards = currentFolder.getCards();
                     mViewPager.setCurrentItem(position);
                     updateTextIndicator();
+                    updateStarByPosition();
                     break;
 
                 case Util.PICK_BG_REQUEST:
