@@ -4,5 +4,6 @@
 
     <dimen name="card_w">500dp</dimen>
     <dimen name="card_h">400dp</dimen>
+    <dimen name="item_grid_card_h">300dp</dimen>
 
 </resources>

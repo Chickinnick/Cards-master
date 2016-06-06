@@ -111,10 +111,10 @@ public class BackSideFragment extends CardFragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         outState.putString(CARD_KEY_BACK_TEXT_SS, getArguments().getString(CARD_KEY_BACK_TEXT));
         outState.putString(CARD_IMAGE_LINK_SS, getArguments().getString(CARD_IMAGE_LINK_BACK));
         outState.putString(CARD_IMAGE_LINK_SSFR, getArguments().getString(CARD_IMAGE_LINK_FRONT));
+        super.onSaveInstanceState(outState);
     }
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);

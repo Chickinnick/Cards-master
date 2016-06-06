@@ -114,9 +114,9 @@ public class FrontSideFragment extends CardFragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         outState.putString(CARD_KEY_FRONT_TEXT_SS, getArguments().getString(CARD_KEY_FRONT_TEXT));
         outState.putString(CARD_IMAGE_LINK_SSFRONT, getArguments().getString(CARD_IMAGE_LINK_FRONT));
+        super.onSaveInstanceState(outState);
     }
 
     public void hideKeyboard(View view) {
