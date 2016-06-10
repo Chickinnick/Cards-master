@@ -99,7 +99,7 @@ public class ListFragment extends Fragment {
         foldersRecyclerView.setItemAnimator(new DefaultItemAnimator());
         foldersRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        ItemTouchHelper.Callback callback = new ItemTouchHelperClass(adapter);
+        ItemTouchHelper.Callback callback = new ItemTouchHelperClass(getContext(), adapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(foldersRecyclerView);
         foldersRecyclerView.setAdapter(adapter);

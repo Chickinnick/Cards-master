@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#078EC4</color>
     <color name="colorPrimaryDark">#077FB1</color>
+    <color name="colorTitleBg">#EE212177</color>
 
     <color name="holo_blue">#FF33E5B5</color>
     <color name="cardFront">#cacfc3</color>
@@ -41,6 +42,8 @@
     <color name="text_black_87">#de000000</color>
     <color name="text_white_87">#deFFFFFF</color>
     <color name="gray_bg_star">#323232</color>
+    <color name="gray_bg_title_star">#EE323232</color>
+    <color name="delete_bg">#BBF44336</color>
 
     <array name="note_neutral_colors">
         <item>#9E9E9E</item>

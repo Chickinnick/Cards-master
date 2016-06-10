@@ -13,6 +13,41 @@
         android:maxHeight="@dimen/card_h"
         android:orientation="horizontal" />
 
+
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_height="70dp"
+        android:layout_alignTop="@+id/bg"
+        android:layout_centerHorizontal="true"
+
+        android:background="@color/gray_bg_title_star">
+
+        <TextView
+            android:text="title"
+            android:id="@+id/textview_title"
+            style="@style/Base.TextAppearance.AppCompat.Display1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:windowSoftInputMode="stateHidden" />
+
+        <EditText
+            android:id="@+id/edittext_title"
+            style="@style/Base.TextAppearance.AppCompat.Display1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:windowSoftInputMode="stateHidden" />
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/imageview"
         android:layout_width="match_parent"
@@ -29,7 +64,7 @@
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/bg"
+        android:layout_below="@+id/title"
         android:layout_centerHorizontal="true">
 
         <TextView

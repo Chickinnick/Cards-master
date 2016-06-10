@@ -70,7 +70,7 @@ public class GridFragment extends Fragment implements BasicGridAdapter.OnItemCli
         foldersRecyclerView.setItemAnimator(new DefaultItemAnimator());
         foldersRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
-        ItemTouchHelper.Callback callback = new ItemTouchHelperClass(gridAdapter);
+        ItemTouchHelper.Callback callback = new ItemTouchHelperClass(getContext(), gridAdapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(foldersRecyclerView);
         foldersRecyclerView.setAdapter(gridAdapter);

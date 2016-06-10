@@ -42,6 +42,7 @@
     <dimen name="note_title_textsize">24sp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="text_size_grid">19sp</dimen>
 
 
 </resources>

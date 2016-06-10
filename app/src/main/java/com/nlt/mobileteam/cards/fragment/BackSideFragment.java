@@ -58,9 +58,8 @@ public class BackSideFragment extends CardFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.card_back, container, false);
+        View rootView = inflater.inflate(R.layout.card_front, container, false);
         Bundle args = getArguments();
-
 
         String cardText = null;
         if (savedInstanceState == null) {
@@ -69,8 +68,7 @@ public class BackSideFragment extends CardFragment {
             cardText = savedInstanceState.getString(CARD_KEY_BACK_TEXT_SS);
         }
 
-
-
+        rootView.findViewById(R.id.bg).setBackground(getActivity().getResources().getDrawable(R.drawable.card_rev));
         textView = (TextView) rootView.findViewById(R.id.textview);
         editText = (EditText) rootView.findViewById(R.id.edittext);
         textView.setText(cardText);
