@@ -28,17 +28,17 @@ public class FrontSideFragment extends CardFragment {
 
     public static final String CARD_KEY = "card";
     public static final String LOG_TAG = FrontSideFragment.class.getSimpleName();
-    public static final String CARD_IMAGE_LINK_FRONT = "link_front";
-
-    public static final String CARD_KEY_BACK_TEXT = "card_back";
-
     public static final String CARD_KEY_FRONT_TEXT = "card_front_text";
     public static final String CARD_KEY_FRONT_TEXT_SS = "card_front_text_ss";
+    public static final String CARD_KEY_BACK_TEXT = "card_back";
+
+    public static final String CARD_IMAGE_LINK_FRONT = "link_front";
     private static final String CARD_IMAGE_LINK_SSFRONT = "link_front_ss";
 
     public ImageView imageViewFront;
 
     private RelativeLayout mCardLayout;
+    private File imageFile;
 
 
     public FrontSideFragment() {
@@ -112,10 +112,18 @@ public class FrontSideFragment extends CardFragment {
     }
 
 
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putString(CARD_KEY_FRONT_TEXT_SS, getArguments().getString(CARD_KEY_FRONT_TEXT));
-        outState.putString(CARD_IMAGE_LINK_SSFRONT, getArguments().getString(CARD_IMAGE_LINK_FRONT));
+        String front_txt = getArguments().getString(CARD_KEY_FRONT_TEXT);
+        outState.putString(CARD_KEY_FRONT_TEXT_SS, front_txt);
+        String front_img = getArguments().getString(CARD_IMAGE_LINK_FRONT);
+        outState.putString(CARD_IMAGE_LINK_SSFRONT, front_img);
+        //Log.d(LOG_TAG, "saving state: back " + front_txt + "img:" + front_img);
+
+        if (imageFile != null) {
+            outState.putString(CARD_IMAGE_LINK_FRONT, imageFile.getAbsolutePath());
+        }
         super.onSaveInstanceState(outState);
     }
 

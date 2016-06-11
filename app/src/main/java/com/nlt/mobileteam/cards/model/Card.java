@@ -3,6 +3,8 @@ package com.nlt.mobileteam.cards.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.UUID;
+
 public class Card implements Parcelable {
 
     int position;
@@ -11,19 +13,24 @@ public class Card implements Parcelable {
     private String linkToFrontImage;
     private String linkToBackImage;
     private boolean isFavourite;
+    private UUID identifier;
 
     public Card() {
+        identifier = UUID.randomUUID();
     }
 
     public Card(String frontText, String backText) {
         this.frontText = frontText;
         this.backText = backText;
+        identifier = UUID.randomUUID();
     }
 
     public Card(int position, String frontText, String backText) {
         this.position = position;
         this.frontText = frontText;
         this.backText = backText;
+        identifier = UUID.randomUUID();
+
     }
 
     public int getPosition() {
@@ -34,6 +41,9 @@ public class Card implements Parcelable {
         this.position = position;
     }
 
+    public UUID getIdentifier() {
+        return identifier;
+    }
 
     public String getFrontText() {
         return frontText;
@@ -52,6 +62,7 @@ public class Card implements Parcelable {
     }
 
     public Card(Parcel in) {
+        this.identifier = (UUID) in.readSerializable();
         this.frontText = in.readString();
         this.backText = in.readString();
         this.position = in.readInt();
@@ -68,6 +79,8 @@ public class Card implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeSerializable(identifier);
+
         dest.writeString(
                 this.frontText);
         dest.writeString(

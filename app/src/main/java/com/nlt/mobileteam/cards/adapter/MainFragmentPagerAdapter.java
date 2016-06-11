@@ -68,7 +68,9 @@ public class MainFragmentPagerAdapter extends FixedFragmentStatePagerAdapter {
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
         if (getCurrentFragment() != object) {
             mCurrentFragment = ((Fragment) object);
-            ((PlaceholderFragment) mCurrentFragment).setOnFragmentClickListener((MainActivityTabbed) context);
+            if (mCurrentFragment != null) {
+                ((PlaceholderFragment) mCurrentFragment).setOnFragmentClickListener((MainActivityTabbed) context);
+            }
         }
         super.setPrimaryItem(container, position, object);
     }
@@ -95,6 +97,9 @@ public class MainFragmentPagerAdapter extends FixedFragmentStatePagerAdapter {
     }
 
     public Card getCard(int currentItemIndex) {
+        if (cards == null || cards.isEmpty()) {
+            return new Card();
+        }
         return cards.get(currentItemIndex);
     }
 }

@@ -3,6 +3,7 @@ package com.nlt.mobileteam.cards.fragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -45,12 +46,16 @@ public class CardFragment extends Fragment {
         textView.setVisibility(View.VISIBLE);
         textView.setText(text);
 
-        Card cardTosave = new Card();
+            Card cardTosave = new Card();
         Bundle arguments = getArguments();
-        cardTosave.setLinkToFrontImage(arguments.getString(BackSideFragment.CARD_IMAGE_LINK_FRONT));
-        cardTosave.setLinkToBackImage(arguments.getString(BackSideFragment.CARD_IMAGE_LINK_BACK));
-
-
+            String linkToFrontImage = arguments.getString(BackSideFragment.CARD_IMAGE_LINK_FRONT);
+            if (!TextUtils.isEmpty(linkToFrontImage)) {
+                cardTosave.setLinkToFrontImage(linkToFrontImage);
+            }
+            String linkToBackImage = arguments.getString(BackSideFragment.CARD_IMAGE_LINK_BACK);//FIX IT
+            if (!TextUtils.isEmpty(linkToBackImage)) {
+                cardTosave.setLinkToFrontImage(linkToBackImage);
+            }
 
         if (this instanceof BackSideFragment) {
             Log.d(LOG_TAG, "class was BackSideFragment");
@@ -65,7 +70,9 @@ public class CardFragment extends Fragment {
             cardTosave.setBackText(arguments.getString(BackSideFragment.CARD_KEY_BACK_TEXT));
 
         }
-        //  CardDataController.getInstance().saveInStorageAndRemove();
+            Log.d(LOG_TAG, "card" + cardTosave.toString());
+
+            //  CardDataController.getInstance().saveInStorageAndRemove();
             BroadcastManager.getInstance().sendBroadcastWithParcelable(Action.SAVE_STATE.name(), cardTosave);
         }
     }
@@ -108,19 +115,21 @@ public class CardFragment extends Fragment {
 
         if (this instanceof BackSideFragment) {
             //CardDataController.getInstance().setBackText(textView.getText().toString());
-            Log.d(LOG_TAG, "class was BackSideFragment");
+            Log.d(LOG_TAG, "savePhoto was BackSideFragment");
             cardTosave.setLinkToBackImage(imageFile.getAbsolutePath());
             cardTosave.setLinkToFrontImage(arguments.getString(BackSideFragment.CARD_IMAGE_LINK_FRONT));
 
             ((BackSideFragment) this).showImage(imageFile, applicationContext);
         } else if (this instanceof FrontSideFragment) {
-            Log.d(LOG_TAG, "class was FrontSideFragment");
+            Log.d(LOG_TAG, "savePhoto was FrontSideFragment");
             cardTosave.setLinkToFrontImage(imageFile.getAbsolutePath());
             cardTosave.setLinkToBackImage(arguments.getString(BackSideFragment.CARD_IMAGE_LINK_BACK));
             ((FrontSideFragment) this).showImage(imageFile, applicationContext);
             //CardDataController.getInstance().setFrontText(textView.getText().toString());
+
         }
 
+        Log.d(LOG_TAG, "card" + cardTosave.toString());
 
         BroadcastManager.getInstance().sendBroadcastWithParcelable(Action.SAVE_STATE.name(), cardTosave);
 

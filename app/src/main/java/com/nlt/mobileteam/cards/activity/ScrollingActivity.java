@@ -77,13 +77,13 @@ public class ScrollingActivity extends AppCompatActivity implements BasicListAda
     @Override
     public void onItemClick(Folder folder) {
         ThemeManager.getInstance().changeThemeColor(this, folder.getColor());
-        String title = folder.getName().toString();
-        if (!TextUtils.isEmpty(title)) {
-            toolbar.setTitle(title);
-        }
-        setSupportActionBar(toolbar);
         fab.setImageResource(R.drawable.ic_search);
         startGridFragment(folder);
+        String title = folder.getName().toString();
+        if (!TextUtils.isEmpty(title)) {
+            collapsingToolbar.setTitle(title);
+        }
+        // setSupportActionBar(toolbar);
 //        Intent intent = new Intent();
 //        intent.putExtra(Util.SELECTED_FOLDER_EXTRA, folder);
 //        setResult(Activity.RESULT_OK, intent);

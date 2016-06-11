@@ -26,17 +26,18 @@ import java.io.File;
 public class BackSideFragment extends CardFragment {
 
 
-    public static final String CARD_KEY = "card";
-    public static final String CARD_KEY_BACK_TEXT = "card_back";
-    public static final String CARD_IMAGE_LINK_BACK = "link_back";
-    public static final String LOG_TAG = FrontSideFragment.class.getSimpleName();
-    public static final String CARD_KEY_BACK_TEXT_SS = "card_back_ss";
-    public static final String CARD_IMAGE_LINK_FRONT = "link_front";
-    private static final String CARD_IMAGE_LINK_SSFR = "card_image_ssfr";
-
-    public ImageView imageViewBack;
     public static final String CARD_KEY_FRONT_TEXT = "card_front_text";
+    public static final String CARD_KEY_BACK_TEXT = "card_back";
+    public static final String CARD_KEY_BACK_TEXT_SS = "card_back_ss";
+    public static final String CARD_KEY = "card";
+    public static final String LOG_TAG = FrontSideFragment.class.getSimpleName();
+
+    public static final String CARD_IMAGE_LINK_FRONT = "link_front";
+    public static final String CARD_IMAGE_LINK_BACK = "link_back";
+
     private static final String CARD_IMAGE_LINK_SS = "card_image_ss";
+    public ImageView imageViewBack;
+    private File imageFile;
 
     public BackSideFragment() {
     }
@@ -90,15 +91,14 @@ public class BackSideFragment extends CardFragment {
         }
 
         String path = imageLink;
-        File file;
         if (!TextUtils.isEmpty(path)) {
-            file = new File(path);
+            imageFile = new File(path);
         } else {
-            file = null;
+            imageFile = null;
         }
-        if (file != null) {
+        if (imageFile != null) {
             Picasso.with(getActivity().getApplicationContext())
-                    .load(file)
+                    .load(imageFile)
                     .resize(300, 200)
                     .centerCrop()
                     .into(imageViewBack);
@@ -109,9 +109,11 @@ public class BackSideFragment extends CardFragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putString(CARD_KEY_BACK_TEXT_SS, getArguments().getString(CARD_KEY_BACK_TEXT));
-        outState.putString(CARD_IMAGE_LINK_SS, getArguments().getString(CARD_IMAGE_LINK_BACK));
-        outState.putString(CARD_IMAGE_LINK_SSFR, getArguments().getString(CARD_IMAGE_LINK_FRONT));
+        String back_txt = getArguments().getString(CARD_KEY_BACK_TEXT);
+        outState.putString(CARD_KEY_BACK_TEXT_SS, back_txt);
+        String back_img = getArguments().getString(CARD_IMAGE_LINK_BACK);
+        outState.putString(CARD_IMAGE_LINK_SS, back_img);
+        // Log.d(LOG_TAG, "saving state: back " + back_txt + "img:" + back_img);
         super.onSaveInstanceState(outState);
     }
     public void hideKeyboard(View view) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="anim_length">400</integer>
-    <integer name="anim_length_half">1500</integer>
+    <integer name="anim_length">300</integer>
+    <integer name="anim_length_half">1400</integer>
 
 </resources>

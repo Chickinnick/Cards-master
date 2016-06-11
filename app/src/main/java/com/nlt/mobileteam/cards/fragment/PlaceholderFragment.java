@@ -99,19 +99,6 @@ public class PlaceholderFragment extends Fragment {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
-        //    toggleFragment(SWIPED_UP);
-
-        // mJazzy = (JazzyViewPager) rootView.findViewById(R.id.jazzy_pager_item);
-        // mJazzy.setTransitionEffect(JazzyViewPager.TransitionEffect.CubeOut);
-        // MainAdapter pagerAdapter =  new MainAdapter(getContext(), mJazzy);
-        // PagerAdapter adapter = new InfinitePagerAdapter(pagerAdapter);
-        // mJazzy.setAdapter(adapter);
-           /* mJazzy.setCurrentItem(2);*/
-        // mJazzy.setPageMargin(30);
-
-
-           /* TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));*/
         return rootView;
     }
 
@@ -119,7 +106,6 @@ public class PlaceholderFragment extends Fragment {
     public void toggleFragment(int swipe) {
         FragmentManager childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
-
 
         if (tempFragmentToReplace == null) {
             tempFragmentToReplace = fragmentBack;

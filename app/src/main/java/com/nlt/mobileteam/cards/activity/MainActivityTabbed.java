@@ -1,6 +1,7 @@
 package com.nlt.mobileteam.cards.activity;
 
 import android.Manifest;
+import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -404,7 +405,10 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     private void doneClick() {
         if (isEditing) {
-            ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).exitEditMode();
+            Fragment currentFragment = mSectionsPagerAdapter.getCurrentFragment();
+            if (currentFragment != null) {
+                ((PlaceholderFragment) currentFragment).exitEditMode();
+            }
             final InputMethodManager imm = (InputMethodManager) getSystemService(
                     Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
@@ -461,11 +465,15 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     @Override
     public void onSwipedUp(MotionEvent event) {
-        Log.i(TAG, "swipED up");
-        //((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCardUp();
-        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).toggleFragment(PlaceholderFragment.SWIPED_UP);
         doneClick();
         saveCardState();
+
+        Log.i(TAG, "swipED up");
+        //((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCardUp();
+        Fragment currentFragment = mSectionsPagerAdapter.getCurrentFragment();
+        if (currentFragment != null) {
+            ((PlaceholderFragment) currentFragment).toggleFragment(PlaceholderFragment.SWIPED_UP);
+        }
     }
 
     private void saveCardState() {
@@ -480,11 +488,16 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     @Override
     public void onSwipedDown(MotionEvent event) {
-        Log.i(TAG, "swipED down");
-        //  ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCardDown();
-        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).toggleFragment(PlaceholderFragment.SWIPED_DOWN);
         doneClick();
         saveCardState();
+
+
+        Log.i(TAG, "swipED down");
+        //  ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCardDown();
+        Fragment currentFragment = mSectionsPagerAdapter.getCurrentFragment();
+        if (currentFragment != null) {
+            ((PlaceholderFragment) currentFragment).toggleFragment(PlaceholderFragment.SWIPED_DOWN);
+        }
 
     }
 
@@ -496,7 +509,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     }
 
     private void updateStarByPosition() {
-        if (menu == null) {
+        if (menu == null || cards == null || cards.isEmpty()) {
             return;
         }
         MenuItem item = menu.findItem(R.id.action_favorite);

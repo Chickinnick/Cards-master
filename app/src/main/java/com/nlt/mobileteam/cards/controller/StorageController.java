@@ -8,6 +8,9 @@ import com.nlt.mobileteam.cards.model.Folder;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by Nick on 01.05.2016.
@@ -68,7 +71,15 @@ public class StorageController {
         Log.d("Storage", "fav:" + card.toString());
         Folder fav = getFavourite();
         ArrayList<Card> cards = fav.getCards();
-        cards.add(card);
+        Set<UUID> uuids = new HashSet<>(cards.size());
+
+        for (Card item : cards) {
+            uuids.add(item.getIdentifier());
+        }
+
+        if (!uuids.contains(card.getIdentifier())) {
+            cards.add(card);
+        }
         Hawk.put(FAV_DATA_KEY, fav);
     }
 
