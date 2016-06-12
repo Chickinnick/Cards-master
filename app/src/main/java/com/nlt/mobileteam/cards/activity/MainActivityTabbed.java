@@ -318,7 +318,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 Log.d("picked", "on image picked" + source + " " + imageFile.getAbsolutePath());
 
                /* onPhotoReturned(imageFile);*/
-                ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).savePhotoInModel(imageFile);
+                ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).savePhotoInModel("file://" + imageFile.getAbsolutePath());
                 // CardDataController.getInstance().saveInStorageAndRemove();
                 mSectionsPagerAdapter.notifyDataSetChanged();
             }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +16,6 @@ import android.widget.TextView;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.model.Card;
 import com.squareup.picasso.Picasso;
-
-import java.io.File;
 
 /**
  * Created by Nick on 28.04.2016.
@@ -35,9 +32,10 @@ public class BackSideFragment extends CardFragment {
     public static final String CARD_IMAGE_LINK_FRONT = "link_front";
     public static final String CARD_IMAGE_LINK_BACK = "link_back";
 
-    private static final String CARD_IMAGE_LINK_SS = "card_image_ss";
+    public static final String CARD_IMAGE_LINK_SS = "card_image_ss";
     public ImageView imageViewBack;
-    private File imageFile;
+    public String path;
+
 
     public BackSideFragment() {
     }
@@ -83,26 +81,19 @@ public class BackSideFragment extends CardFragment {
         });
 
         imageViewBack = (ImageView) rootView.findViewById(R.id.imageview);
-        String imageLink = null;
+        path = null;
         if (savedInstanceState == null) {
-            imageLink = args.getString(CARD_IMAGE_LINK_BACK);
+            path = args.getString(CARD_IMAGE_LINK_BACK);
         } else {
-            imageLink = savedInstanceState.getString(CARD_IMAGE_LINK_SS);
+            path = savedInstanceState.getString(CARD_IMAGE_LINK_SS);
         }
 
-        String path = imageLink;
-        if (!TextUtils.isEmpty(path)) {
-            imageFile = new File(path);
-        } else {
-            imageFile = null;
-        }
-        if (imageFile != null) {
-            Picasso.with(getActivity().getApplicationContext())
-                    .load(imageFile)
+        Picasso.with(getActivity().getApplicationContext())
+                .load(path)
                     .resize(300, 200)
                     .centerCrop()
                     .into(imageViewBack);
-        }
+
         hideKeyboard(textView);
         return rootView;
     }
@@ -121,10 +112,13 @@ public class BackSideFragment extends CardFragment {
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public void showImage(File imageFile, Context applicationContext) {
+    public void showImage(String path, Context applicationContext) {
+        Bundle args = getArguments();
+        args.putString(CARD_IMAGE_LINK_BACK, path);
+        //setArguments(args);
 
         Picasso.with(applicationContext)//todo MAYBE to child move method
-                .load(imageFile)
+                .load(path)
                 .resize(300, 200)
                 .centerCrop()
                 .into((((BackSideFragment) this).imageViewBack));

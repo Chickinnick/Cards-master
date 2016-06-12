@@ -13,8 +13,6 @@ import android.widget.ImageView;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.model.Card;
 
-import java.io.File;
-
 public class PlaceholderFragment extends Fragment {
 
     private static final String LOG_TAG = PlaceholderFragment.class.getSimpleName();
@@ -158,9 +156,8 @@ public class PlaceholderFragment extends Fragment {
     }
 
 
-
-    public void savePhotoInModel(File imageFile) {
-        tempFragmentToReplace.savePhoto(imageFile, getActivity().getApplicationContext());
+    public void savePhotoInModel(String path) {
+        tempFragmentToReplace.savePhoto(path, getActivity().getApplicationContext());
         FragmentManager childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         fragmentTransaction.detach(tempFragmentToReplace);

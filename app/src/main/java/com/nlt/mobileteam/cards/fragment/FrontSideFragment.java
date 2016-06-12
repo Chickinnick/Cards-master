@@ -12,14 +12,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.model.Card;
 import com.squareup.picasso.Picasso;
-
-import java.io.File;
 
 /**
  * Created by Nick on 28.04.2016.
@@ -33,12 +30,10 @@ public class FrontSideFragment extends CardFragment {
     public static final String CARD_KEY_BACK_TEXT = "card_back";
 
     public static final String CARD_IMAGE_LINK_FRONT = "link_front";
-    private static final String CARD_IMAGE_LINK_SSFRONT = "link_front_ss";
+    public static final String CARD_IMAGE_LINK_SSFRONT = "link_front_ss";
 
     public ImageView imageViewFront;
-
-    private RelativeLayout mCardLayout;
-    private File imageFile;
+    public String path;
 
 
     public FrontSideFragment() {
@@ -71,8 +66,6 @@ public class FrontSideFragment extends CardFragment {
         } else {
             cardText = savedInstanceState.getString(CARD_KEY_FRONT_TEXT_SS);
         }
-        String imageLink = null;
-
         textView = (TextView) rootView.findViewById(R.id.textview);
         editText = (EditText) rootView.findViewById(R.id.edittext);
         textView.setText(cardText);
@@ -87,23 +80,16 @@ public class FrontSideFragment extends CardFragment {
         hideKeyboard(textView);
         imageViewFront = (ImageView) rootView.findViewById(R.id.imageview);
 
-        String path = null;
+        path = null;
 
         if (savedInstanceState == null) {
             path = args.getString(CARD_IMAGE_LINK_FRONT);
         } else {
             path = savedInstanceState.getString(CARD_IMAGE_LINK_SSFRONT);
         }
-
-        File file = null;
         if (!TextUtils.isEmpty(path)) {
-            file = new File(path);
-        } else {
-            file = null;
-        }
-        if (file != null) {
             Picasso.with(getActivity().getApplicationContext())
-                    .load(file)
+                    .load(path)
                     .resize(300, 200)
                     .centerCrop()
                     .into(imageViewFront);
@@ -121,9 +107,10 @@ public class FrontSideFragment extends CardFragment {
         outState.putString(CARD_IMAGE_LINK_SSFRONT, front_img);
         //Log.d(LOG_TAG, "saving state: back " + front_txt + "img:" + front_img);
 
-        if (imageFile != null) {
+        /*if (imageFile != null) {
             outState.putString(CARD_IMAGE_LINK_FRONT, imageFile.getAbsolutePath());
         }
+        */
         super.onSaveInstanceState(outState);
     }
 
@@ -132,7 +119,10 @@ public class FrontSideFragment extends CardFragment {
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public void showImage(File imageFile, Context applicationContext) {
+    public void showImage(String imageFile, Context applicationContext) {
+        Bundle args = getArguments();
+        args.putString(CARD_IMAGE_LINK_FRONT, imageFile);
+//        setArguments(args);
         Picasso.with(applicationContext)
                 .load(imageFile)
                 .resize(300, 200)
