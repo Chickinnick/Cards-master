@@ -33,8 +33,10 @@ public class BackSideFragment extends CardFragment {
     public static final String CARD_IMAGE_LINK_BACK = "link_back";
 
     public static final String CARD_IMAGE_LINK_SS = "card_image_ss";
+    private static final String CARD_KEY_TITLE = "title";
     public ImageView imageViewBack;
     public String path;
+    private TextView titleTextView;
 
 
     public BackSideFragment() {
@@ -45,6 +47,7 @@ public class BackSideFragment extends CardFragment {
 
         BackSideFragment fragment = new BackSideFragment();
         Bundle args = new Bundle();
+        args.putString(CARD_KEY_TITLE, card.getTitle());
         args.putString(CARD_KEY_FRONT_TEXT, card.getFrontText());
         args.putString(CARD_KEY_BACK_TEXT, card.getBackText());
         args.putString(CARD_IMAGE_LINK_BACK, card.getLinkToBackImage());
@@ -69,6 +72,8 @@ public class BackSideFragment extends CardFragment {
 
         rootView.findViewById(R.id.bg).setBackground(getActivity().getResources().getDrawable(R.drawable.card_rev));
         textView = (TextView) rootView.findViewById(R.id.textview);
+        titleTextView = (TextView) rootView.findViewById(R.id.textview_title);
+
         editText = (EditText) rootView.findViewById(R.id.edittext);
         textView.setText(cardText);
         textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -79,6 +84,17 @@ public class BackSideFragment extends CardFragment {
                 }
             }
         });
+
+
+        String title = null;
+        if (savedInstanceState == null) {
+            title = args.getString(CARD_KEY_TITLE);
+        } else {
+            title = savedInstanceState.getString(CARD_KEY_TITLE);
+        }
+        titleTextView.setText(title);
+
+
 
         imageViewBack = (ImageView) rootView.findViewById(R.id.imageview);
         path = null;

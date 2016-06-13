@@ -28,12 +28,14 @@ public class FrontSideFragment extends CardFragment {
     public static final String CARD_KEY_FRONT_TEXT = "card_front_text";
     public static final String CARD_KEY_FRONT_TEXT_SS = "card_front_text_ss";
     public static final String CARD_KEY_BACK_TEXT = "card_back";
+    private static final String CARD_KEY_TITLE = "title";
 
     public static final String CARD_IMAGE_LINK_FRONT = "link_front";
     public static final String CARD_IMAGE_LINK_SSFRONT = "link_front_ss";
 
     public ImageView imageViewFront;
     public String path;
+    private TextView titleTextView;
 
 
     public FrontSideFragment() {
@@ -44,6 +46,7 @@ public class FrontSideFragment extends CardFragment {
         Log.d(LOG_TAG, "on Front pos " + card.toString());
         FrontSideFragment fragment = new FrontSideFragment();
         Bundle args = new Bundle();
+        args.putString(CARD_KEY_TITLE, card.getTitle());
         args.putString(CARD_KEY_FRONT_TEXT, card.getFrontText());
         args.putString(CARD_KEY_BACK_TEXT, card.getBackText());
         args.putString(CARD_IMAGE_LINK_FRONT, card.getLinkToFrontImage());
@@ -66,6 +69,7 @@ public class FrontSideFragment extends CardFragment {
         } else {
             cardText = savedInstanceState.getString(CARD_KEY_FRONT_TEXT_SS);
         }
+        titleTextView = (TextView) rootView.findViewById(R.id.textview_title);
         textView = (TextView) rootView.findViewById(R.id.textview);
         editText = (EditText) rootView.findViewById(R.id.edittext);
         textView.setText(cardText);
@@ -77,6 +81,17 @@ public class FrontSideFragment extends CardFragment {
                 }
             }
         });
+
+
+        String title = null;
+        if (savedInstanceState == null) {
+            title = args.getString(CARD_KEY_TITLE);
+        } else {
+            title = savedInstanceState.getString(CARD_KEY_TITLE);
+        }
+        titleTextView.setText(title);
+
+
         hideKeyboard(textView);
         imageViewFront = (ImageView) rootView.findViewById(R.id.imageview);
 

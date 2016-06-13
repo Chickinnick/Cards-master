@@ -65,6 +65,14 @@ public class Card implements Parcelable {
         return backText;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public void setBackText(String backText) {
         this.backText = backText;
     }
