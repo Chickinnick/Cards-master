@@ -152,7 +152,7 @@ public class ListFragment extends Fragment {
                 Folder item = new Folder(name);
                 item.setColor(color);
                 ArrayList<Card> defaultCards = new ArrayList<Card>();
-                defaultCards.add(new Card("", ""));
+                defaultCards.add(new Card("", "", "Title"));
                 item.setCards(defaultCards);
                 boolean existed = false;
                 for (int i = 0; i < foldersArrayList.size(); i++) {

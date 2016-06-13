@@ -8,6 +8,7 @@ import java.util.UUID;
 public class Card implements Parcelable {
 
     int position;
+    private String title;
     private String frontText;
     private String backText;
     private String linkToFrontImage;
@@ -19,9 +20,10 @@ public class Card implements Parcelable {
         identifier = UUID.randomUUID();
     }
 
-    public Card(String frontText, String backText) {
+    public Card(String frontText, String backText, String title) {
         this.frontText = frontText;
         this.backText = backText;
+        this.title = title;
         identifier = UUID.randomUUID();
     }
 
@@ -63,6 +65,7 @@ public class Card implements Parcelable {
 
     public Card(Parcel in) {
         this.identifier = (UUID) in.readSerializable();
+        this.title = in.readString();
         this.frontText = in.readString();
         this.backText = in.readString();
         this.position = in.readInt();
@@ -81,6 +84,8 @@ public class Card implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeSerializable(identifier);
 
+        dest.writeString(
+                this.title);
         dest.writeString(
                 this.frontText);
         dest.writeString(
