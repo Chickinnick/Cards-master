@@ -35,9 +35,9 @@ public class StorageController {
         //cards.add(new Card("Type the Question here!", "Here is an Answer"));
         //cards.add(new Card("What is the capital of Great Britan?", "London"));
         //cards.add(new Card("Awesome question?", "answer"));
-        cards.add(new Card("A ", "AA"));
-        cards.add(new Card("B ", "BB"));
-        cards.add(new Card("C", "CC"));
+        cards.add(new Card("A ", "AA", "title a"));
+        cards.add(new Card("B ", "BB", "title b"));
+        cards.add(new Card("C", "CC", "my title CCC"));
         cards.add(new Card("D", "DD"));
         cards.add(new Card("E", "EE"));
         cards.add(new Card("F", "FF"));

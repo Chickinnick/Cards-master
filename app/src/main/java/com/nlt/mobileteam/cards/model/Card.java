@@ -20,6 +20,12 @@ public class Card implements Parcelable {
         identifier = UUID.randomUUID();
     }
 
+    public Card(String frontText, String backText) {
+        this.frontText = frontText;
+        this.backText = backText;
+        identifier = UUID.randomUUID();
+    }
+
     public Card(String frontText, String backText, String title) {
         this.frontText = frontText;
         this.backText = backText;
