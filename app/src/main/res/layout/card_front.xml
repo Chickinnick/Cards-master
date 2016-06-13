@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="@color/title_text_color"
             android:windowSoftInputMode="stateHidden" />
 
         <EditText

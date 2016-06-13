@@ -119,19 +119,12 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
         }
 
         String path = item.getLinkToFrontImage();
-        File file;
-        if (!TextUtils.isEmpty(path)) {
-            file = new File(path);
-        } else {
-            file = null;
-        }
-        if (file != null) {
+
             Picasso.with(context)
-                    .load(file)
+                    .load(path)
                     .resize(300, 200)
                     .centerCrop()
                     .into(holder.cardImageView);
-        }
 
 
         //holder.countTextView.setText(item.getCards().size() + " cards");

@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -58,6 +59,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private static final int TYPE_FAVOURITE = 1;
     private static final int TYPE_FOLDERS = 2;
     private ArrayList<Folder> foldersFromStorage;
+    public static boolean isShuffleMode;
+    private boolean isFirstSwipe;
 
     @Override
     public void onFragmentClick(View v) {
@@ -355,7 +358,17 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         }
 
         if (id == R.id.action_shuffle) {
-            mViewPager.setCurrentItem(getRandomUniquePage());
+
+            if (!isShuffleMode) {
+                isShuffleMode = true;
+                item.setChecked(true);
+                item.setIcon(R.drawable.ic_shuffle_picked);
+            } else {
+                isShuffleMode = false;
+                item.setChecked(false);
+                item.setIcon(R.drawable.ic_shuffle);
+            }
+
             return true;
         }
         if (id == R.id.action_favorite) {
@@ -444,8 +457,13 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     @Override
     public void onSwipedLeft(MotionEvent event) {
         Log.i(TAG, "swipED left");
+        isFirstSwipe = false;
+    }
 
-
+    private void handleRandomCardMode() {
+        if (isShuffleMode) {
+            mViewPager.setCurrentItem(getRandomUniquePage());
+        }
     }
 
     @Override
@@ -457,6 +475,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     @Override
     public void onSwipedRight(MotionEvent event) {
         Log.i(TAG, "swipED right");
+        isFirstSwipe = false;
+
     }
 
     @Override
@@ -506,6 +526,11 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         updateTextIndicator();
         updateStarByPosition();
+        if (!isFirstSwipe && isShuffleMode) {
+            isFirstSwipe = true;
+            handleRandomCardMode();
+
+        }
     }
 
     private void updateStarByPosition() {

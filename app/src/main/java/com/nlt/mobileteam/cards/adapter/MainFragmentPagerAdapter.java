@@ -12,6 +12,7 @@ import com.nlt.mobileteam.cards.fragment.PlaceholderFragment;
 import com.nlt.mobileteam.cards.model.Card;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by user on 28.04.2016.
@@ -22,6 +23,7 @@ public class MainFragmentPagerAdapter extends FixedFragmentStatePagerAdapter {
     private FragmentManager fragmentManager;
     ArrayList<Card> cards;
     private int size;
+    private int randomItem;
 
     private Fragment mCurrentFragment;
 
@@ -32,6 +34,20 @@ public class MainFragmentPagerAdapter extends FixedFragmentStatePagerAdapter {
         this.cards = cards;
     }
 
+    private int getRandomUniquePage() {
+        int temp = getRandomItem();
+        if (temp != randomItem) {
+            randomItem = temp;
+            return randomItem;
+        } else {
+            getRandomUniquePage();
+        }
+        return randomItem;
+    }
+
+    private int getRandomItem() {
+        return new Random().nextInt(cards.size() + 1);
+    }
 
     @Override
     public Fragment getItem(int position) {
@@ -39,7 +55,13 @@ public class MainFragmentPagerAdapter extends FixedFragmentStatePagerAdapter {
         // Return a PlaceholderFragment (defined as a static inner class below).
         //return
         Log.i("PAGERADAPTER", cards.get(position).toString());
-        return PlaceholderFragment.newInstance(position + 1, cards.get(position));
+        int pos;
+      /*   if(MainActivityTabbed.isShuffleMode){
+            pos = getRandomUniquePage();
+        } else{*/
+        pos = position + 1;
+        //}
+        return PlaceholderFragment.newInstance(pos, cards.get(position));
     }
 
 
