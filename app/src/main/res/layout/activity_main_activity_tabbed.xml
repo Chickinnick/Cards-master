@@ -133,8 +133,8 @@
 
                                 android:layout_height="wrap_content"
                                 android:id="@+id/fab_sheet_item_add"
-                                android:drawableLeft="@drawable/ic_edit"
-                                android:drawableStart="@drawable/ic_edit"
+                                android:drawableLeft="@drawable/ic_add"
+                                android:drawableStart="@drawable/ic_add"
                                 android:text="Add" />
                         </LinearLayout>
 

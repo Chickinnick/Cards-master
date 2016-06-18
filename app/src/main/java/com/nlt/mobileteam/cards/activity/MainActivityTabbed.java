@@ -18,7 +18,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -34,6 +33,7 @@ import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.Util;
 import com.nlt.mobileteam.cards.adapter.MainFragmentPagerAdapter;
 import com.nlt.mobileteam.cards.controller.BroadcastManager;
+import com.nlt.mobileteam.cards.controller.EDIT_MODE_FLAG;
 import com.nlt.mobileteam.cards.controller.StorageController;
 import com.nlt.mobileteam.cards.fragment.PlaceholderFragment;
 import com.nlt.mobileteam.cards.model.Action;
@@ -65,7 +65,17 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     @Override
     public void onFragmentClick(View v) {
         toggleMenu();
-        editCard();
+        editCard(EDIT_MODE_FLAG.BODY);
+    }
+
+    @Override
+    public void onTitleClick(View v) {
+        toggleMenu();
+        editCard(EDIT_MODE_FLAG.TITLE);
+    }
+
+    public Card getCurrentCard() {
+        return cards.get(mViewPager.getCurrentItem());
     }
 
     public class StorageActionReciever extends BroadcastReceiver {
@@ -389,7 +399,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
         if (id == R.id.action_edit) {
             toggleMenu();
-            editCard();
+            editCard(EDIT_MODE_FLAG.BODY);
             return true;
         }
 
@@ -407,10 +417,16 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         }
     }
 
-    private void editCard() {
+    private void editCard(EDIT_MODE_FLAG flag) {
         if (!isEditing) {
             isEditing = true;
-            ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).enterEditMode();
+
+            if (EDIT_MODE_FLAG.BODY == flag) {
+                ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).enterEditMode();
+            } else if (EDIT_MODE_FLAG.TITLE == flag) {
+                ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).enterEditTitleMode();
+            }
+
         } else {
             doneClick();
         }

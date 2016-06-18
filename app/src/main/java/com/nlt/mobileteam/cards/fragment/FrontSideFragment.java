@@ -35,7 +35,6 @@ public class FrontSideFragment extends CardFragment {
 
     public ImageView imageViewFront;
     public String path;
-    private TextView titleTextView;
 
 
     public FrontSideFragment() {
@@ -70,6 +69,7 @@ public class FrontSideFragment extends CardFragment {
             cardText = savedInstanceState.getString(CARD_KEY_FRONT_TEXT_SS);
         }
         titleTextView = (TextView) rootView.findViewById(R.id.textview_title);
+        titleEditText = (EditText) rootView.findViewById(R.id.edittext_title);
         textView = (TextView) rootView.findViewById(R.id.textview);
         editText = (EditText) rootView.findViewById(R.id.edittext);
         textView.setText(cardText);
@@ -81,6 +81,7 @@ public class FrontSideFragment extends CardFragment {
                 }
             }
         });
+        titleTextView.setOnClickListener(super.listener);
 
 
         String title = null;
@@ -90,7 +91,6 @@ public class FrontSideFragment extends CardFragment {
             title = savedInstanceState.getString(CARD_KEY_TITLE);
         }
         titleTextView.setText(title);
-
 
         hideKeyboard(textView);
         imageViewFront = (ImageView) rootView.findViewById(R.id.imageview);
@@ -135,7 +135,7 @@ public class FrontSideFragment extends CardFragment {
     }
 
     public void showImage(String imageFile, Context applicationContext) {
-        Bundle args = getArguments();
+        Bundle args = super.getArguments();
         args.putString(CARD_IMAGE_LINK_FRONT, imageFile);
 //        setArguments(args);
         Picasso.with(applicationContext)

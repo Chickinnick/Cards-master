@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.widget.ItemTouchHelperClass;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -118,6 +116,9 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
 
         }
 
+
+        holder.titleTextView.setText(item.getTitle());
+
         String path = item.getLinkToFrontImage();
 
             Picasso.with(context)
@@ -188,6 +189,7 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
         View mView;
         RelativeLayout relativeLayout;
         TextView textView;
+        TextView titleTextView;
         //            TextView mColorTextView;
         ImageView cardImageView;
         ImageButton starImageBtn;
@@ -208,6 +210,7 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
                 }
             });
             textView = (TextView) v.findViewById(R.id.item_textview);
+            titleTextView = (TextView) v.findViewById(R.id.title_grid);
 //                mColorTextView = (TextView)v.findViewById(R.id.toDoColorTextView);
             cardImageView = (ImageView) v.findViewById(R.id.item_imageview);
             relativeLayout = (RelativeLayout) v.findViewById(R.id.item_grid_root);

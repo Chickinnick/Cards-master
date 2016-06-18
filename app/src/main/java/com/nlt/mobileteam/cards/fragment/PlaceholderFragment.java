@@ -27,7 +27,7 @@ public class PlaceholderFragment extends Fragment {
     private Card card;
     private ImageView imageView;
     int sectionNumber;
-    private OnFragmentClickListener onFragmentClickListener;
+    public OnFragmentClickListener onFragmentClickListener;
 
     public void setOnFragmentClickListener(OnFragmentClickListener onFragmentClickListener) {
         this.onFragmentClickListener = onFragmentClickListener;
@@ -35,6 +35,8 @@ public class PlaceholderFragment extends Fragment {
 
     public interface OnFragmentClickListener {
         void onFragmentClick(View v);
+
+        void onTitleClick(View v);
     }
 
     public PlaceholderFragment() {
@@ -145,6 +147,10 @@ public class PlaceholderFragment extends Fragment {
 
     public void enterEditMode() {
         tempFragmentToReplace.editText();
+    }
+
+    public void enterEditTitleMode() {
+        tempFragmentToReplace.editTitle();
     }
 
     public void exitEditMode() {

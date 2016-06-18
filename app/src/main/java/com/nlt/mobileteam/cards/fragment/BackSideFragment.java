@@ -36,7 +36,6 @@ public class BackSideFragment extends CardFragment {
     private static final String CARD_KEY_TITLE = "title";
     public ImageView imageViewBack;
     public String path;
-    private TextView titleTextView;
 
 
     public BackSideFragment() {
@@ -73,6 +72,7 @@ public class BackSideFragment extends CardFragment {
         rootView.findViewById(R.id.bg).setBackground(getActivity().getResources().getDrawable(R.drawable.card_rev));
         textView = (TextView) rootView.findViewById(R.id.textview);
         titleTextView = (TextView) rootView.findViewById(R.id.textview_title);
+        titleEditText = (EditText) rootView.findViewById(R.id.edittext_title);
 
         editText = (EditText) rootView.findViewById(R.id.edittext);
         textView.setText(cardText);
@@ -93,7 +93,7 @@ public class BackSideFragment extends CardFragment {
             title = savedInstanceState.getString(CARD_KEY_TITLE);
         }
         titleTextView.setText(title);
-
+        titleTextView.setOnClickListener(super.listener);
 
 
         imageViewBack = (ImageView) rootView.findViewById(R.id.imageview);
@@ -129,8 +129,9 @@ public class BackSideFragment extends CardFragment {
     }
 
     public void showImage(String path, Context applicationContext) {
-        Bundle args = getArguments();
+        Bundle args = super.getArguments();
         args.putString(CARD_IMAGE_LINK_BACK, path);
+        args.putString(CARD_IMAGE_LINK_FRONT, args.getString(CARD_IMAGE_LINK_FRONT));
         //setArguments(args);
 
         Picasso.with(applicationContext)//todo MAYBE to child move method
