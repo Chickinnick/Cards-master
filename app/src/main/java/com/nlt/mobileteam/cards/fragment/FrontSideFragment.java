@@ -29,6 +29,7 @@ public class FrontSideFragment extends CardFragment {
     public static final String CARD_KEY_FRONT_TEXT_SS = "card_front_text_ss";
     public static final String CARD_KEY_BACK_TEXT = "card_back";
     private static final String CARD_KEY_TITLE = "title";
+    private static final String CARD_KEY_TITLE_SS = "title_ss";
 
     public static final String CARD_IMAGE_LINK_FRONT = "link_front";
     public static final String CARD_IMAGE_LINK_SSFRONT = "link_front_ss";
@@ -88,7 +89,7 @@ public class FrontSideFragment extends CardFragment {
         if (savedInstanceState == null) {
             title = args.getString(CARD_KEY_TITLE);
         } else {
-            title = savedInstanceState.getString(CARD_KEY_TITLE);
+            title = savedInstanceState.getString(CARD_KEY_TITLE_SS);
         }
         titleTextView.setText(title);
 
@@ -120,6 +121,10 @@ public class FrontSideFragment extends CardFragment {
         outState.putString(CARD_KEY_FRONT_TEXT_SS, front_txt);
         String front_img = getArguments().getString(CARD_IMAGE_LINK_FRONT);
         outState.putString(CARD_IMAGE_LINK_SSFRONT, front_img);
+
+
+        String title = getArguments().getString(CARD_KEY_TITLE);
+        outState.putString(CARD_KEY_TITLE_SS, title);
         //Log.d(LOG_TAG, "saving state: back " + front_txt + "img:" + front_img);
 
         /*if (imageFile != null) {

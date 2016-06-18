@@ -128,6 +128,19 @@ public class Card implements Parcelable {
         this.linkToFrontImage = linkToFrontImage;
     }
 
+    @Override
+    public String toString() {
+        return "Card{" +
+                "position=" + position +
+                ", title='" + title + '\'' +
+                ", frontText='" + frontText + '\'' +
+                ", backText='" + backText + '\'' +
+                ", linkToFrontImage='" + linkToFrontImage + '\'' +
+                ", linkToBackImage='" + linkToBackImage + '\'' +
+                ", isFavourite=" + isFavourite +
+                '}';
+    }
+
     public String getLinkToBackImage() {
         return linkToBackImage;
     }
@@ -136,16 +149,6 @@ public class Card implements Parcelable {
         this.linkToBackImage = linkToBackImage;
     }
 
-    @Override
-    public String toString() {
-        return "Card{" +
-                "position=" + position +
-                ", frontText='" + frontText + '\'' +
-                ", backText='" + backText + '\'' +
-                ", linkToFrontImage='" + linkToFrontImage + '\'' +
-                ", linkToBackImage='" + linkToBackImage + '\'' +
-                '}';
-    }
 
     public boolean isFavourite() {
         return isFavourite;
