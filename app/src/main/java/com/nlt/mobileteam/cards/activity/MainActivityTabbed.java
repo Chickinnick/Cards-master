@@ -274,7 +274,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private void updateDataset(int type) {
 
         if (TYPE_FAVOURITE == type) {
-            currentFolder = StorageController.getInstance().getFavourite();
+            currentFolder = StorageController.getInstance().getFavourite(this);
         } else if (TYPE_FOLDERS == type) {
 
             currentFolder = (Folder) foldersFromStorage.get(0);
@@ -378,11 +378,11 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             Card card = currentFolder.getCards().get(mViewPager.getCurrentItem());
             if (card.isFavourite()) {
                 card.setFavourite(false);
-                StorageController.getInstance().removeFromFavourites(card);
+                StorageController.getInstance().removeFromFavourites(card, this);
 
             } else {
                 card.setFavourite(true);
-                StorageController.getInstance().saveInFavourites(card);
+                StorageController.getInstance().saveInFavourites(card, this);
             }
             updateStarByPosition();
             BroadcastManager.getInstance().sendBroadcastWithParcelable(Action.SAVE_STATE.name(), card);
@@ -581,7 +581,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 onTakePhotoClicked();
                 break;
             case R.id.fab_sheet_item_add:
-                cards.add(new Card("", "", "Title"));
+                cards.add(new Card("", "", getResources().getString(R.string.title)));
                 mSectionsPagerAdapter.setCards(cards);
                 mViewPager.setCurrentItem(cards.size() - 1);
                 break;

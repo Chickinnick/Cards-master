@@ -1,8 +1,10 @@
 package com.nlt.mobileteam.cards.controller;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.model.Folder;
 import com.orhanobut.hawk.Hawk;
@@ -37,13 +39,14 @@ public class StorageController {
         //cards.add(new Card("Awesome question?", "answer"));
         cards.add(new Card("A ", "AA", "title a"));
         cards.add(new Card("B ", "BB", "title b"));
-        cards.add(new Card("C", "CC", "my title CCC"));
+        /*cards.add(new Card("C", "CC", "my title CCC"));
         cards.add(new Card("D", "DD"));
         cards.add(new Card("E", "EE"));
         cards.add(new Card("F", "FF"));
         cards.add(new Card("G", "GG"));
         cards.add(new Card("H", "HH"));
         cards.add(new Card("I", "II"));
+        */
         return cards;
     }
 
@@ -67,9 +70,9 @@ public class StorageController {
     }
 
 
-    public void saveInFavourites(Card card) {
+    public void saveInFavourites(Card card, Context context) {
         Log.d("Storage", "fav:" + card.toString());
-        Folder fav = getFavourite();
+        Folder fav = getFavourite(context);
         ArrayList<Card> cards = fav.getCards();
         Set<UUID> uuids = new HashSet<>(cards.size());
 
@@ -83,21 +86,21 @@ public class StorageController {
         Hawk.put(FAV_DATA_KEY, fav);
     }
 
-    public Folder getFavourite() {
-        return Hawk.get(FAV_DATA_KEY, getEmptyFavoutite());
+    public Folder getFavourite(Context context) {
+        return Hawk.get(FAV_DATA_KEY, getEmptyFavoutite(context));
     }
 
-    private Folder getEmptyFavoutite() {
-        Folder fav = new Folder("Favourite");
+    private Folder getEmptyFavoutite(Context context) {
+        Folder fav = new Folder(context.getResources().getString(R.string.favourite));
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(new Card());
         fav.setCards(cards);
         return fav;
     }
 
-    public void removeFromFavourites(Card card) {
+    public void removeFromFavourites(Card card, Context context) {
         Log.d("Storage", "fav:" + card.toString());
-        Folder fav = getFavourite();
+        Folder fav = getFavourite(context);
         ArrayList<Card> cards = fav.getCards();
         cards.remove(card);
         Hawk.put(FAV_DATA_KEY, fav);

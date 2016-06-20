@@ -227,11 +227,11 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
                     }
                     if (card.isFavourite()) {
                         card.setFavourite(false);
-                        StorageController.getInstance().removeFromFavourites(card);
+                        StorageController.getInstance().removeFromFavourites(card, context);
 
                     } else {
                         card.setFavourite(true);
-                        StorageController.getInstance().saveInFavourites(card);
+                        StorageController.getInstance().saveInFavourites(card, context);
                     }
                     BroadcastManager.getInstance().sendBroadcastWithParcelable(Action.SAVE_STATE.name(), card);
                 }
