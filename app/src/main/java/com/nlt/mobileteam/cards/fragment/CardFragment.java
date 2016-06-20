@@ -65,7 +65,7 @@ public class CardFragment extends Fragment implements View.OnClickListener {
             title = titleEditText.getText();
             titleEditText.setVisibility(View.GONE);
             titleTextView.setVisibility(View.VISIBLE);
-            if (!editText.isActivated() && !TextUtils.isEmpty(title)) {
+            if (/*!editText.isActivated() &&*/ !TextUtils.isEmpty(title)) {
                 titleTextView.setText(title);
             }
 

@@ -1,38 +1,31 @@
 <resources>
-    <string name="app_name">3D StudyCards</string>
+    <string name="app_name">3D Educational cards</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="title_activity_main_activity_tabbed" translatable="false">MainActivityTabbed</string>
 
-    <string-array name="jazzy_effects">
-        <item>Standard</item>
-        <item>Tablet</item>
-        <item>CubeIn</item>
-        <item>CubeOut</item>
-        <item>FlipVertical</item>
-        <item>FlipHorizontal</item>
-        <item>Stack</item>
-        <item>ZoomIn</item>
-        <item>ZoomOut</item>
-        <item>RotateUp</item>
-        <item>RotateDown</item>
-        <item>Accordion</item>
-    </string-array>
-    <string name="title_activity_main_activity_tabbed">MainActivityTabbed</string>
-    <string name="section_format">Hello World from section: %1$d</string>
-
-    <string name="front">FRONT</string>
-    <string name="back">BACK</string>
-    <string name="action_shuffle">Random</string>
-    <string name="action_favourite">Favourite</string>
-    <string name="action_repeat">Repeat</string>
-    <string name="title_activity_scrolling">Categories</string>
-    <string name="action_edit">Edit</string>
+    <string name="action_shuffle" translatable="false">Random</string>
+    <string name="action_favourite" translatable="false">Favourite</string>
+    <string name="action_repeat" translatable="false">Repeat</string>
+    <string name="title_activity_scrolling" translatable="false">Categories</string>
+    <string name="action_edit" translatable="false">Edit</string>
     <string name="title_activity_bg_picker">Select background</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="view">View mode</string>
+    <string name="categories">Categories</string>
+    <string name="favourite">Favourite</string>
+    <string name="change_background">Change background</string>
+    <string name="type_answer_here">Write the answer here</string>
+    <string name="Remove">Remove</string>
+    <string name="Photo">Photo</string>
+    <string name="Upload">Upload</string>
+    <string name="add">Add</string>
+    <string name="cards">cards</string>
+    <string name="Name_cat">Name category</string>
+    <string name="done">Done</string>
+    <string name="title">Title</string>
+    <string name="type_question_here">Write the question here</string>
 
 </resources>

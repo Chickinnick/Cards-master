@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:hint="Type here"
+            android:hint="@string/type_question_here"
             android:textColor="@color/mdtp_date_picker_month_day"
             android:visibility="gone"
             android:windowSoftInputMode="stateHidden" />

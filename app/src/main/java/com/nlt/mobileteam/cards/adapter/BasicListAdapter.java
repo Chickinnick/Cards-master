@@ -112,7 +112,7 @@ public class BasicListAdapter extends RecyclerView.Adapter<BasicListAdapter.View
             }
         */
             holder.mToDoTextview.setText(item.getName());
-            holder.countTextView.setText(item.getCards().size() + " cards");
+            holder.countTextView.setText(item.getCards().size() + context.getString(R.string.cards));
             holder.mToDoTextview.setTextColor(todoTextColor);
 //            holder.mColorTextView.setBackgroundColor(Color.parseColor(item.getTodoColor()));
 

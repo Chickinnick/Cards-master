@@ -89,7 +89,9 @@ public class StorageController {
 
     private Folder getEmptyFavoutite() {
         Folder fav = new Folder("Favourite");
-        fav.setCards(new ArrayList<Card>());
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.add(new Card());
+        fav.setCards(cards);
         return fav;
     }
 

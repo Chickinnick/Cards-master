@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">3D Pädagogischen Karten</string>
+    <string name="action_shuffle"></string>
+    <string name="view">View</string>
+    <string name="categories">Kategorien</string>
+    <string name="favourite">Favorit</string>
+    <string name="change_background">Hintergrund ändern</string>
+    <string name="type_answer_here">Schreiben Sie die Antwort hier</string>
+    <string name="type_question_here">Schreiben Sie hier die Frage</string>
+    <string name="Remove">Entfernen</string>
+    <string name="Photo">Foto</string>
+    <string name="Upload">Upload</string>
+    <string name="add">Hinzufügen</string>
+    <string name="cards">Karten</string>
+    <string name="Name_cat">Name Kategorie</string>
+    <string name="done">Fertig</string>
+    <string name="title">Titel</string>
+    <string name="title_activity_bg_picker">Hintergrund auswählen</string>
+</resources>

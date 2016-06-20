@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">3D Навчальні картки</string>
+    <string name="view">Режим перегляду</string>
+    <string name="categories">Категорії</string>
+    <string name="favourite">Улюблені</string>
+    <string name="change_background">Зміна фону</string>
+    <string name="type_answer_here">Написати відповідь тут</string>
+    <string name="type_question_here">Написати питання тут</string>
+    <string name="Remove">Видалити</string>
+    <string name="Photo">Фото</string>
+    <string name="Upload">Завантажити</string>
+    <string name="add">Додати</string>
+    <string name="cards">карт</string>
+    <string name="Name_cat">Назва категорії</string>
+    <string name="done">Зроблено</string>
+    <string name="title">Назва</string>
+    <string name="title_activity_bg_picker">Виберіть фон</string>
+</resources>

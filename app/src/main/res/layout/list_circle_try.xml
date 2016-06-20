@@ -32,7 +32,6 @@
             android:textColor="@color/secondary_text"
             android:ellipsize="end"
             android:textSize="16sp"
-            android:text="Clean your room"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

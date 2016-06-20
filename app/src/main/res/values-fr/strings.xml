@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">3D Cartes éducatives</string>
+    <string name="Name_cat">Nom de catégorie</string>
+    <string name="Photo">Photo</string>
+    <string name="Remove">Supprimer</string>
+    <string name="Upload">Télécharger</string>
+    <string name="add">Ajouter</string>
+    <string name="cards">cartes</string>
+    <string name="categories">Catégories</string>
+    <string name="change_background">Changer fond</string>
+    <string name="done">Fait</string>
+    <string name="favourite">Favori</string>
+    <string name="title">Titre</string>
+    <string name="title_activity_bg_picker">Sélectionnez arrière-plan</string>
+    <string name="type_answer_here">Écrivez vos réponses ici</string>
+    <string name="type_question_here">Écrire la question ici</string>
+    <string name="view">Mode d’affichage</string>
+</resources>

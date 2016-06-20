@@ -5,19 +5,19 @@
         <item
             android:id="@+id/nav_view"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="View" />
+            android:title="@string/view" />
         <item
             android:id="@+id/nav_categories"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Categories" />
+            android:title="@string/categories" />
         <item
             android:id="@+id/nav_favourite"
             android:icon="@drawable/ic_menu_favourite"
-            android:title="Favourite" />
+            android:title="@string/favourite" />
         <item
             android:id="@+id/nav_backr"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Change background" />
+            android:title="@string/change_background" />
     </group>
 
     <!-- <item android:title="Communicate">

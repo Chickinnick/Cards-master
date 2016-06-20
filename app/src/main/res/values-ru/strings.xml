@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">3D Учебные карты</string>
+    <string name="view">Режим просмотра</string>
+    <string name="categories">Категории</string>
+    <string name="favourite">Избранные</string>
+    <string name="change_background">Изменение фона</string>
+    <string name="type_answer_here">Написать ответ здесь</string>
+    <string name="type_question_here">Напишите здесь вопрос</string>
+    <string name="Remove">Удалить</string>
+    <string name="Photo">Фото</string>
+    <string name="Upload">Загрузить</string>
+    <string name="add">Добавить</string>
+    <string name="cards">карт</string>
+    <string name="Name_cat">Имя катеории</string>
+    <string name="done">Готово</string>
+    <string name="title">Название</string>
+    <string name="title_activity_bg_picker">Выберите фон</string>
+</resources>

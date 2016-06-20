@@ -96,7 +96,7 @@
                             android:id="@+id/fab_sheet_item_remove"
                             android:drawableLeft="@drawable/ic_menu_remove"
                             android:drawableStart="@drawable/ic_menu_remove"
-                            android:text="Remove" />
+                            android:text="@string/Remove" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -107,7 +107,7 @@
                             android:id="@+id/fab_sheet_item_photo"
                             android:drawableLeft="@drawable/ic_menu_camera"
                             android:drawableStart="@drawable/ic_menu_camera"
-                            android:text="Photo" />
+                            android:text="@string/Photo" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -118,7 +118,7 @@
                             android:id="@+id/fab_sheet_item_load"
                             android:drawableLeft="@drawable/ic_menu_gallery"
                             android:drawableStart="@drawable/ic_menu_gallery"
-                            android:text="Load" />
+                            android:text="@string/Upload" />
 
                         <!-- Note -->
                         <LinearLayout
@@ -135,7 +135,7 @@
                                 android:id="@+id/fab_sheet_item_add"
                                 android:drawableLeft="@drawable/ic_add"
                                 android:drawableStart="@drawable/ic_add"
-                                android:text="Add" />
+                                android:text="@string/add" />
                         </LinearLayout>
 
                     </LinearLayout>

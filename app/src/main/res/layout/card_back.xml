@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:hint="Type answer here"
+            android:hint="@string/type_answer_here"
             android:textColor="@color/textcolor"
             android:visibility="gone"
             android:windowSoftInputMode="stateHidden" />

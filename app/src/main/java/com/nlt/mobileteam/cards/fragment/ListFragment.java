@@ -136,11 +136,11 @@ public class ListFragment extends Fragment {
 
         final AppCompatEditText edittext = new AppCompatEditText(getContext());
 
-        alert.setTitle("Name category");
+        alert.setTitle(getContext().getString(R.string.Name_cat));
 
         alert.setView(edittext);
 
-        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton(getContext().getString(R.string.done), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //What ever you want to do with the value
                 Editable YouEditTextValue = edittext.getText();
@@ -152,7 +152,7 @@ public class ListFragment extends Fragment {
                 Folder item = new Folder(name);
                 item.setColor(color);
                 ArrayList<Card> defaultCards = new ArrayList<Card>();
-                defaultCards.add(new Card("", "", "Title"));
+                defaultCards.add(new Card("", "", getContext().getString(R.string.title)));
                 item.setCards(defaultCards);
                 boolean existed = false;
                 for (int i = 0; i < foldersArrayList.size(); i++) {
