@@ -169,6 +169,5 @@ public class PlaceholderFragment extends Fragment {
         fragmentTransaction.detach(tempFragmentToReplace);
         fragmentTransaction.attach(tempFragmentToReplace);
         fragmentTransaction.commit();
-
     }
 }

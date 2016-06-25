@@ -43,6 +43,7 @@ import com.orhanobut.hawk.Hawk;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 
 import pl.aprilapps.easyphotopicker.DefaultCallback;
@@ -60,6 +61,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private ArrayList<Folder> foldersFromStorage;
     public static boolean isShuffleMode;
     private boolean isFirstSwipe;
+    private Fab viewFolderFab;
 
     @Override
     public void onFragmentClick(View v) {
@@ -106,6 +108,9 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         }
     }
 
+
+    private static final int MAX_CLICK_DURATION = 200;
+    private long startClickTime;
 
     private static final String LOG_TAG = MainActivityTabbed.class.getSimpleName();
 
@@ -171,6 +176,28 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         int fabColor = getResources().getColor(R.color.colorPrimary);
 
         Fab fab = (Fab) findViewById(R.id.fab);
+        viewFolderFab = (Fab) findViewById(R.id.fab_folder_right);
+        viewFolderFab.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        startClickTime = Calendar.getInstance().getTimeInMillis();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        long clickDuration = Calendar.getInstance().getTimeInMillis() - startClickTime;
+                        if (clickDuration < MAX_CLICK_DURATION) {
+                            Intent intent = new Intent(MainActivityTabbed.this, ScrollingActivity.class);
+                            intent.putExtra(Action.VIEW_FOLDER_INTENT_EXTRA, true);
+                            intent.putExtra(Action.VIEW_FOLDER_INTENT_EXTRA_DATA, currentFolder);
+                            startActivityForResult(intent, Util.PICK_FOLDER_REQUEST);
+                        }
+                    }
+                }
+                return true;
+            }
+        });
         View sheetView = findViewById(R.id.fab_sheet);
         View overlay = findViewById(R.id.overlay);
         materialSheetFab = new MaterialSheetFab<>(fab, sheetView, overlay,
@@ -596,9 +623,13 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 mViewPager.setCurrentItem(cards.size() - 1);
 
                 break;
-
+            case R.id.fab_folder_right:
+                Intent intent = new Intent(MainActivityTabbed.this, ScrollingActivity.class);
+                intent.putExtra(Action.VIEW_FOLDER_INTENT_EXTRA, true);
+                intent.putExtra(Action.VIEW_FOLDER_INTENT_EXTRA_DATA, currentFolder);
+                startActivityForResult(intent, Util.PICK_FOLDER_REQUEST);
+                break;
         }
-
         materialSheetFab.hideSheet();
     }
 

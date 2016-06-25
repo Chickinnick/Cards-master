@@ -19,6 +19,7 @@ import com.nlt.mobileteam.cards.Util;
 import com.nlt.mobileteam.cards.adapter.BasicListAdapter;
 import com.nlt.mobileteam.cards.fragment.GridFragment;
 import com.nlt.mobileteam.cards.fragment.ListFragment;
+import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.model.Folder;
 
@@ -40,6 +41,18 @@ public class ScrollingActivity extends AppCompatActivity implements BasicListAda
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         setSupportActionBar(toolbar);
         listFragment = ListFragment.newInstance("", " ");
+        setupFragment();
+
+        Intent intent = getIntent();
+        boolean isViewFolder = intent.getBooleanExtra(Action.VIEW_FOLDER_INTENT_EXTRA, false);
+        Folder folderToView = intent.getParcelableExtra(Action.VIEW_FOLDER_INTENT_EXTRA_DATA);
+        if (isViewFolder) {
+            startGridFragment(folderToView);
+            String title = folderToView.getName().toString();
+            if (!TextUtils.isEmpty(title)) {
+                collapsingToolbar.setTitle(title);
+            }
+        }
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -52,9 +65,6 @@ public class ScrollingActivity extends AppCompatActivity implements BasicListAda
                 }
             }
         });
-
-        setupFragment();
-
 
     }
 
@@ -69,6 +79,7 @@ public class ScrollingActivity extends AppCompatActivity implements BasicListAda
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         gridFragment = GridFragment.newInstance(folder);
+        fragmentTransaction.hide(listFragment);
         fragmentTransaction.replace(R.id.scrolling_activity_content, gridFragment);
         fragmentTransaction.commit();
 

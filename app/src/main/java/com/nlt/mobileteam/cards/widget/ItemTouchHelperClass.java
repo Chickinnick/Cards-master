@@ -72,14 +72,18 @@ public class ItemTouchHelperClass extends ItemTouchHelper.Callback {
 
             if (dX <= 0) {
                 p.setColor(context.getResources().getColor(R.color.delete_bg));
-                RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
+                RectF background = new RectF(
+                        (float) itemView.getRight() + dX,
+                        (float) itemView.getTop(),
+                        (float) itemView.getRight(),
+                        (float) itemView.getBottom());
                 c.drawRect(background, p);
                 icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_delete_item);
                 RectF icon_dest = new RectF((float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width, (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
                 c.drawBitmap(icon, null, icon_dest, p);
             } else {
                 p.setColor(context.getResources().getColor(R.color.delete_bg));
-                RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
+                RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), (float) itemView.getRight() + dX, (float) itemView.getBottom());
                 c.drawRect(background, p);
                 icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_delete_item);
                 RectF icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft() + 2 * width, (float) itemView.getBottom() - width);

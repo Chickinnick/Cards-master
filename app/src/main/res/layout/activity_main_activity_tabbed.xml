@@ -23,9 +23,9 @@
 
             <ImageView
                 android:id="@+id/background"
-                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/container"
@@ -35,27 +35,35 @@
 
 
             <com.nlt.mobileteam.cards.widget.Fab
-                style="@style/Widget.MaterialSheetFab.Fab"
                 android:id="@+id/fab"
+                style="@style/Widget.MaterialSheetFab.Fab"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true" />
 
+            <com.nlt.mobileteam.cards.widget.Fab
+                android:id="@+id/fab_folder_right"
+                style="@style/Widget.MaterialSheetFab.Fab"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/ic_action_view_folder" />
+
             <LinearLayout
-                android:layout_marginTop="?actionBarSize"
-                android:layout_alignParentEnd="true"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="?actionBarSize"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:background="@drawable/indicator_bg"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
-                    android:layout_margin="20dp"
                     android:id="@+id/position_tv"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/indicator_bg"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -88,34 +96,34 @@
 
                         <!-- Photo -->
                         <TextView
-                            android:layout_width="match_parent"
+                            android:id="@+id/fab_sheet_item_remove"
 
                             style="@style/TextAppearance.MaterialSheetFab.Sheet.Item"
 
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/fab_sheet_item_remove"
                             android:drawableLeft="@drawable/ic_menu_remove"
                             android:drawableStart="@drawable/ic_menu_remove"
                             android:text="@string/Remove" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:id="@+id/fab_sheet_item_photo"
 
                             style="@style/TextAppearance.MaterialSheetFab.Sheet.Item"
 
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/fab_sheet_item_photo"
                             android:drawableLeft="@drawable/ic_menu_camera"
                             android:drawableStart="@drawable/ic_menu_camera"
                             android:text="@string/Photo" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:id="@+id/fab_sheet_item_load"
 
                             style="@style/TextAppearance.MaterialSheetFab.Sheet.Item"
 
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/fab_sheet_item_load"
                             android:drawableLeft="@drawable/ic_menu_gallery"
                             android:drawableStart="@drawable/ic_menu_gallery"
                             android:text="@string/Upload" />
@@ -128,11 +136,11 @@
 
                             <TextView
 
-                                style="@style/TextAppearance.MaterialSheetFab.Sheet.Item"
-                                android:layout_width="match_parent"
-
-                                android:layout_height="wrap_content"
                                 android:id="@+id/fab_sheet_item_add"
+                                style="@style/TextAppearance.MaterialSheetFab.Sheet.Item"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:drawableLeft="@drawable/ic_add"
                                 android:drawableStart="@drawable/ic_add"
                                 android:text="@string/add" />

@@ -135,7 +135,8 @@ public class CardFragment extends Fragment implements View.OnClickListener {
 
     public void savePhoto(String path, Context applicationContext) {
 
-        Card cardTosave = new Card();
+//        Card cardTosave = new Card();
+        Card cardTosave = ((MainActivityTabbed) getActivity()).getCurrentCard();
 
         Bundle arguments = getArguments();
 
