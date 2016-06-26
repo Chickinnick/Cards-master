@@ -58,6 +58,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     private static final int TYPE_FAVOURITE = 1;
     private static final int TYPE_FOLDERS = 2;
+    public static boolean isDragMode;
     private ArrayList<Folder> foldersFromStorage;
     public static boolean isShuffleMode;
     private boolean isFirstSwipe;
@@ -520,6 +521,9 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     @Override
     public void onSwipedUp(MotionEvent event) {
+        if (isDragMode) {
+            return;
+        }
         doneClick();
         saveCardState();
 
@@ -543,6 +547,9 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     @Override
     public void onSwipedDown(MotionEvent event) {
+        if (isDragMode) {
+            return;
+        }
         doneClick();
         saveCardState();
 

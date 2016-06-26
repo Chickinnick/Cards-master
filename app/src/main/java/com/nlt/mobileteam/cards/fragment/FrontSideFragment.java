@@ -2,6 +2,7 @@ package com.nlt.mobileteam.cards.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -9,13 +10,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nlt.mobileteam.cards.R;
+import com.nlt.mobileteam.cards.activity.MainActivityTabbed;
 import com.nlt.mobileteam.cards.model.Card;
+import com.nlt.mobileteam.cards.widget.RearrangeableLayout;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -33,9 +37,11 @@ public class FrontSideFragment extends CardFragment {
 
     public static final String CARD_IMAGE_LINK_FRONT = "link_front";
     public static final String CARD_IMAGE_LINK_SSFRONT = "link_front_ss";
+    private static final String TAG = "Rearrangeable ll";
 
     public ImageView imageViewFront;
     public String path;
+    private RearrangeableLayout rearrangeableLayout;
 
 
     public FrontSideFragment() {
@@ -69,6 +75,9 @@ public class FrontSideFragment extends CardFragment {
         } else {
             cardText = savedInstanceState.getString(CARD_KEY_FRONT_TEXT_SS);
         }
+
+        rearrangeableLayout = (RearrangeableLayout) rootView.findViewById(R.id.rearrangeable_layout);
+
         titleTextView = (TextView) rootView.findViewById(R.id.textview_title);
         titleEditText = (EditText) rootView.findViewById(R.id.edittext_title);
         textView = (TextView) rootView.findViewById(R.id.textview);
@@ -110,10 +119,49 @@ public class FrontSideFragment extends CardFragment {
                     .centerCrop()
                     .into(imageViewFront);
         }
+
+        // callback method to call childPositionListener() method
+        childPosiitonListener();
+
+        // callback method to call preDrawListener() method
+        preDrawListener();
         return rootView;
     }
 
+    public void childPosiitonListener() {
 
+        rearrangeableLayout.setChildPositionListener(new RearrangeableLayout.ChildPositionListener() {
+            @Override
+            public void onChildMoved(View childView, Rect oldPosition, Rect newPosition) {
+                MainActivityTabbed.isDragMode = false;
+
+                Log.e(TAG, childView.toString());
+
+                Log.e(TAG, oldPosition.toString() + " -> " + newPosition.toString());
+            }
+
+            @Override
+            public void onChildStartMoving(View mSelectedChild, Rect mChildStartRect, Rect mChildEndRect) {
+                MainActivityTabbed.isDragMode = true;
+
+            }
+        });
+    }
+
+    /**
+     * In this method, Added a PreviewListener to the root layout to receive update during
+     * child view is dragging
+     */
+    public void preDrawListener() {
+        rearrangeableLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                Log.e(TAG, "onPrepreview");
+                Log.e(TAG, rearrangeableLayout.toString());
+                return true;
+            }
+        });
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
