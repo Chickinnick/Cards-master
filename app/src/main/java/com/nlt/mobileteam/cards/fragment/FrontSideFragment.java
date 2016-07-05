@@ -41,7 +41,7 @@ public class FrontSideFragment extends CardFragment {
 
     public ImageView imageViewFront;
     public String path;
-    private RearrangeableLayout rearrangeableLayout;
+   // private RearrangeableLayout rearrangeableLayout;
 
 
     public FrontSideFragment() {
@@ -76,7 +76,7 @@ public class FrontSideFragment extends CardFragment {
             cardText = savedInstanceState.getString(CARD_KEY_FRONT_TEXT_SS);
         }
 
-        rearrangeableLayout = (RearrangeableLayout) rootView.findViewById(R.id.rearrangeable_layout);
+   //     rearrangeableLayout = (RearrangeableLayout) rootView.findViewById(R.id.rearrangeable_layout);
 
         titleTextView = (TextView) rootView.findViewById(R.id.textview_title);
         titleEditText = (EditText) rootView.findViewById(R.id.edittext_title);
@@ -121,14 +121,14 @@ public class FrontSideFragment extends CardFragment {
         }
 
         // callback method to call childPositionListener() method
-        childPosiitonListener();
+     //   childPosiitonListener();
 
         // callback method to call preDrawListener() method
-        preDrawListener();
+     //   preDrawListener();
         return rootView;
     }
 
-    public void childPosiitonListener() {
+   /* public void childPosiitonListener() {
 
         rearrangeableLayout.setChildPositionListener(new RearrangeableLayout.ChildPositionListener() {
             @Override
@@ -146,13 +146,13 @@ public class FrontSideFragment extends CardFragment {
 
             }
         });
-    }
+    }*/
 
     /**
      * In this method, Added a PreviewListener to the root layout to receive update during
      * child view is dragging
      */
-    public void preDrawListener() {
+   /* public void preDrawListener() {
         rearrangeableLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
@@ -161,7 +161,7 @@ public class FrontSideFragment extends CardFragment {
                 return true;
             }
         });
-    }
+    }*/
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
