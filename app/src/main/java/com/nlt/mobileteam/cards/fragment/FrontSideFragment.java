@@ -14,13 +14,17 @@ import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.activity.MainActivityTabbed;
 import com.nlt.mobileteam.cards.model.Card;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.view.StickerView;
 import com.nlt.mobileteam.cards.widget.RearrangeableLayout;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 /**
  * Created by Nick on 28.04.2016.
@@ -41,7 +45,7 @@ public class FrontSideFragment extends CardFragment {
 
     public ImageView imageViewFront;
     public String path;
-   // private RearrangeableLayout rearrangeableLayout;
+    // private RearrangeableLayout rearrangeableLayout;
 
 
     public FrontSideFragment() {
@@ -67,7 +71,7 @@ public class FrontSideFragment extends CardFragment {
         View rootView = inflater.inflate(R.layout.card_front, container, false);
         rootView.requestFocus();
         Bundle args = getArguments();
-
+        mViews = new ArrayList<>();
 
         String cardText = null;
         if (savedInstanceState == null) {
@@ -82,6 +86,13 @@ public class FrontSideFragment extends CardFragment {
         titleEditText = (EditText) rootView.findViewById(R.id.edittext_title);
         textView = (TextView) rootView.findViewById(R.id.textview);
         editText = (EditText) rootView.findViewById(R.id.edittext);
+        mContentRootView = (RelativeLayout) rootView.findViewById(R.id.card_container);
+        mContentRootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addStickerView();
+            }
+        });
         textView.setText(cardText);
         textView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -162,6 +173,55 @@ public class FrontSideFragment extends CardFragment {
             }
         });
     }*/
+
+
+    private void addStickerView() {
+        final StickerView stickerView = new StickerView(getActivity());
+        stickerView.setImageResource(R.mipmap.ic_cat);
+        stickerView.setOperationListener(new StickerView.OperationListener() {
+            @Override
+            public void onDeleteClick() {
+                mViews.remove(stickerView);
+                mContentRootView.removeView(stickerView);
+            }
+
+            @Override
+            public void onEdit(StickerView stickerView) {
+                if (mCurrentEditTextView != null) {
+                    mCurrentEditTextView.setInEdit(false);
+                }
+                mCurrentView.setInEdit(false);
+                mCurrentView = stickerView;
+                mCurrentView.setInEdit(true);
+            }
+
+            @Override
+            public void onTop(StickerView stickerView) {
+                int position = mViews.indexOf(stickerView);
+                if (position == mViews.size() - 1) {
+                    return;
+                }
+                StickerView stickerTemp = (StickerView) mViews.remove(position);
+                mViews.add(mViews.size(), stickerTemp);
+            }
+        });
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        mContentRootView.addView(stickerView, lp);
+        mViews.add(stickerView);
+        setCurrentEdit(stickerView);
+    }
+
+    private void setCurrentEdit(StickerView stickerView) {
+        if (mCurrentView != null) {
+            mCurrentView.setInEdit(false);
+        }
+        if (mCurrentEditTextView != null) {
+            mCurrentEditTextView.setInEdit(false);
+        }
+        mCurrentView = stickerView;
+        stickerView.setInEdit(true);
+    }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

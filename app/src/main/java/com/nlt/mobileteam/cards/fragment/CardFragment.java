@@ -7,12 +7,18 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nlt.mobileteam.cards.activity.MainActivityTabbed;
 import com.nlt.mobileteam.cards.controller.BroadcastManager;
 import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleInputDialog;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleTextView;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.view.StickerView;
+
+import java.util.ArrayList;
 
 /**
  * Created by Nick on 07.05.2016.
@@ -33,6 +39,16 @@ public class CardFragment extends Fragment implements View.OnClickListener {
          this.card = new Card();
     }*/
 
+
+    public  BubbleInputDialog mBubbleInputDialog;
+
+    public  StickerView mCurrentView;
+
+    public  BubbleTextView mCurrentEditTextView;
+
+    public  ArrayList<View> mViews;
+
+    public  RelativeLayout mContentRootView;
 
 
     public void editText() {

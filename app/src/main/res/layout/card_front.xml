@@ -26,13 +26,18 @@
 
         <!-- add child views with `android:id` attr to
        save position during orientation change -->
+
+    <RelativeLayout
+        android:layout_alignTop="@+id/bg"
+        android:id="@+id/card_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <RelativeLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_height="70dp"
-        android:layout_alignTop="@+id/bg"
         android:layout_centerHorizontal="true"
 
         android:background="@color/gray_bg_title_star">
@@ -101,6 +106,6 @@
             android:visibility="gone"
             android:windowSoftInputMode="stateHidden" />
     </RelativeLayout>
-
+    </RelativeLayout>
     <!--</com.nlt.mobileteam.cards.widget.RearrangeableLayout>-->
 </RelativeLayout>
