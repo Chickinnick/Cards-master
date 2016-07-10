@@ -89,6 +89,7 @@ public class StickerView extends ImageView {
 
     //水平镜像
     private boolean isHorizonMirror = false;
+    private EditStateListener isInEditListener;
 
     public StickerView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -595,6 +596,7 @@ public class StickerView extends ImageView {
         }
     }
 
+
     public interface OperationListener {
         void onDeleteClick();
 
@@ -609,6 +611,11 @@ public class StickerView extends ImageView {
 
     public void setInEdit(boolean isInEdit) {
         this.isInEdit = isInEdit;
+        isInEditListener.editStateChanged(this.isInEdit);
         invalidate();
+    }
+
+    public void setIsInEditListener(EditStateListener isInEditListener) {
+        this.isInEditListener = isInEditListener;
     }
 }

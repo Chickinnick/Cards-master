@@ -20,11 +20,12 @@ import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleInputDialog;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleTextView;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.view.EditStateListener;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.StickerView;
 
 import java.util.ArrayList;
 
-public abstract class BaseCard extends Fragment implements View.OnClickListener {
+public abstract class BaseCard extends Fragment implements View.OnClickListener, EditStateListener {
 
     public static final int FRONT = 1;
     public static final int BACK = 2;
@@ -151,6 +152,7 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener 
     private void addStickerView(String path) {
         final StickerView stickerView = new StickerView(getActivity());
         stickerView.setImageURI(Uri.parse(path));
+        stickerView.setIsInEditListener(this);
         stickerView.setOperationListener(new StickerView.OperationListener() {
             @Override
             public void onDeleteClick() {
@@ -198,5 +200,16 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener 
 
     public void savePhoto(String path) {
         addStickerView(path);
+    }
+
+    public void saveView() {
+        if (mCurrentView != null) {
+            mCurrentView.setInEdit(false);
+        }
+    }
+
+    @Override
+    public void editStateChanged(boolean isInEdit) {
+        MainActivityTabbed.isDragMode = isInEdit;
     }
 }

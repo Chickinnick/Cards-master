@@ -58,7 +58,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     private static final int TYPE_FAVOURITE = 1;
     private static final int TYPE_FOLDERS = 2;
-    public static boolean isDragMode = true;
+    public static boolean isDragMode = false;
     private ArrayList<Folder> foldersFromStorage;
     public static boolean isShuffleMode;
     private boolean isFirstSwipe;
@@ -229,7 +229,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     @Override
     protected void onPause() {
-        saveCardState();
+        doneClick();
         super.onPause();
     }
 
@@ -331,6 +331,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                     break;
 
                 case Util.PICK_BG_REQUEST:
+
                     int selectedResBgID = data.getIntExtra(Util.SELECTED_BG_EXTRA, R.drawable.bg_1);
                     backgroundImage.setImageResource(selectedResBgID);
                     Hawk.put(Util.SELECTED_BG_EXTRA, selectedResBgID);
@@ -351,6 +352,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 Log.d("picked", "on image picked" + source + " " + imageFile.getAbsolutePath());
 
                /* onPhotoReturned(imageFile);*/
+                isDragMode = true;
+
                 ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).savePhotoInModel("file://" + imageFile.getAbsolutePath());
                 // CardDataController.getInstance().saveInStorageAndRemove();
                 mSectionsPagerAdapter.notifyDataSetChanged();
@@ -462,7 +465,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                     Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
             isEditing = false;
-
+            isDragMode = false;
         }
     }
 
@@ -525,7 +528,6 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             return;
         }
         doneClick();
-        saveCardState();
 
         Log.i(TAG, "swipED up");
         //((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).flipCardUp();
@@ -533,12 +535,6 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         if (currentFragment != null) {
             ((PlaceholderFragment) currentFragment).toggleFragment(PlaceholderFragment.SWIPED_UP);
         }
-    }
-
-    private void saveCardState() {
-        Card card = getCurrentCard(mViewPager.getCurrentItem());
-//        Log.i(TAG, "card:" + card.toString());
-
     }
 
     @Override
@@ -551,7 +547,6 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             return;
         }
         doneClick();
-        saveCardState();
 
 
         Log.i(TAG, "swipED down");

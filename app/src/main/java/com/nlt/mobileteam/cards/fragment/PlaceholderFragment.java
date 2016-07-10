@@ -156,6 +156,7 @@ public class PlaceholderFragment extends Fragment {
 
     public void exitEditMode() {
         tempFragmentToReplace.saveText();
+        tempFragmentToReplace.saveView();
     }
 
     public ImageView getImageView() {
