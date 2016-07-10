@@ -164,7 +164,7 @@ public class PlaceholderFragment extends Fragment {
 
 
     public void savePhotoInModel(String path) {
-        //  tempFragmentToReplace.savePhoto(path, getActivity().getApplicationContext());
+        tempFragmentToReplace.savePhoto(path);
         FragmentManager childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         fragmentTransaction.detach(tempFragmentToReplace);

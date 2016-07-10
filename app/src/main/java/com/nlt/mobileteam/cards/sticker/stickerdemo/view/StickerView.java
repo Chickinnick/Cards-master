@@ -8,6 +8,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -114,7 +115,7 @@ public class StickerView extends ImageView {
         dst_flipV = new Rect();
         dst_top = new Rect();
         localPaint = new Paint();
-        localPaint.setColor(getResources().getColor(R.color.red_e73a3d));
+        localPaint.setColor(getResources().getColor(R.color.colorAccent));
         localPaint.setAntiAlias(true);
         localPaint.setDither(true);
         localPaint.setStyle(Paint.Style.STROKE);
@@ -183,6 +184,11 @@ public class StickerView extends ImageView {
     @Override
     public void setImageResource(int resId) {
         setBitmap(BitmapFactory.decodeResource(getResources(), resId));
+    }
+
+    @Override
+    public void setImageURI(Uri uri) {
+        setBitmap(BitmapFactory.decodeFile(uri.getPath()));
     }
 
     public void setBitmap(Bitmap bitmap) {

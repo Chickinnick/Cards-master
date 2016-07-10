@@ -1,6 +1,7 @@
 package com.nlt.mobileteam.cards.fragment.cards;
 
 import android.app.Fragment;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -147,9 +148,9 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener 
     }
 
 
-    private void addStickerView() {
+    private void addStickerView(String path) {
         final StickerView stickerView = new StickerView(getActivity());
-        stickerView.setImageResource(R.mipmap.ic_cat);
+        stickerView.setImageURI(Uri.parse(path));
         stickerView.setOperationListener(new StickerView.OperationListener() {
             @Override
             public void onDeleteClick() {
@@ -195,4 +196,7 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener 
     }
 
 
+    public void savePhoto(String path) {
+        addStickerView(path);
+    }
 }
