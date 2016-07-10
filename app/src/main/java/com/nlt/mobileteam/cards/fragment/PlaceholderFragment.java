@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.nlt.mobileteam.cards.R;
+import com.nlt.mobileteam.cards.fragment.cards.BaseCard;
 import com.nlt.mobileteam.cards.model.Card;
 
 public class PlaceholderFragment extends Fragment {
@@ -21,9 +22,9 @@ public class PlaceholderFragment extends Fragment {
     private static final String ARG_CARD = "arg_card";
     public static final int SWIPED_UP = 1;
     public static final int SWIPED_DOWN = 2;
-    private CardFragment fragmentFront;
-    private CardFragment fragmentBack;
-    private CardFragment tempFragmentToReplace;
+    private BaseCard fragmentFront;
+    private BaseCard fragmentBack;
+    private BaseCard tempFragmentToReplace;
     private Card card;
     private ImageView imageView;
     int sectionNumber;
@@ -53,8 +54,8 @@ public class PlaceholderFragment extends Fragment {
         sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
         Log.w("PAGE", " onCreate  " + card.toString());
 
-        fragmentFront = FrontSideFragment.newInstance(card);
-        fragmentBack = BackSideFragment.newInstance(card);
+        fragmentFront = BaseCard.newInstance(card, BaseCard.FRONT);
+        fragmentBack = BaseCard.newInstance(card, BaseCard.BACK);
 
 
     }
@@ -163,7 +164,7 @@ public class PlaceholderFragment extends Fragment {
 
 
     public void savePhotoInModel(String path) {
-        tempFragmentToReplace.savePhoto(path, getActivity().getApplicationContext());
+        //  tempFragmentToReplace.savePhoto(path, getActivity().getApplicationContext());
         FragmentManager childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         fragmentTransaction.detach(tempFragmentToReplace);

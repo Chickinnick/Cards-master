@@ -27,7 +27,6 @@ public class CardFragment extends Fragment implements View.OnClickListener {
     private static final String LOG_TAG = CardFragment.class.getSimpleName();
     protected TextView textView;
     protected EditText editText;
-
     protected TextView titleTextView;
     protected EditText titleEditText;
 
@@ -86,7 +85,7 @@ public class CardFragment extends Fragment implements View.OnClickListener {
             }
 
 
-            }
+        }
         Card cardTosave = ((MainActivityTabbed) getActivity()).getCurrentCard();
         Bundle arguments = getArguments();
 
@@ -124,29 +123,6 @@ public class CardFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
-    @Override
-    public void onDestroyView() {
-        Log.d(LOG_TAG, "onDestroy View ");
-        if (this instanceof BackSideFragment) {
-            //CardDataController.getInstance().setBackText(textView.getText().toString());
-            Log.d(LOG_TAG, "class was BackSideFragment");
-
-        } else if (this instanceof FrontSideFragment) {
-            Log.d(LOG_TAG, "class was FrontSideFragment");
-            //CardDataController.getInstance().setFrontText(textView.getText().toString());
-        }
-
-
-        super.onDestroyView();
-        // CardDataController.getInstance().saveInStorageAndRemove(position);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-    }
 
 
     public void savePhoto(String path, Context applicationContext) {
