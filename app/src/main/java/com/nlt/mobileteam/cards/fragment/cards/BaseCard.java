@@ -1,16 +1,19 @@
 package com.nlt.mobileteam.cards.fragment.cards;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatEditText;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.activity.MainActivityTabbed;
@@ -31,11 +34,11 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
     public static final int BACK = 2;
     protected static final String CARD_INSTANCE = "card_parcelable_key_ss";
 
-    protected TextView textView;
-    protected EditText editText;
+    // protected TextView textView;
+    // protected EditText editText;
 
-    protected TextView titleTextView;
-    protected EditText titleEditText;
+    // protected TextView titleTextView;
+    // protected EditText titleEditText;
 
 
     public BubbleInputDialog mBubbleInputDialog;
@@ -70,14 +73,14 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
         rootView.requestFocus();
         mViews = new ArrayList<>();
 
-        titleTextView = (TextView) rootView.findViewById(R.id.textview_title);
+       /* titleTextView = (TextView) rootView.findViewById(R.id.textview_title);
         titleEditText = (EditText) rootView.findViewById(R.id.edittext_title);
         textView = (TextView) rootView.findViewById(R.id.textview);
         editText = (EditText) rootView.findViewById(R.id.edittext);
-
-        titleTextView.setOnClickListener(this);
+*/
+        //  titleTextView.setOnClickListener(this);
         String title = ((Card) getArguments().getParcelable(CARD_INSTANCE)).getTitle();
-        titleTextView.setText(title);
+        // titleTextView.setText(title);
 
 
         mContentRootView = (RelativeLayout) rootView.findViewById(R.id.card_container);
@@ -85,7 +88,7 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
     }
 
 
-    public void editText() {
+    /*public void editText() {
         CharSequence text = textView.getText();
         textView.setVisibility(View.GONE);
         editText.setVisibility(View.VISIBLE);
@@ -97,11 +100,11 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
         titleTextView.setVisibility(View.GONE);
         titleEditText.setVisibility(View.VISIBLE);
         titleEditText.setText(text);
-    }
+    }*/
 
     public void saveText() {
         CharSequence text = null;
-        if (editText != null) {
+      /*  if (editText != null) {
             text = editText.getText();
             editText.setVisibility(View.GONE);
             textView.setVisibility(View.VISIBLE);
@@ -115,17 +118,17 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
             title = titleEditText.getText();
             titleEditText.setVisibility(View.GONE);
             titleTextView.setVisibility(View.VISIBLE);
-            if (/*!editText.isActivated() &&*/ !TextUtils.isEmpty(title)) {
+            if (*//*!editText.isActivated() &&*//* !TextUtils.isEmpty(title)) {
                 titleTextView.setText(title);
             }
 
 
-        }
+        }*/
         Card cardTosave = ((MainActivityTabbed) getActivity()).getCurrentCard();
         Bundle arguments = getArguments();
 
 
-        cardTosave.setTitle(title.toString());
+        //      cardTosave.setTitle(title.toString());
         if (this instanceof BackCard) {
             //Log.d(LOG_TAG, "class was BackSideFragment");
             cardTosave.setBackText(text.toString());
@@ -197,6 +200,17 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
         stickerView.setInEdit(true);
     }
 
+    private void setCurrentEdit(BubbleTextView bubbleTextView) {
+        if (mCurrentView != null) {
+            mCurrentView.setInEdit(false);
+        }
+        if (mCurrentEditTextView != null) {
+            mCurrentEditTextView.setInEdit(false);
+        }
+        mCurrentEditTextView = bubbleTextView;
+        mCurrentEditTextView.setInEdit(true);
+    }
+
 
     public void savePhoto(String path) {
         addStickerView(path);
@@ -212,4 +226,118 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
     public void editStateChanged(boolean isInEdit) {
         MainActivityTabbed.isDragMode = isInEdit;
     }
+
+    public void addText() {
+        addBubbleView();
+    }
+
+    protected void addBubbleView() {
+        final BubbleTextView bubbleTextView = new BubbleTextView(getActivity(),
+                Color.BLACK, 0);
+        bubbleTextView.setImageResource(R.mipmap.bubble_7_rb);
+        bubbleTextView.setOperationListener(new BubbleTextView.OperationListener() {
+            @Override
+            public void onDeleteClick() {
+                mViews.remove(bubbleTextView);
+                mContentRootView.removeView(bubbleTextView);
+            }
+
+            @Override
+            public void onEdit(BubbleTextView bubbleTextView) {
+                if (mCurrentView != null) {
+                    mCurrentView.setInEdit(false);
+                }
+                mCurrentEditTextView.setInEdit(false);
+                mCurrentEditTextView = bubbleTextView;
+                mCurrentEditTextView.setInEdit(true);
+            }
+
+            @Override
+            public void onClick(BubbleTextView bubbleTextView) {
+                mBubbleInputDialog.setBubbleTextView(bubbleTextView);
+                mBubbleInputDialog.show();
+            }
+
+            @Override
+            public void onTop(BubbleTextView bubbleTextView) {
+                int position = mViews.indexOf(bubbleTextView);
+                if (position == mViews.size() - 1) {
+                    return;
+                }
+                BubbleTextView textView = (BubbleTextView) mViews.remove(position);
+                mViews.add(mViews.size(), textView);
+            }
+
+            @Override
+            public void onEditStart(String currentText) {
+                editTextWithDialog(bubbleTextView, currentText);
+            }
+
+
+        });
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        mContentRootView.addView(bubbleTextView, lp);
+        mViews.add(bubbleTextView);
+        setCurrentEdit(bubbleTextView);
+
+    }
+
+    private void editTextWithDialog(final BubbleTextView bubbleTextView, String currentText) {
+        final Context context = getActivity();
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+
+        final AppCompatEditText edittext = new AppCompatEditText(context);
+        edittext.setText(currentText);
+        alert.setView(edittext);
+
+        alert.setPositiveButton(context.getString(R.string.done), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //What ever you want to do with the value
+                Editable YouEditTextValue = edittext.getText();
+                //OR
+                String text = edittext.getText().toString();
+
+
+                bubbleTextView.setText(text);
+
+
+//                for (int i = 0; i < foldersArrayList.size(); i++) {
+//                    if (item.getIdentifier().equals(foldersArrayList.get(i).getIdentifier())) {
+//                        foldersArrayList.set(i, item);
+//                        existed = true;
+//                        adapter.notifyDataSetChanged();
+//                        break;
+//                    }
+//                }
+//                if (!existed) {
+//                    addToDataStore(item);
+//                }
+
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            }
+        });
+
+        alert.show();
+
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+
+        for (View bubbleTextView :
+                mViews) {
+
+
+        }
+    }
+
+
 }

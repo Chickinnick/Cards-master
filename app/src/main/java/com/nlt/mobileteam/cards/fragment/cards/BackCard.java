@@ -23,7 +23,7 @@ public class BackCard extends BaseCard {
         Bundle args = getArguments();
         Card card = args.getParcelable(CARD_INSTANCE);
 
-        textView.setText(card.getBackText());
+        //   textView.setText(card.getBackText());
         view.findViewById(R.id.bg).setBackground(getActivity().getResources().getDrawable(R.drawable.card_rev));
 
         return view;

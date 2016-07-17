@@ -108,14 +108,21 @@
 
                         <TextView
                             android:id="@+id/fab_sheet_item_photo"
-
                             style="@style/TextAppearance.MaterialSheetFab.Sheet.Item"
-
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_menu_camera"
                             android:drawableStart="@drawable/ic_menu_camera"
                             android:text="@string/Photo" />
+
+                        <TextView
+                            android:id="@+id/fab_sheet_item_text"
+                            style="@style/TextAppearance.MaterialSheetFab.Sheet.Item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_add_text"
+                            android:drawableStart="@drawable/ic_add_text"
+                            android:text="@string/text_add" />
 
                         <TextView
                             android:id="@+id/fab_sheet_item_load"

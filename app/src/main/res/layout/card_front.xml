@@ -32,38 +32,38 @@
         android:id="@+id/card_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <RelativeLayout
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_height="70dp"
-        android:layout_centerHorizontal="true"
+        <!--<RelativeLayout
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
 
-        android:background="@color/gray_bg_title_star">
+            android:background="@color/gray_bg_title_star">
 
-        <TextView
-            android:id="@+id/textview_title"
-            style="@style/Base.TextAppearance.AppCompat.Display1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textColor="@color/title_text_color"
-            android:windowSoftInputMode="stateHidden" />
+            <TextView
+                android:id="@+id/textview_title"
+                style="@style/Base.TextAppearance.AppCompat.Display1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="@color/title_text_color"
+                android:windowSoftInputMode="stateHidden" />
 
-        <EditText
-            android:id="@+id/edittext_title"
-            style="@style/Base.TextAppearance.AppCompat.Display1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textColor="@color/title_text_color"
-            android:visibility="gone"
-            android:windowSoftInputMode="stateHidden" />
-    </RelativeLayout>
-
+            <EditText
+                android:id="@+id/edittext_title"
+                style="@style/Base.TextAppearance.AppCompat.Display1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="@color/title_text_color"
+                android:visibility="gone"
+                android:windowSoftInputMode="stateHidden" />
+        </RelativeLayout>
+    --><!--
     <ImageView
         android:id="@+id/imageview"
         android:layout_width="match_parent"
@@ -75,37 +75,37 @@
         android:layout_marginBottom="5dp"
         android:maxHeight="@dimen/card_h"
         android:paddingTop="40dp" />
+-->
+        <!-- <RelativeLayout
+             android:id="@+id/text"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@+id/title"
+             android:layout_centerHorizontal="true">
 
-    <RelativeLayout
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:layout_centerHorizontal="true">
-
-        <TextView
-            android:id="@+id/textview"
-            style="@style/Base.TextAppearance.AppCompat.Display1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:textColor="@color/mdtp_date_picker_month_day"
-            android:windowSoftInputMode="stateHidden" />
+             <TextView
+                 android:id="@+id/textview"
+                 style="@style/Base.TextAppearance.AppCompat.Display1"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_centerInParent="true"
+                 android:gravity="center"
+                 android:textColor="@color/mdtp_date_picker_month_day"
+                 android:windowSoftInputMode="stateHidden" />
 
 
-        <EditText
-            android:id="@+id/edittext"
-            style="@style/Base.TextAppearance.AppCompat.Display1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:hint="@string/type_question_here"
-            android:textColor="@color/mdtp_date_picker_month_day"
-            android:visibility="gone"
-            android:windowSoftInputMode="stateHidden" />
-    </RelativeLayout>
+             <EditText
+                 android:id="@+id/edittext"
+                 style="@style/Base.TextAppearance.AppCompat.Display1"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_centerInParent="true"
+                 android:gravity="center"
+                 android:hint="@string/type_question_here"
+                 android:textColor="@color/mdtp_date_picker_month_day"
+                 android:visibility="gone"
+                 android:windowSoftInputMode="stateHidden" />
+         </RelativeLayout>-->
     </RelativeLayout>
     <!--</com.nlt.mobileteam.cards.widget.RearrangeableLayout>-->
 </RelativeLayout>

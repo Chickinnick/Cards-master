@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,16 +59,18 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
         mJustDeletedItem = items.remove(position);
         mIndexOfDeletedItem = position;
         notifyItemRemoved(position);
-        String toShow = (mJustDeletedItem.getFrontText().length() > 20) ? mJustDeletedItem.getFrontText().substring(0, 20) + "..." : mJustDeletedItem.getFrontText();
-        if (layout != null && layout.getContext() != null) {
-            Snackbar.make(rootView, "Deleted " + toShow, Snackbar.LENGTH_LONG)
-                    .setAction("UNDO", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            items.add(mIndexOfDeletedItem, mJustDeletedItem);
-                            notifyItemInserted(mIndexOfDeletedItem);
-                        }
-                    }).show();
+        if (!TextUtils.isEmpty(mJustDeletedItem.getFrontText())) {
+            String toShow = (mJustDeletedItem.getFrontText().length() > 20) ? mJustDeletedItem.getFrontText().substring(0, 20) + "..." : mJustDeletedItem.getFrontText();
+            if (layout != null && layout.getContext() != null) {
+                Snackbar.make(rootView, "Deleted " + toShow, Snackbar.LENGTH_LONG)
+                        .setAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                items.add(mIndexOfDeletedItem, mJustDeletedItem);
+                                notifyItemInserted(mIndexOfDeletedItem);
+                            }
+                        }).show();
+            }
         }
     }
 

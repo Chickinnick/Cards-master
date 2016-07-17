@@ -34,6 +34,10 @@ public class PlaceholderFragment extends Fragment {
         this.onFragmentClickListener = onFragmentClickListener;
     }
 
+    public void addText() {
+        tempFragmentToReplace.addText();
+    }
+
     public interface OnFragmentClickListener {
         void onFragmentClick(View v);
 
@@ -82,13 +86,13 @@ public class PlaceholderFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main_activity_tabbed, container, false);
         rootView.requestFocus();
-        rootView.setOnClickListener(new View.OnClickListener() {
+       /*  rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onFragmentClickListener.onFragmentClick(v);
 
             }
-        });
+        });*/
         //
         Log.w("PAGE", "onCreateView" + card.toString());
         FragmentManager childFragmentManager = getChildFragmentManager();
@@ -147,11 +151,11 @@ public class PlaceholderFragment extends Fragment {
     }
 
     public void enterEditMode() {
-        tempFragmentToReplace.editText();
+        // tempFragmentToReplace.editText();
     }
 
     public void enterEditTitleMode() {
-        tempFragmentToReplace.editTitle();
+        // tempFragmentToReplace.editTitle();
     }
 
     public void exitEditMode() {

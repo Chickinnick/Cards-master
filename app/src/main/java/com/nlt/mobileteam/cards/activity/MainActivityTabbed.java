@@ -205,6 +205,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 sheetColor, fabColor);
 
         findViewById(R.id.fab_sheet_item_photo).setOnClickListener(this);
+        findViewById(R.id.fab_sheet_item_text).setOnClickListener(this);
         findViewById(R.id.fab_sheet_item_add).setOnClickListener(this);
         findViewById(R.id.fab_sheet_item_load).setOnClickListener(this);
         findViewById(R.id.fab_sheet_item_remove).setOnClickListener(this);
@@ -606,6 +607,9 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.fab_sheet_item_text:
+                onAddTextClicked();
+                break;
             case R.id.fab_sheet_item_photo:
                 onTakePhotoClicked();
                 break;
@@ -633,6 +637,12 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 break;
         }
         materialSheetFab.hideSheet();
+    }
+
+    private void onAddTextClicked() {
+        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).addText();
+        isDragMode = true;
+
     }
 
 

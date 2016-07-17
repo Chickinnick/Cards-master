@@ -22,7 +22,7 @@ public class FrontCard extends BaseCard {
         Bundle args = getArguments();
         Card card = args.getParcelable(CARD_INSTANCE);
 
-        textView.setText(card.getFrontText());
+        //textView.setText(card.getFrontText());
         return view;
     }
 }
