@@ -21,6 +21,8 @@ import com.nlt.mobileteam.cards.controller.BroadcastManager;
 import com.nlt.mobileteam.cards.fragment.PlaceholderFragment;
 import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleInputDialog;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleTextView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.EditStateListener;
@@ -33,6 +35,7 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
     public static final int FRONT = 1;
     public static final int BACK = 2;
     protected static final String CARD_INSTANCE = "card_parcelable_key_ss";
+    private static final String LOG_TAG = "BaseCard";
 
     // protected TextView textView;
     // protected EditText editText;
@@ -79,13 +82,16 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
         editText = (EditText) rootView.findViewById(R.id.edittext);
 */
         //  titleTextView.setOnClickListener(this);
-        String title = ((Card) getArguments().getParcelable(CARD_INSTANCE)).getTitle();
+//        String title = ((Card) getArguments().getParcelable(CARD_INSTANCE)).getTitle();
         // titleTextView.setText(title);
 
 
         mContentRootView = (RelativeLayout) rootView.findViewById(R.id.card_container);
         return rootView;
     }
+
+
+    public abstract void onRestoreViews(Card card);
 
 
     /*public void editText() {
@@ -101,7 +107,7 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
         titleEditText.setVisibility(View.VISIBLE);
         titleEditText.setText(text);
     }*/
-
+    @Deprecated
     public void saveText() {
         CharSequence text = null;
       /*  if (editText != null) {
@@ -131,13 +137,13 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
         //      cardTosave.setTitle(title.toString());
         if (this instanceof BackCard) {
             //Log.d(LOG_TAG, "class was BackSideFragment");
-            cardTosave.setBackText(text.toString());
-            cardTosave.setFrontText(((Card) arguments.getParcelable(CARD_INSTANCE)).getFrontText());
+//            cardTosave.setBackText(text.toString());
+//            cardTosave.setFrontText(((Card) arguments.getParcelable(CARD_INSTANCE)).getFrontText());
 
         } else if (this instanceof FrontCard) {
             // Log.d(LOG_TAG, "class was FrontSideFragment");
-            cardTosave.setBackText(((Card) arguments.getParcelable(CARD_INSTANCE)).getBackText());
-            cardTosave.setFrontText(text.toString());
+//            cardTosave.setBackText(((Card) arguments.getParcelable(CARD_INSTANCE)).getBackText());
+//            cardTosave.setFrontText(text.toString());
         }
         //Log.d(LOG_TAG, "card" + cardTosave.toString());
 
@@ -147,12 +153,77 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
 
 
     @Override
+    public void onPause() {
+        //  calculatePropertiesAndSave();
+        super.onPause();
+    }
+
+    public void calculatePropertiesAndSave() {
+
+        Card cardTosave = ((MainActivityTabbed) getActivity()).getCurrentCard();
+        Bundle arguments = getArguments();
+
+
+        //      cardTosave.setTitle(title.toString());
+        if (this instanceof BackCard) {
+            //Log.d(LOG_TAG, "class was BackSideFragment");
+            cardTosave.setBackTextArray(getTextViewModels());
+            cardTosave.setBackImageArray(getImageViewModels());
+
+//args
+            // cardTosave.setFrontImageArray(((Card) arguments.getParcelable(CARD_INSTANCE)).getFrontImageArray());
+            // cardTosave.setFrontTextArray(((Card) arguments.getParcelable(CARD_INSTANCE)).getFrontTextArray());
+
+        } else if (this instanceof FrontCard) {
+            // Log.d(LOG_TAG, "class was FrontSideFragment");
+            cardTosave.setFrontTextArray(getTextViewModels());
+            cardTosave.setFrontImageArray(getImageViewModels());
+//args
+            //-  cardTosave.setBackTextArray(((Card) arguments.getParcelable(CARD_INSTANCE)).getBackTextArray());
+            //-  cardTosave.setBackImageArray(((Card) arguments.getParcelable(CARD_INSTANCE)).getBackImageArray());
+
+//            cardTosave.setFrontText(text.toString());
+        }
+        //Log.d(LOG_TAG, "card" + cardTosave.toString());
+
+        BroadcastManager.getInstance().sendBroadcastWithParcelable(Action.SAVE_STATE.name(), cardTosave);
+
+    }
+
+    private ArrayList<StickerPropertyModel> getImageViewModels() {
+        ArrayList<StickerPropertyModel> resultVList = new ArrayList<>();
+        StickerPropertyModel stickerPropertyModel = new StickerPropertyModel();
+
+        for (View view : mViews) {
+            if (view instanceof StickerView) {
+                stickerPropertyModel = ((StickerView) view).calculate(stickerPropertyModel);
+                resultVList.add(stickerPropertyModel);
+            }
+        }
+        return resultVList;
+
+    }
+
+    private ArrayList<BubblePropertyModel> getTextViewModels() {
+        ArrayList<BubblePropertyModel> resultVList = new ArrayList<>();
+        BubblePropertyModel bubblePropertyModel = new BubblePropertyModel();
+
+        for (View view : mViews) {
+            if (view instanceof BubbleTextView) {
+                bubblePropertyModel = ((BubbleTextView) view).calculate(bubblePropertyModel);
+                resultVList.add(bubblePropertyModel);
+            }
+        }
+        return resultVList;
+    }
+
+    @Override
     public void onClick(View v) {
         ((PlaceholderFragment) getParentFragment()).onFragmentClickListener.onTitleClick(v);
     }
 
 
-    private void addStickerView(String path) {
+    public void addStickerView(String path) {
         final StickerView stickerView = new StickerView(getActivity());
         stickerView.setImageURI(Uri.parse(path));
         stickerView.setIsInEditListener(this);
@@ -189,6 +260,59 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
         setCurrentEdit(stickerView);
     }
 
+
+    public void addStickerView(StickerPropertyModel stickerPropertyModel) {
+        final StickerView stickerView = new StickerView(getActivity());
+
+        float scale = stickerPropertyModel.getScaling();
+        //    stickerView.setScale(scale);
+//        stickerView.setScaleY(scale);
+
+
+        stickerView.setImageURI(Uri.parse(stickerPropertyModel.getStickerURL()));
+
+        stickerView.setIsInEditListener(this);
+
+        stickerView.setX(stickerPropertyModel.getxLocation());
+        stickerView.setY(stickerPropertyModel.getyLocation());
+
+        //stickerView.
+
+        stickerView.setOperationListener(new StickerView.OperationListener() {
+            @Override
+            public void onDeleteClick() {
+                mViews.remove(stickerView);
+                mContentRootView.removeView(stickerView);
+            }
+
+            @Override
+            public void onEdit(StickerView stickerView) {
+                if (mCurrentEditTextView != null) {
+                    mCurrentEditTextView.setInEdit(false);
+                }
+                mCurrentView.setInEdit(false);
+                mCurrentView = stickerView;
+                mCurrentView.setInEdit(true);
+            }
+
+            @Override
+            public void onTop(StickerView stickerView) {
+                int position = mViews.indexOf(stickerView);
+                if (position == mViews.size() - 1) {
+                    return;
+                }
+                StickerView stickerTemp = (StickerView) mViews.remove(position);
+                mViews.add(mViews.size(), stickerTemp);
+            }
+        });
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        mContentRootView.addView(stickerView, lp);
+        mViews.add(stickerView);
+        setCurrentEdit(stickerView);
+    }
+
+
+
     private void setCurrentEdit(StickerView stickerView) {
         if (mCurrentView != null) {
             mCurrentView.setInEdit(false);
@@ -212,10 +336,7 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
     }
 
 
-    public void savePhoto(String path) {
-        addStickerView(path);
-    }
-
+    @Deprecated
     public void saveView() {
         if (mCurrentView != null) {
             mCurrentView.setInEdit(false);
@@ -227,11 +348,8 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
         MainActivityTabbed.isDragMode = isInEdit;
     }
 
-    public void addText() {
-        addBubbleView();
-    }
 
-    protected void addBubbleView() {
+    public void addTextView() {
         final BubbleTextView bubbleTextView = new BubbleTextView(getActivity(),
                 Color.BLACK, 0);
         bubbleTextView.setImageResource(R.mipmap.bubble_7_rb);
@@ -324,19 +442,6 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
 
         alert.show();
 
-    }
-
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-
-        for (View bubbleTextView :
-                mViews) {
-
-
-        }
     }
 
 

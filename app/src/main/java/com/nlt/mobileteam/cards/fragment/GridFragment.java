@@ -113,10 +113,10 @@ public class GridFragment extends Fragment implements BasicGridAdapter.OnItemCli
 
                 for (int i = 0; i < cardsArrayList.size(); i++) {
                     Card card = cardsArrayList.get(i);
-                    if (card.getFrontText().toString().contains(query)) {
-                        foldersRecyclerView.getLayoutManager().smoothScrollToPosition(foldersRecyclerView, null, i);
-                        break;
-                    }
+//                    if (card.getFrontText().toString().contains(query)) {
+//                        foldersRecyclerView.getLayoutManager().smoothScrollToPosition(foldersRecyclerView, null, i);
+//                        break;
+//                    }
                 }
             }
         });

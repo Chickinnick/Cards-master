@@ -1,13 +1,14 @@
 package com.nlt.mobileteam.cards.sticker.stickerdemo.model;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by Abner on 15/6/11.
  * QQ 230877476
  * Email nimengbo@gmail.com
  */
-public class StickerPropertyModel implements Serializable {
+public class StickerPropertyModel implements Parcelable {
     private static final long serialVersionUID = 3800737478616389410L;
 
     //贴纸id
@@ -102,4 +103,66 @@ public class StickerPropertyModel implements Serializable {
     public void setOrder(int order) {
         this.order = order;
     }
+
+
+    public StickerPropertyModel() {
+    }
+
+    protected StickerPropertyModel(Parcel in) {
+        stickerId = in.readLong();
+        text = in.readString();
+        xLocation = in.readFloat();
+        yLocation = in.readFloat();
+        degree = in.readFloat();
+        scaling = in.readFloat();
+        order = in.readInt();
+        horizonMirror = in.readInt();
+        stickerURL = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(stickerId);
+        dest.writeString(text);
+        dest.writeFloat(xLocation);
+        dest.writeFloat(yLocation);
+        dest.writeFloat(degree);
+        dest.writeFloat(scaling);
+        dest.writeInt(order);
+        dest.writeInt(horizonMirror);
+        dest.writeString(stickerURL);
+    }
+
+    @Override
+    public String toString() {
+        return "StickerPropertyModel{" +
+                "stickerId=" + stickerId +
+                ", text='" + text + '\'' +
+                ", xLocation=" + xLocation +
+                ", yLocation=" + yLocation +
+                ", degree=" + degree +
+                ", scaling=" + scaling +
+                ", order=" + order +
+                ", horizonMirror=" + horizonMirror +
+                ", stickerURL='" + stickerURL + '\'' +
+                '}';
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<StickerPropertyModel> CREATOR = new Parcelable.Creator<StickerPropertyModel>() {
+        @Override
+        public StickerPropertyModel createFromParcel(Parcel in) {
+            return new StickerPropertyModel(in);
+        }
+
+        @Override
+        public StickerPropertyModel[] newArray(int size) {
+            return new StickerPropertyModel[size];
+        }
+    };
 }

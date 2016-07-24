@@ -35,7 +35,7 @@ public class PlaceholderFragment extends Fragment {
     }
 
     public void addText() {
-        tempFragmentToReplace.addText();
+        tempFragmentToReplace.addTextView();
     }
 
     public interface OnFragmentClickListener {
@@ -159,8 +159,9 @@ public class PlaceholderFragment extends Fragment {
     }
 
     public void exitEditMode() {
-        tempFragmentToReplace.saveText();
-        tempFragmentToReplace.saveView();
+//        tempFragmentToReplace.saveText();
+//        tempFragmentToReplace.saveView();
+        tempFragmentToReplace.calculatePropertiesAndSave();
     }
 
     public ImageView getImageView() {
@@ -169,7 +170,7 @@ public class PlaceholderFragment extends Fragment {
 
 
     public void savePhotoInModel(String path) {
-        tempFragmentToReplace.savePhoto(path);
+        tempFragmentToReplace.addStickerView(path);
         FragmentManager childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         fragmentTransaction.detach(tempFragmentToReplace);

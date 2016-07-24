@@ -3,9 +3,7 @@ package com.nlt.mobileteam.cards.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +19,6 @@ import com.nlt.mobileteam.cards.controller.StorageController;
 import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.widget.ItemTouchHelperClass;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,7 +56,7 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
         mJustDeletedItem = items.remove(position);
         mIndexOfDeletedItem = position;
         notifyItemRemoved(position);
-        if (!TextUtils.isEmpty(mJustDeletedItem.getFrontText())) {
+        /*if (!TextUtils.isEmpty(mJustDeletedItem.getFrontText())) {
             String toShow = (mJustDeletedItem.getFrontText().length() > 20) ? mJustDeletedItem.getFrontText().substring(0, 20) + "..." : mJustDeletedItem.getFrontText();
             if (layout != null && layout.getContext() != null) {
                 Snackbar.make(rootView, "Deleted " + toShow, Snackbar.LENGTH_LONG)
@@ -71,7 +68,7 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
                             }
                         }).show();
             }
-        }
+        }*/
     }
 
     @Override
@@ -111,7 +108,7 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
                 holder.textView.setMaxLines(2);
             }
         */
-        holder.textView.setText(item.getFrontText());
+//        holder.textView.setText(item.getFrontText());
         if (item.isFavourite()) {
             holder.starImageBtn.setImageResource(R.drawable.ic_star_selected);
         } else {
@@ -120,15 +117,15 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
         }
 
 
-        holder.titleTextView.setText(item.getTitle());
+//        holder.titleTextView.setText(item.getTitle());
+//
+//        String path = item.getLinkToFrontImage();
 
-        String path = item.getLinkToFrontImage();
-
-            Picasso.with(context)
-                    .load(path)
-                    .resize(300, 200)
-                    .centerCrop()
-                    .into(holder.cardImageView);
+//            Picasso.with(context)
+//                    .load(path)
+//                    .resize(300, 200)
+//                    .centerCrop()
+//                    .into(holder.cardImageView);
 
 
         //holder.countTextView.setText(item.getCards().size() + " cards");

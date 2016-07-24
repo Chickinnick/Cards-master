@@ -3,43 +3,29 @@ package com.nlt.mobileteam.cards.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Card implements Parcelable {
 
     int position;
-    private String title;
-    private String frontText;
-    private String backText;
-    private String linkToFrontImage;
-    private String linkToBackImage;
     private boolean isFavourite;
     private UUID identifier;
+    private List<BubblePropertyModel> backTextArray = new ArrayList<>();
+    private List<StickerPropertyModel> backImageArray = new ArrayList<>();
+    private List<BubblePropertyModel> frontTextArray = new ArrayList<>();
+    private List<StickerPropertyModel> frontImageArray = new ArrayList<>();
 
     public Card() {
         identifier = UUID.randomUUID();
     }
 
-    public Card(String frontText, String backText) {
-        this.frontText = frontText;
-        this.backText = backText;
-        identifier = UUID.randomUUID();
-    }
 
-    public Card(String frontText, String backText, String title) {
-        this.frontText = frontText;
-        this.backText = backText;
-        this.title = title;
-        identifier = UUID.randomUUID();
-    }
 
-    public Card(int position, String frontText, String backText) {
-        this.position = position;
-        this.frontText = frontText;
-        this.backText = backText;
-        identifier = UUID.randomUUID();
-
-    }
 
     public int getPosition() {
         return position;
@@ -53,38 +39,23 @@ public class Card implements Parcelable {
         return identifier;
     }
 
-    public String getFrontText() {
-        return frontText;
-    }
-
-    public void setFrontText(String frontText) {
-        this.frontText = frontText;
-    }
-
-    public String getBackText() {
-        return backText;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setBackText(String backText) {
-        this.backText = backText;
-    }
 
     public Card(Parcel in) {
         this.identifier = (UUID) in.readSerializable();
-        this.title = in.readString();
-        this.frontText = in.readString();
-        this.backText = in.readString();
+        this.frontTextArray = new ArrayList<>();
+        in.readList(this.frontTextArray, BubblePropertyModel.class.getClassLoader());
+
+        this.backTextArray = new ArrayList<>();
+        in.readList(this.backTextArray, BubblePropertyModel.class.getClassLoader());
+
+        this.frontImageArray = new ArrayList<>();
+        in.readList(this.frontImageArray, StickerPropertyModel.class.getClassLoader());
+
+
+        this.backImageArray = new ArrayList<>();
+        in.readList(this.backImageArray, StickerPropertyModel.class.getClassLoader());
         this.position = in.readInt();
-        this.linkToFrontImage = in.readString();
-        this.linkToBackImage = in.readString();
+
         boolean[] arr = new boolean[1];
         in.readBooleanArray(arr);
         this.isFavourite = arr[0];
@@ -97,16 +68,11 @@ public class Card implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeSerializable(identifier);
-
-        dest.writeString(
-                this.title);
-        dest.writeString(
-                this.frontText);
-        dest.writeString(
-                this.backText);
+        dest.writeList(frontTextArray);
+        dest.writeList(backTextArray);
+        dest.writeList(frontImageArray);
+        dest.writeList(backImageArray);
         dest.writeInt(this.position);
-        dest.writeString(this.linkToFrontImage);
-        dest.writeString(this.linkToBackImage);
         dest.writeBooleanArray(new boolean[]{this.isFavourite});
     }
 
@@ -120,35 +86,19 @@ public class Card implements Parcelable {
         }
     };
 
-    public String getLinkToFrontImage() {
-        return linkToFrontImage;
-    }
-
-    public void setLinkToFrontImage(String linkToFrontImage) {
-        this.linkToFrontImage = linkToFrontImage;
-    }
 
     @Override
     public String toString() {
         return "Card{" +
                 "position=" + position +
-                ", title='" + title + '\'' +
-                ", frontText='" + frontText + '\'' +
-                ", backText='" + backText + '\'' +
-                ", linkToFrontImage='" + linkToFrontImage + '\'' +
-                ", linkToBackImage='" + linkToBackImage + '\'' +
                 ", isFavourite=" + isFavourite +
+                ", identifier=" + identifier +
+                ", backTextArray=" + backTextArray +
+                ", backImageArray=" + backImageArray +
+                ", frontTextArray=" + frontTextArray +
+                ", frontImageArray=" + frontImageArray +
                 '}';
     }
-
-    public String getLinkToBackImage() {
-        return linkToBackImage;
-    }
-
-    public void setLinkToBackImage(String linkToBackImage) {
-        this.linkToBackImage = linkToBackImage;
-    }
-
 
     public boolean isFavourite() {
         return isFavourite;
@@ -156,5 +106,37 @@ public class Card implements Parcelable {
 
     public void setFavourite(boolean favourite) {
         isFavourite = favourite;
+    }
+
+    public void setBackTextArray(List<BubblePropertyModel> backTextArray) {
+        this.backTextArray = backTextArray;
+    }
+
+    public void setBackImageArray(List<StickerPropertyModel> backImageArray) {
+        this.backImageArray = backImageArray;
+    }
+
+    public void setFrontTextArray(List<BubblePropertyModel> frontTextArray) {
+        this.frontTextArray = frontTextArray;
+    }
+
+    public void setFrontImageArray(List<StickerPropertyModel> frontImageArray) {
+        this.frontImageArray = frontImageArray;
+    }
+
+    public List<StickerPropertyModel> getFrontImageArray() {
+        return frontImageArray;
+    }
+
+    public List<BubblePropertyModel> getFrontTextArray() {
+        return frontTextArray;
+    }
+
+    public List<StickerPropertyModel> getBackImageArray() {
+        return backImageArray;
+    }
+
+    public List<BubblePropertyModel> getBackTextArray() {
+        return backTextArray;
     }
 }

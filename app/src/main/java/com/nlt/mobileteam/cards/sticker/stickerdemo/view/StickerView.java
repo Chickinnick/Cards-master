@@ -90,6 +90,8 @@ public class StickerView extends ImageView {
     //水平镜像
     private boolean isHorizonMirror = false;
     private EditStateListener isInEditListener;
+    private String mPath;
+    private float initScale;
 
     public StickerView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -189,7 +191,12 @@ public class StickerView extends ImageView {
 
     @Override
     public void setImageURI(Uri uri) {
+        mPath = uri.getPath();
         setBitmap(BitmapFactory.decodeFile(uri.getPath()));
+    }
+
+    public void setScale(float bitmapScale) {
+        initScale = bitmapScale;
     }
 
     public void setBitmap(Bitmap bitmap) {
@@ -200,7 +207,9 @@ public class StickerView extends ImageView {
         int w = mBitmap.getWidth();
         int h = mBitmap.getHeight();
         oringinWidth = w;
-        float initScale = (MIN_SCALE + MAX_SCALE) / 2;
+        if (initScale == 0) {
+            initScale = (MIN_SCALE + MAX_SCALE) / 2;
+        }
         matrix.postScale(initScale, initScale, w / 2, h / 2);
         //Y坐标为 （顶部操作栏+正方形图）/2
         matrix.postTranslate(mScreenwidth / 2 - w / 2, (mScreenwidth) / 2 - h / 2);
@@ -415,6 +424,7 @@ public class StickerView extends ImageView {
         } else {
             model.setHorizonMirror(2);
         }
+        model.setStickerURL(mPath);
         return model;
     }
 

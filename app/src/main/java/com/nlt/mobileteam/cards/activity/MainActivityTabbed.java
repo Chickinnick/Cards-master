@@ -614,7 +614,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 onTakePhotoClicked();
                 break;
             case R.id.fab_sheet_item_add:
-                cards.add(new Card("", "", getResources().getString(R.string.title)));
+                cards.add(new Card());
                 mSectionsPagerAdapter.setCards(cards);
                 mViewPager.setCurrentItem(cards.size() - 1);
                 break;
