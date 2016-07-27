@@ -90,6 +90,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             if (intent.getAction().equals(Action.SAVE_STATE.name())) {
                 Card changedCard = (Card) intent.getParcelableExtra(BroadcastManager.EXTRA_DATA);
                 Log.d("changed", "recieve: " + changedCard.toString());
+                Log.d("changed", "recieve: x;y" + changedCard.getFrontImageArray().get(0).getxLocation() + ":" +
+                        changedCard.getFrontImageArray().get(0).getyLocation());
                 cards.set(mViewPager.getCurrentItem(), changedCard);
                 currentFolder.setCards(cards);
                /* mSectionsPagerAdapter.notifyDataSetChanged();*/

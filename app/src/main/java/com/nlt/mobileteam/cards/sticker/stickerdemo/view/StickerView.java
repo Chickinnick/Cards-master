@@ -18,6 +18,7 @@ import android.widget.ImageView;
 
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
+import com.orhanobut.hawk.Hawk;
 
 
 public class StickerView extends ImageView {
@@ -425,7 +426,18 @@ public class StickerView extends ImageView {
             model.setHorizonMirror(2);
         }
         model.setStickerURL(mPath);
+        Hawk.put("matrix", matrix);
         return model;
+    }
+
+
+    public void restoreViewState(StickerPropertyModel stickerPropertyModel) {
+        matrix.reset();
+        matrix = new Matrix();
+//        matrix = new Matrix(Hawk.get("matrix", new Matrix()));
+        matrix.preScale(stickerPropertyModel.getScaling(), stickerPropertyModel.getScaling());
+        matrix.postTranslate(stickerPropertyModel.getxLocation(), stickerPropertyModel.getyLocation());
+        invalidate();
     }
 
     /**

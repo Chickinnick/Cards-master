@@ -273,9 +273,9 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
 
         stickerView.setIsInEditListener(this);
 
-        stickerView.setX(stickerPropertyModel.getxLocation());
+        /*stickerView.setX(stickerPropertyModel.getxLocation());
         stickerView.setY(stickerPropertyModel.getyLocation());
-
+*/
         //stickerView.
 
         stickerView.setOperationListener(new StickerView.OperationListener() {
@@ -308,6 +308,8 @@ public abstract class BaseCard extends Fragment implements View.OnClickListener,
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         mContentRootView.addView(stickerView, lp);
         mViews.add(stickerView);
+        stickerView.restoreViewState(stickerPropertyModel);
+
         setCurrentEdit(stickerView);
     }
 
