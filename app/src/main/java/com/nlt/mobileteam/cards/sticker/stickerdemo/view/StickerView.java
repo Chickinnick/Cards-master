@@ -417,8 +417,10 @@ public class StickerView extends ImageView {
         //TODO 占屏幕百分比
         float precentWidth = (mBitmap.getWidth() * rScale) / mScreenwidth;
         model.setScaling(precentWidth);
-        model.setxLocation(minX / mScreenwidth);
-        model.setyLocation(minY / mScreenwidth);
+        model.setxLocation(tx);
+//        model.setxLocation(minX / mScreenwidth);
+        model.setyLocation(ty);
+//        model.setyLocation(minY / mScreenwidth);
         model.setStickerId(stickerId);
         if (isHorizonMirror) {
             model.setHorizonMirror(1);
@@ -433,10 +435,27 @@ public class StickerView extends ImageView {
 
     public void restoreViewState(StickerPropertyModel stickerPropertyModel) {
         matrix.reset();
-        matrix = new Matrix();
-//        matrix = new Matrix(Hawk.get("matrix", new Matrix()));
-        matrix.preScale(stickerPropertyModel.getScaling(), stickerPropertyModel.getScaling());
-        matrix.postTranslate(stickerPropertyModel.getxLocation(), stickerPropertyModel.getyLocation());
+         matrix = new Matrix();
+
+
+        PointF localPointF = new PointF();
+        midDiagonalPoint(localPointF);
+        float rScale = stickerPropertyModel.getScaling();
+        Log.d(TAG, " width  : " + (mBitmap.getWidth() * rScale) + " height " + (mBitmap.getHeight() * rScale));
+
+        float minX = localPointF.x;
+        float minY = localPointF.y;
+
+
+      // matrix = new Matrix(Hawk.get("matrix", new Matrix()));
+        float x = minX / stickerPropertyModel.getxLocation() ;
+        float y = minY / stickerPropertyModel.getyLocation();
+
+        matrix.postRotate(stickerPropertyModel.getDegree());
+//         matrix.setTranslate( x , y);
+         matrix.setTranslate( stickerPropertyModel.getxLocation() , stickerPropertyModel.getyLocation());
+
+        matrix.postScale(rScale, rScale);
         invalidate();
     }
 
