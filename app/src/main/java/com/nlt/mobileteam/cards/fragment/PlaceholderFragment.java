@@ -36,12 +36,13 @@ public class PlaceholderFragment extends Fragment {
 
     public void addText() {
         tempFragmentToReplace.addTextView();
+        //tempFragmentToReplace.calculatePropertiesAndSave();
     }
 
     public interface OnFragmentClickListener {
         void onFragmentClick(View v);
 
-        void onTitleClick(View v);
+
     }
 
     public PlaceholderFragment() {
@@ -159,8 +160,6 @@ public class PlaceholderFragment extends Fragment {
     }
 
     public void exitEditMode() {
-//        tempFragmentToReplace.saveText();
-//        tempFragmentToReplace.saveView();
         tempFragmentToReplace.calculatePropertiesAndSave();
     }
 
@@ -176,5 +175,6 @@ public class PlaceholderFragment extends Fragment {
         fragmentTransaction.detach(tempFragmentToReplace);
         fragmentTransaction.attach(tempFragmentToReplace);
         fragmentTransaction.commit();
+        //tempFragmentToReplace.calculatePropertiesAndSave();
     }
 }

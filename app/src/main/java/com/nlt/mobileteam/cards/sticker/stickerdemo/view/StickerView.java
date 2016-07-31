@@ -420,6 +420,7 @@ public class StickerView extends ImageView {
         model.setxLocation(minX / mScreenwidth);
         model.setyLocation(minY / mScreenwidth);
         model.setStickerId(stickerId);
+        model.setMatrixValues(v);
         if (isHorizonMirror) {
             model.setHorizonMirror(1);
         } else {
@@ -433,19 +434,10 @@ public class StickerView extends ImageView {
 
     public void restoreViewState(StickerPropertyModel stickerPropertyModel) {
         matrix.reset();
-        matrix = new Matrix();
-//        matrix = new Matrix(Hawk.get("matrix", new Matrix()));
-        matrix.preScale(stickerPropertyModel.getScaling(), stickerPropertyModel.getScaling());
-        matrix.postTranslate(stickerPropertyModel.getxLocation(), stickerPropertyModel.getyLocation());
+        matrix.setValues(stickerPropertyModel.getMatrixValues());
         invalidate();
     }
 
-    /**
-     * 是否在四条线内部
-     * 图片旋转后 可能存在菱形状态 不能用4个点的坐标范围去判断点击区域是否在图片内
-     *
-     * @return
-     */
     private boolean isInBitmap(MotionEvent event) {
         float[] arrayOfFloat1 = new float[9];
         this.matrix.getValues(arrayOfFloat1);

@@ -147,10 +147,21 @@ public class BubbleTextView extends ImageView {
     private final long bubbleId;
 
 
+    int clickCount = 0;
+    //variable for storing the time of first click
+    long startTime;
+    //variable for calculating the total time
+    long duration;
+    //constant for defining the time duration between the click that can be considered as double-tap
+    static final int MAX_DURATION = 500;
+
+    int mBgColor = -1;
+
     public BubbleTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         defaultStr = getContext().getString(R.string.add_bubble);
         this.fontColor = Color.BLACK;
+        this.mBgColor = Color.GRAY;
         bubbleId = 0;
         init();
     }
@@ -159,6 +170,7 @@ public class BubbleTextView extends ImageView {
         super(context);
         defaultStr = getContext().getString(R.string.type_question_here);
         this.fontColor = Color.BLACK;
+        this.mBgColor = Color.GRAY;
         bubbleId = 0;
         init();
     }
@@ -255,6 +267,12 @@ public class BubbleTextView extends ImageView {
             float top = (mBitmap.getHeight() - height) / 2;
             //基于底线开始画的
             top += baseline;
+
+
+            mBitmap.eraseColor(mBgColor);
+            canvas.drawBitmap(mBitmap, matrix, null);
+
+
             for (String text : texts) {
                 if (TextUtils.isEmpty(text)) {
                     continue;
@@ -262,7 +280,7 @@ public class BubbleTextView extends ImageView {
                 canvasText.drawText(text, mBitmap.getWidth() / 2, top, mFontPaint);  //坐标以控件左上角为原点
                 top += baseline + fm.leading; //添加字体行间距
             }
-            canvas.drawBitmap(mBitmap, matrix, null);
+
 
             //删除在右上角
             dst_delete.left = (int) (f3 - deleteBitmapWidth / 2);
@@ -360,6 +378,7 @@ public class BubbleTextView extends ImageView {
         originBitmap = bitmap;
         mBitmap = originBitmap.copy(Bitmap.Config.ARGB_8888, true);
         canvasText = new Canvas(mBitmap);
+
         setDiagonalLength();
         initBitmaps();
         int w = mBitmap.getWidth();
@@ -410,7 +429,7 @@ public class BubbleTextView extends ImageView {
 
     private long preClicktime;
 
-    private final long doubleClickTimeLimit = 200;
+    private final long doubleClickTimeLimit = 1000;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -461,9 +480,15 @@ public class BubbleTextView extends ImageView {
 
                     long currentTime = System.currentTimeMillis();
                     Log.d(TAG, (currentTime - preClicktime) + "");
+                    startTime = System.currentTimeMillis();
+                    clickCount++;
+
+
                     if (currentTime - preClicktime > doubleClickTimeLimit) {
-                        preClicktime = currentTime;
+
                     } else {
+                        preClicktime = currentTime;
+
                         if (isInEdit && operationListener != null) {
                             operationListener.onClick(this);
                         }
@@ -542,6 +567,22 @@ public class BubbleTextView extends ImageView {
                 break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
+
+
+                long time = System.currentTimeMillis() - startTime;
+                duration = duration + time;
+                if (clickCount == 2) {
+                    if (duration <= MAX_DURATION) {
+                        if (null != operationListener) {
+                            operationListener.onDoubleTap();
+                        }
+                    }
+                    clickCount = 0;
+                    duration = 0;
+                    break;
+                }
+
+
                 isInResize = false;
                 isInSide = false;
                 isPointerDown = false;
@@ -588,10 +629,18 @@ public class BubbleTextView extends ImageView {
         Log.d(TAG, " x " + (minX / mScreenwidth) + " y " + (minY / mScreenwidth));
         model.setxLocation(minX / mScreenwidth);
         model.setyLocation(minY / mScreenwidth);
+        model.setMatrixValues(v);
         model.setText(mStr);
+        model.setBgColor(mBgColor);
         return model;
     }
 
+
+    public void restoreViewState(BubblePropertyModel bubblePropertyModel) {
+        matrix.reset();
+        matrix.setValues(bubblePropertyModel.getMatrixValues());
+        invalidate();
+    }
 
     /**
      * 是否在四条线内部
@@ -755,6 +804,8 @@ public class BubbleTextView extends ImageView {
 
         void onTop(BubbleTextView bubbleTextView);
 
+        void onDoubleTap();
+
         void onEditStart(String currentText);
     }
 
@@ -767,6 +818,15 @@ public class BubbleTextView extends ImageView {
         invalidate();
     }
 
+    public int getmBgColor() {
+        return mBgColor;
+    }
+
+    public void setmBgColor(int mBgColor) {
+        this.mBgColor = mBgColor;
+        invalidate();
+    }
+
     /**
      * 自动分割文本
      *
@@ -775,6 +835,8 @@ public class BubbleTextView extends ImageView {
      * @param width   指定的宽度
      * @return 一个字符串数组，保存每行的文本
      */
+
+
     private String[] autoSplit(String content, Paint p, float width) {
         int length = content.length();
         float textWidth = p.measureText(content);
