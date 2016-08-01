@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
@@ -16,9 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.flask.colorpicker.ColorPickerView;
-import com.flask.colorpicker.builder.ColorPickerClickListener;
-import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.activity.MainActivityTabbed;
 import com.nlt.mobileteam.cards.controller.BroadcastManager;
@@ -31,6 +29,10 @@ import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleInputDialog;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleTextView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.EditStateListener;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.StickerView;
+import com.pavelsikun.vintagechroma.ChromaDialog;
+import com.pavelsikun.vintagechroma.IndicatorMode;
+import com.pavelsikun.vintagechroma.OnColorSelectedListener;
+import com.pavelsikun.vintagechroma.colormode.ColorMode;
 
 import java.util.ArrayList;
 
@@ -87,22 +89,20 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         @Override
         public void onDoubleTap() {
             Activity activity = getActivity();
-            ColorPickerDialogBuilder
-                    .with(activity)
-                    .setTitle("Choose color")
-                    .initialColor(activity.getResources().getColor(R.color.mdtp_dark_gray))
-                    .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-                    .density(12)
 
-                    .setPositiveButton("ok", new ColorPickerClickListener() {
+
+            new ChromaDialog.Builder()
+                    .initialColor(Color.GREEN)
+                    .colorMode(ColorMode.ARGB) // RGB, ARGB, HVS, CMYK, CMYK255, HSL
+                    .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL; Note that (HSV || HSL || CMYK) && IndicatorMode.HEX is a bad idea
+                    .onColorSelected(new OnColorSelectedListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
-                            mCurrentEditTextView.setmBgColor(selectedColor);
+                        public void onColorSelected(@ColorInt int color) {
+                            mCurrentEditTextView.setmBgColor(color);
                         }
                     })
-                    .setNegativeButton("cancel", null)
-                    .build()
-                    .show();
+                    .create()
+                    .show(((MainActivityTabbed) getActivity()).getSupportFragmentManager(), "ChromaDialog");
         }
 
         @Override
@@ -266,6 +266,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     public void addTextView(BubblePropertyModel bubblePropertyModel) {
         final BubbleTextView bubbleTextView = new BubbleTextView(getActivity(),
                 Color.BLACK, 0);
+        bubbleTextView.setText(bubblePropertyModel.getText());
         bubbleTextView.setImageResource(R.mipmap.bubble_7_rb);
         bubbleTextView.setOperationListener(mOperationListener);
         bubbleTextView.setmBgColor(bubblePropertyModel.getBgColor());

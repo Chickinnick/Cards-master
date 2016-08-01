@@ -46,6 +46,7 @@ dependencies {
     compile 'com.github.tajchert:nammu:1.1.1'
     compile 'com.github.jkwiecien:EasyImage:1.2.3'
     compile 'com.android.support:support-v4:23.3.0'
-
     compile 'com.github.QuadFlask:colorpicker:0.0.10'
+
+    compile 'com.pavelsikun:vintage-chroma:1.5'
 }
