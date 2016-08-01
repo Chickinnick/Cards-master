@@ -159,7 +159,7 @@ public class BubbleTextView extends ImageView {
 
     public BubbleTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        defaultStr = getContext().getString(R.string.add_bubble);
+        defaultStr = getContext().getString(R.string.double_tap_to_edit_color);
         this.fontColor = Color.BLACK;
         this.mBgColor = Color.GRAY;
         bubbleId = 0;
@@ -190,7 +190,7 @@ public class BubbleTextView extends ImageView {
      */
     public BubbleTextView(Context context, int fontColor, long bubbleId) {
         super(context);
-        defaultStr = getContext().getString(R.string.double_click_input_text);
+        defaultStr = getContext().getString(R.string.double_tap_to_edit_color);
         this.fontColor = fontColor;
         this.bubbleId = bubbleId;
         init();

@@ -25,7 +25,6 @@ import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BaseViewModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
-import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleInputDialog;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleTextView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.EditStateListener;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.StickerView;
@@ -44,7 +43,6 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     private static final String LOG_TAG = "BaseCard";
 
 
-    public BubbleInputDialog mBubbleInputDialog;
 
     public StickerView mCurrentView;
 
@@ -72,8 +70,6 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
 
         @Override
         public void onClick(BubbleTextView bubbleTextView) {
-            mBubbleInputDialog.setBubbleTextView(bubbleTextView);
-            mBubbleInputDialog.show();
         }
 
         @Override

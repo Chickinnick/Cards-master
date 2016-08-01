@@ -170,7 +170,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         mViewPager = (ViewPager) findViewById(R.id.container);
         backgroundImage = (ImageView) findViewById(R.id.background);
         //  Picasso.with(this).load(Hawk.get(Util.SELECTED_BG_EXTRA, R.drawable.bg_1)).centerInside().into(backgroundImage);
-        backgroundImage.setImageResource(Hawk.get(Util.SELECTED_BG_EXTRA, R.drawable.bg_1));
+        backgroundImage.setImageResource(Hawk.get(Util.SELECTED_BG_EXTRA, R.drawable.backgr4));
         // mViewPager.setPageTransformer(false, );
         mSectionsPagerAdapter = new MainFragmentPagerAdapter(getFragmentManager(), cards, this);
         mSectionsPagerAdapter.setSize(cards.size());
@@ -229,6 +229,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG, StorageController.getInstance().getFolderFromStorage() + " ");
+
         updateTextIndicator();
     }
 
