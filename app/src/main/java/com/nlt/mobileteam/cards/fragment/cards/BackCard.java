@@ -2,6 +2,7 @@ package com.nlt.mobileteam.cards.fragment.cards;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,7 @@ public class BackCard extends BaseCard {
 
         Bundle args = getArguments();
         Card card = args.getParcelable(CARD_INSTANCE);
-        //  Log.d("Back:",  card.toString());
+        Log.d("Back:", card.toString());
         onRestoreViews(card);
 
         view.findViewById(R.id.bg).setBackground(getActivity().getResources().getDrawable(R.drawable.card_rev));

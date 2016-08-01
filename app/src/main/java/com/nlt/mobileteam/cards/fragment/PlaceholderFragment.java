@@ -4,14 +4,15 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.nlt.mobileteam.cards.R;
+import com.nlt.mobileteam.cards.fragment.cards.BackCard;
 import com.nlt.mobileteam.cards.fragment.cards.BaseCard;
+import com.nlt.mobileteam.cards.fragment.cards.FrontCard;
 import com.nlt.mobileteam.cards.model.Card;
 
 public class PlaceholderFragment extends Fragment {
@@ -22,13 +23,14 @@ public class PlaceholderFragment extends Fragment {
     private static final String ARG_CARD = "arg_card";
     public static final int SWIPED_UP = 1;
     public static final int SWIPED_DOWN = 2;
-    private BaseCard fragmentFront;
-    private BaseCard fragmentBack;
+    //    private BaseCard fragmentFront;
+//    private BaseCard fragmentBack;
     private BaseCard tempFragmentToReplace;
     private Card card;
     private ImageView imageView;
     int sectionNumber;
     public OnFragmentClickListener onFragmentClickListener;
+    private boolean isFront;
 
     public void setOnFragmentClickListener(OnFragmentClickListener onFragmentClickListener) {
         this.onFragmentClickListener = onFragmentClickListener;
@@ -57,11 +59,10 @@ public class PlaceholderFragment extends Fragment {
         card = getArguments().getParcelable(ARG_CARD);
         card.setPosition(getArguments().getInt(ARG_SECTION_NUMBER));
         sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
-        Log.w("PAGE", " onCreate  " + card.toString());
+        //    Log.w("PAGE", " onCreate  " + card.toString());
 
-        fragmentFront = BaseCard.newInstance(card, BaseCard.FRONT);
-        fragmentBack = BaseCard.newInstance(card, BaseCard.BACK);
-
+//        fragmentFront = BaseCard.newInstance(card, BaseCard.FRONT);
+//        fragmentBack = BaseCard.newInstance(card, BaseCard.BACK);
 
     }
 
@@ -76,7 +77,7 @@ public class PlaceholderFragment extends Fragment {
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         args.putParcelable(ARG_CARD, card);
         fragment.setArguments(args);
-        Log.w("PAGE", " newInstance  " + card.toString());
+        //Log.w("PAGE", " newInstance  " + card.toString());
         return fragment;
     }
 
@@ -87,41 +88,64 @@ public class PlaceholderFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main_activity_tabbed, container, false);
         rootView.requestFocus();
-       /*  rootView.setOnClickListener(new View.OnClickListener() {
+        rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onFragmentClickListener.onFragmentClick(v);
 
             }
-        });*/
-        //
-        Log.w("PAGE", "onCreateView" + card.toString());
+        });
+
         FragmentManager childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
         if (tempFragmentToReplace == null) {
-            tempFragmentToReplace = fragmentFront;
+            tempFragmentToReplace = FrontCard.newInstance(card, BaseCard.FRONT);
+            isFront = true;
         }
         fragmentTransaction.replace(R.id.card_layout, tempFragmentToReplace);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
+
+        //
+//        Log.w("PAGE", "onCreateView" + card.toString());
+
         return rootView;
     }
 
+    public void updateCard(Card newCard) {
+//             Bundle args = new Bundle();
+//                args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+//            args.putParcelable(ARG_CARD, newCard);
+//            setArguments(args);
+        card = newCard;
+
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //card = ( (MainActivityTabbed) getActivity()).getCurrentCard();
+
+
+    }
 
     public void toggleFragment(int swipe) {
         FragmentManager childFragmentManager = getChildFragmentManager();
         FragmentTransaction fragmentTransaction = childFragmentManager.beginTransaction();
 
         if (tempFragmentToReplace == null) {
-            tempFragmentToReplace = fragmentBack;
+            tempFragmentToReplace = BackCard.newInstance(card, BaseCard.BACK);
+            isFront = false;
         }
 
-        if (tempFragmentToReplace.equals(fragmentBack)) {
-            tempFragmentToReplace = fragmentFront;
-
-        } else if (tempFragmentToReplace.equals(fragmentFront)) {
-            tempFragmentToReplace = fragmentBack;
+        if (!isFront) {
+            tempFragmentToReplace = FrontCard.newInstance(card, BaseCard.FRONT);
+            isFront = true;
+        } else {
+            tempFragmentToReplace = BackCard.newInstance(card, BaseCard.BACK);
+            isFront = false;
         }
 
         if (swipe == SWIPED_DOWN) {
@@ -138,8 +162,8 @@ public class PlaceholderFragment extends Fragment {
             );
         }
         fragmentTransaction.replace(R.id.card_layout, tempFragmentToReplace);
-        fragmentTransaction.detach(tempFragmentToReplace);
-        fragmentTransaction.attach(tempFragmentToReplace);
+//        fragmentTransaction.detach(tempFragmentToReplace);
+//        fragmentTransaction.attach(tempFragmentToReplace);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
@@ -151,8 +175,8 @@ public class PlaceholderFragment extends Fragment {
         return card;
     }
 
-    public void enterEditMode() {
-        // tempFragmentToReplace.editText();
+    public void clearFocus() {
+        tempFragmentToReplace.clearFocus();
     }
 
     public void enterEditTitleMode() {

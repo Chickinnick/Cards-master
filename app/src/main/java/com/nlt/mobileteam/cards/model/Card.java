@@ -79,12 +79,9 @@ public class Card implements Parcelable {
 
     @Override
     public String toString() {
-        return "Card{" +
-                "position=" + position +
-                ", isFavourite=" + isFavourite +
-                ", identifier=" + identifier +
-                ", frontSavedViewArray=" + frontSavedViewArray +
-                ", backSavedViewArray=" + backSavedViewArray +
+        return "Card{front:" +
+                (frontSavedViewArray != null && !frontSavedViewArray.isEmpty()) +
+                ", backSavedViewArray=" + (backSavedViewArray != null && !backSavedViewArray.isEmpty()) +
                 '}';
     }
 

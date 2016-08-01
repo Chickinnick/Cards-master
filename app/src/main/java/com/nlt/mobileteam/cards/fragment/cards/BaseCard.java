@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,6 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     public static final int BACK = 2;
     protected static final String CARD_INSTANCE = "card_parcelable_key_ss";
     private static final String LOG_TAG = "BaseCard";
-
 
 
     public BubbleInputDialog mBubbleInputDialog;
@@ -168,8 +168,6 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     public abstract void onRestoreViews(Card card);
 
 
-
-
     @Override
     public void onPause() {
         //calculatePropertiesAndSave();
@@ -178,11 +176,18 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
 
     public void calculatePropertiesAndSave() {
         Card cardTosave = ((MainActivityTabbed) getActivity()).getCurrentCard();
+
         if (this instanceof BackCard) {
             cardTosave.setBackSavedViewArray(getViewArray());
+
         } else if (this instanceof FrontCard) {
             cardTosave.setFrontSavedViewArray(getViewArray());
+
+
         }
+        Log.d(LOG_TAG, "calculatePropertiesAndSave; " + cardTosave.toString());
+
+
         BroadcastManager.getInstance().sendBroadcastWithParcelable(Action.SAVE_STATE.name(), cardTosave);
     }
 
@@ -227,7 +232,6 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         stickerView.restoreViewState(stickerPropertyModel);
         setCurrentEdit(stickerView);
     }
-
 
 
     private void setCurrentEdit(StickerView stickerView) {
@@ -304,4 +308,12 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     }
 
 
+    public void clearFocus() {
+        if (null != mCurrentView) {
+            mCurrentView.setInEdit(false);
+        }
+        if (null != mCurrentEditTextView) {
+            mCurrentEditTextView.setInEdit(false);
+        }
+    }
 }

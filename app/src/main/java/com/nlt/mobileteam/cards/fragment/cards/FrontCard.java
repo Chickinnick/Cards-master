@@ -2,6 +2,7 @@ package com.nlt.mobileteam.cards.fragment.cards;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import java.util.List;
 public class FrontCard extends BaseCard {
 
 
+    public static final String SAVED_ARRAY_KEY = "saved_v_array_key";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,6 +29,8 @@ public class FrontCard extends BaseCard {
 
         Bundle args = getArguments();
         Card card = args.getParcelable(CARD_INSTANCE);
+        Log.d("Front:", card.toString());
+
         //  Log.d("Front:",  card.toString());
 
         onRestoreViews(card);
