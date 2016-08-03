@@ -32,7 +32,6 @@ import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.Util;
 import com.nlt.mobileteam.cards.adapter.MainFragmentPagerAdapter;
 import com.nlt.mobileteam.cards.controller.BroadcastManager;
-import com.nlt.mobileteam.cards.controller.EDIT_MODE_FLAG;
 import com.nlt.mobileteam.cards.controller.StorageController;
 import com.nlt.mobileteam.cards.fragment.PlaceholderFragment;
 import com.nlt.mobileteam.cards.model.Action;
@@ -63,18 +62,18 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     public static boolean isShuffleMode;
     private boolean isFirstSwipe;
     private Fab viewFolderFab;
+    private OnCardChangedListener onCardChangedListener;
+
+    public interface OnCardChangedListener {
+        void onCardChanged(Card card);
+    }
 
     @Override
     public void onFragmentClick(View v) {
         toggleMenu();
-        editCard(EDIT_MODE_FLAG.BODY);
+        idleCard();
     }
 
-    @Override
-    public void onTitleClick(View v) {
-        toggleMenu();
-        editCard(EDIT_MODE_FLAG.TITLE);
-    }
 
     public Card getCurrentCard() {
         return cards.get(mViewPager.getCurrentItem());
@@ -90,8 +89,11 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             if (intent.getAction().equals(Action.SAVE_STATE.name())) {
                 Card changedCard = (Card) intent.getParcelableExtra(BroadcastManager.EXTRA_DATA);
                 Log.d("changed", "recieve: " + changedCard.toString());
-                Log.d("changed", "recieve: x;y" + changedCard.getFrontImageArray().get(0).getxLocation() + ":" +
-                        changedCard.getFrontImageArray().get(0).getyLocation());
+                Fragment currentFragment = mSectionsPagerAdapter.getCurrentFragment();
+                if (currentFragment != null) {
+                    ((PlaceholderFragment) currentFragment).updateCard(changedCard);
+                }
+
                 cards.set(mViewPager.getCurrentItem(), changedCard);
                 currentFolder.setCards(cards);
                /* mSectionsPagerAdapter.notifyDataSetChanged();*/
@@ -168,7 +170,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         mViewPager = (ViewPager) findViewById(R.id.container);
         backgroundImage = (ImageView) findViewById(R.id.background);
         //  Picasso.with(this).load(Hawk.get(Util.SELECTED_BG_EXTRA, R.drawable.bg_1)).centerInside().into(backgroundImage);
-        backgroundImage.setImageResource(Hawk.get(Util.SELECTED_BG_EXTRA, R.drawable.bg_1));
+        backgroundImage.setImageResource(Hawk.get(Util.SELECTED_BG_EXTRA, R.drawable.backgr4));
         // mViewPager.setPageTransformer(false, );
         mSectionsPagerAdapter = new MainFragmentPagerAdapter(getFragmentManager(), cards, this);
         mSectionsPagerAdapter.setSize(cards.size());
@@ -227,6 +229,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG, StorageController.getInstance().getFolderFromStorage() + " ");
+
         updateTextIndicator();
     }
 
@@ -358,7 +362,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 isDragMode = true;
 
                 ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).savePhotoInModel("file://" + imageFile.getAbsolutePath());
-                // CardDataController.getInstance().saveInStorageAndRemove();
+
                 mSectionsPagerAdapter.notifyDataSetChanged();
             }
 
@@ -425,7 +429,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
         if (id == R.id.action_edit) {
             toggleMenu();
-            editCard(EDIT_MODE_FLAG.BODY);
+            idleCard();
             return true;
         }
 
@@ -443,23 +447,16 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         }
     }
 
-    private void editCard(EDIT_MODE_FLAG flag) {
-        if (!isEditing) {
-            isEditing = true;
-
-            if (EDIT_MODE_FLAG.BODY == flag) {
-                ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).enterEditMode();
-            } else if (EDIT_MODE_FLAG.TITLE == flag) {
-                ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).enterEditTitleMode();
-            }
-
-        } else {
+    private void idleCard() {
+        //  if (isEditing) {
+        isEditing = false;
+        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).clearFocus();
             doneClick();
-        }
+        //  }
     }
 
     private void doneClick() {
-        if (isEditing) {
+        //   if (isEditing) {
             Fragment currentFragment = mSectionsPagerAdapter.getCurrentFragment();
             if (currentFragment != null) {
                 ((PlaceholderFragment) currentFragment).exitEditMode();
@@ -469,7 +466,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             imm.hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
             isEditing = false;
             isDragMode = false;
-        }
+        //  }
     }
 
     private Card getCurrentCard(int currentItemIndex) {
@@ -601,7 +598,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        doneClick();
+        // doneClick();
 
     }
 

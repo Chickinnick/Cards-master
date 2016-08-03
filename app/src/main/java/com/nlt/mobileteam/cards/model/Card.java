@@ -3,8 +3,7 @@ package com.nlt.mobileteam.cards.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
-import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BaseViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +14,8 @@ public class Card implements Parcelable {
     int position;
     private boolean isFavourite;
     private UUID identifier;
-    private List<BubblePropertyModel> backTextArray = new ArrayList<>();
-    private List<StickerPropertyModel> backImageArray = new ArrayList<>();
-    private List<BubblePropertyModel> frontTextArray = new ArrayList<>();
-    private List<StickerPropertyModel> frontImageArray = new ArrayList<>();
+    private List<BaseViewModel> frontSavedViewArray = new ArrayList<>();
+    private List<BaseViewModel> backSavedViewArray = new ArrayList<>();
 
     public Card() {
         identifier = UUID.randomUUID();
@@ -42,18 +39,13 @@ public class Card implements Parcelable {
 
     public Card(Parcel in) {
         this.identifier = (UUID) in.readSerializable();
-        this.frontTextArray = new ArrayList<>();
-        in.readList(this.frontTextArray, BubblePropertyModel.class.getClassLoader());
+        this.frontSavedViewArray = new ArrayList<>();
+        in.readList(this.frontSavedViewArray, BaseViewModel.class.getClassLoader());
 
-        this.backTextArray = new ArrayList<>();
-        in.readList(this.backTextArray, BubblePropertyModel.class.getClassLoader());
-
-        this.frontImageArray = new ArrayList<>();
-        in.readList(this.frontImageArray, StickerPropertyModel.class.getClassLoader());
+        this.backSavedViewArray = new ArrayList<>();
+        in.readList(this.backSavedViewArray, BaseViewModel.class.getClassLoader());
 
 
-        this.backImageArray = new ArrayList<>();
-        in.readList(this.backImageArray, StickerPropertyModel.class.getClassLoader());
         this.position = in.readInt();
 
         boolean[] arr = new boolean[1];
@@ -68,10 +60,8 @@ public class Card implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeSerializable(identifier);
-        dest.writeList(frontTextArray);
-        dest.writeList(backTextArray);
-        dest.writeList(frontImageArray);
-        dest.writeList(backImageArray);
+        dest.writeList(frontSavedViewArray);
+        dest.writeList(backSavedViewArray);
         dest.writeInt(this.position);
         dest.writeBooleanArray(new boolean[]{this.isFavourite});
     }
@@ -89,14 +79,9 @@ public class Card implements Parcelable {
 
     @Override
     public String toString() {
-        return "Card{" +
-                "position=" + position +
-                ", isFavourite=" + isFavourite +
-                ", identifier=" + identifier +
-                ", backTextArray=" + backTextArray +
-                ", backImageArray=" + backImageArray +
-                ", frontTextArray=" + frontTextArray +
-                ", frontImageArray=" + frontImageArray +
+        return "Card{front:" +
+                (frontSavedViewArray != null && !frontSavedViewArray.isEmpty()) +
+                ", backSavedViewArray=" + (backSavedViewArray != null && !backSavedViewArray.isEmpty()) +
                 '}';
     }
 
@@ -108,35 +93,20 @@ public class Card implements Parcelable {
         isFavourite = favourite;
     }
 
-    public void setBackTextArray(List<BubblePropertyModel> backTextArray) {
-        this.backTextArray = backTextArray;
+    public void setFrontSavedViewArray(ArrayList<BaseViewModel> frontSavedViewArray) {
+        this.frontSavedViewArray = frontSavedViewArray;
     }
 
-    public void setBackImageArray(List<StickerPropertyModel> backImageArray) {
-        this.backImageArray = backImageArray;
+
+    public List<BaseViewModel> getBackSavedViewArray() {
+        return backSavedViewArray;
     }
 
-    public void setFrontTextArray(List<BubblePropertyModel> frontTextArray) {
-        this.frontTextArray = frontTextArray;
+    public void setBackSavedViewArray(ArrayList<BaseViewModel> backSavedViewArray) {
+        this.backSavedViewArray = backSavedViewArray;
     }
 
-    public void setFrontImageArray(List<StickerPropertyModel> frontImageArray) {
-        this.frontImageArray = frontImageArray;
-    }
-
-    public List<StickerPropertyModel> getFrontImageArray() {
-        return frontImageArray;
-    }
-
-    public List<BubblePropertyModel> getFrontTextArray() {
-        return frontTextArray;
-    }
-
-    public List<StickerPropertyModel> getBackImageArray() {
-        return backImageArray;
-    }
-
-    public List<BubblePropertyModel> getBackTextArray() {
-        return backTextArray;
+    public List<BaseViewModel> getFrontSavedViewArray() {
+        return frontSavedViewArray;
     }
 }

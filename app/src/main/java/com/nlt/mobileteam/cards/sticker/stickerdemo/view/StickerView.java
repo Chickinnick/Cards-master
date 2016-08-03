@@ -417,11 +417,10 @@ public class StickerView extends ImageView {
         //TODO 占屏幕百分比
         float precentWidth = (mBitmap.getWidth() * rScale) / mScreenwidth;
         model.setScaling(precentWidth);
-        model.setxLocation(tx);
-//        model.setxLocation(minX / mScreenwidth);
-        model.setyLocation(ty);
-//        model.setyLocation(minY / mScreenwidth);
+        model.setxLocation(minX / mScreenwidth);
+        model.setyLocation(minY / mScreenwidth);
         model.setStickerId(stickerId);
+        model.setMatrixValues(v);
         if (isHorizonMirror) {
             model.setHorizonMirror(1);
         } else {
@@ -435,36 +434,10 @@ public class StickerView extends ImageView {
 
     public void restoreViewState(StickerPropertyModel stickerPropertyModel) {
         matrix.reset();
-         matrix = new Matrix();
-
-
-        PointF localPointF = new PointF();
-        midDiagonalPoint(localPointF);
-        float rScale = stickerPropertyModel.getScaling();
-        Log.d(TAG, " width  : " + (mBitmap.getWidth() * rScale) + " height " + (mBitmap.getHeight() * rScale));
-
-        float minX = localPointF.x;
-        float minY = localPointF.y;
-
-
-      // matrix = new Matrix(Hawk.get("matrix", new Matrix()));
-        float x = minX / stickerPropertyModel.getxLocation() ;
-        float y = minY / stickerPropertyModel.getyLocation();
-
-        matrix.postRotate(stickerPropertyModel.getDegree());
-//         matrix.setTranslate( x , y);
-         matrix.setTranslate( stickerPropertyModel.getxLocation() , stickerPropertyModel.getyLocation());
-
-        matrix.postScale(rScale, rScale);
+        matrix.setValues(stickerPropertyModel.getMatrixValues());
         invalidate();
     }
 
-    /**
-     * 是否在四条线内部
-     * 图片旋转后 可能存在菱形状态 不能用4个点的坐标范围去判断点击区域是否在图片内
-     *
-     * @return
-     */
     private boolean isInBitmap(MotionEvent event) {
         float[] arrayOfFloat1 = new float[9];
         this.matrix.getValues(arrayOfFloat1);

@@ -8,7 +8,7 @@ import android.os.Parcelable;
  * QQ 230877476
  * Email nimengbo@gmail.com
  */
-public class BubblePropertyModel implements Parcelable {
+public class BubblePropertyModel extends BaseViewModel implements Parcelable {
     private static final long serialVersionUID = 6339777989485920188L;
     //气泡id
     private long bubbleId;
@@ -24,6 +24,12 @@ public class BubblePropertyModel implements Parcelable {
     private float scaling;
     //气泡顺序
     private int order;
+    private float[] matrixValues;
+    private int bgColor;
+
+    public int getBgColor() {
+        return bgColor;
+    }
 
     public long getBubbleId() {
         return bubbleId;
@@ -31,6 +37,10 @@ public class BubblePropertyModel implements Parcelable {
 
     public void setBubbleId(long bubbleId) {
         this.bubbleId = bubbleId;
+    }
+
+    public float[] getMatrixValues() {
+        return matrixValues;
     }
 
     public String getText() {
@@ -92,6 +102,9 @@ public class BubblePropertyModel implements Parcelable {
         degree = in.readFloat();
         scaling = in.readFloat();
         order = in.readInt();
+        matrixValues = new float[9];
+        in.readFloatArray(matrixValues);
+        bgColor = in.readInt();
     }
 
     @Override
@@ -108,6 +121,8 @@ public class BubblePropertyModel implements Parcelable {
         dest.writeFloat(degree);
         dest.writeFloat(scaling);
         dest.writeInt(order);
+        dest.writeFloatArray(matrixValues);
+        dest.writeInt(bgColor);
     }
 
     @Override
@@ -135,4 +150,12 @@ public class BubblePropertyModel implements Parcelable {
             return new BubblePropertyModel[size];
         }
     };
+
+    public void setMatrixValues(float[] matrixValues) {
+        this.matrixValues = matrixValues;
+    }
+
+    public void setBgColor(int bgColor) {
+        this.bgColor = bgColor;
+    }
 }

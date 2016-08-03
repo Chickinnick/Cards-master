@@ -124,4 +124,6 @@ public class MainFragmentPagerAdapter extends FixedFragmentStatePagerAdapter {
         }
         return cards.get(currentItemIndex);
     }
+
+
 }

@@ -39,20 +39,18 @@ public class StorageController {
         //cards.add(new Card("Awesome question?", "answer"));
         cards.add(new Card());
         cards.add(new Card());
-//        cards.add(new Card("C", "CC", "my title CCC"));
-//        cards.add(new Card("D", "DD"));
-//        cards.add(new Card("E", "EE"));
-//        cards.add(new Card("F", "FF"));
-//        cards.add(new Card("G", "GG"));
-//        cards.add(new Card("H", "HH"));
-//        cards.add(new Card("I", "II"));
-
         return cards;
     }
 
 
     public ArrayList<Folder> getFolderFromStorage() {
-        return Hawk.get(FOLDERS_DATA_KEY, getDefaultFoldersList());
+        if (Hawk.get(FOLDERS_DATA_KEY) == null) {
+            Log.d("StorageController", "FOLDERS_ null return default");
+            return getDefaultFoldersList();
+        } else {
+            Log.d("StorageController", "FOLDERS_ from storage");
+            return Hawk.get(FOLDERS_DATA_KEY);
+        }
     }
 
 

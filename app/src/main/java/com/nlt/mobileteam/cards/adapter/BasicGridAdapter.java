@@ -18,6 +18,8 @@ import com.nlt.mobileteam.cards.controller.BroadcastManager;
 import com.nlt.mobileteam.cards.controller.StorageController;
 import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BaseViewModel;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
 import com.nlt.mobileteam.cards.widget.ItemTouchHelperClass;
 
 import java.util.ArrayList;
@@ -108,7 +110,7 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
                 holder.textView.setMaxLines(2);
             }
         */
-//        holder.textView.setText(item.getFrontText());
+        holder.textView.setText(getFirstTextFromArr(item));
         if (item.isFavourite()) {
             holder.starImageBtn.setImageResource(R.drawable.ic_star_selected);
         } else {
@@ -160,6 +162,16 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
             }*/
 
 
+    }
+
+    private String getFirstTextFromArr(Card item) {
+        for (BaseViewModel baseViewModel : item.getFrontSavedViewArray()) {
+            if (baseViewModel instanceof BubblePropertyModel) {
+                return ((BubblePropertyModel) baseViewModel).getText();
+            }
+        }
+
+        return "";
     }
 
     @Override

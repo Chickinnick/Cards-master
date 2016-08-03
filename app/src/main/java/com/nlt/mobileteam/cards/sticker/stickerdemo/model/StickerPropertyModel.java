@@ -8,7 +8,7 @@ import android.os.Parcelable;
  * QQ 230877476
  * Email nimengbo@gmail.com
  */
-public class StickerPropertyModel implements Parcelable {
+public class StickerPropertyModel extends BaseViewModel implements Parcelable {
     private static final long serialVersionUID = 3800737478616389410L;
 
     //贴纸id
@@ -31,6 +31,7 @@ public class StickerPropertyModel implements Parcelable {
 
     //贴纸PNG URL
     private String stickerURL;
+    private float[] matrixValues;
 
     public int getHorizonMirror() {
         return horizonMirror;
@@ -118,6 +119,8 @@ public class StickerPropertyModel implements Parcelable {
         order = in.readInt();
         horizonMirror = in.readInt();
         stickerURL = in.readString();
+        matrixValues = new float[9];
+        in.readFloatArray(matrixValues);
     }
 
     @Override
@@ -136,6 +139,7 @@ public class StickerPropertyModel implements Parcelable {
         dest.writeInt(order);
         dest.writeInt(horizonMirror);
         dest.writeString(stickerURL);
+        dest.writeFloatArray(matrixValues);
     }
 
     @Override
@@ -165,4 +169,12 @@ public class StickerPropertyModel implements Parcelable {
             return new StickerPropertyModel[size];
         }
     };
+
+    public void setMatrixValues(float[] matrixValues) {
+        this.matrixValues = matrixValues;
+    }
+
+    public float[] getMatrixValues() {
+        return matrixValues;
+    }
 }
