@@ -74,6 +74,11 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         idleCard();
     }
 
+    @Override
+    public void onLongClick() {
+        onAddTextClicked();
+    }
+
 
     public Card getCurrentCard() {
         return cards.get(mViewPager.getCurrentItem());
@@ -209,7 +214,6 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 sheetColor, fabColor);
 
         findViewById(R.id.fab_sheet_item_photo).setOnClickListener(this);
-        findViewById(R.id.fab_sheet_item_text).setOnClickListener(this);
         findViewById(R.id.fab_sheet_item_add).setOnClickListener(this);
         findViewById(R.id.fab_sheet_item_load).setOnClickListener(this);
         findViewById(R.id.fab_sheet_item_remove).setOnClickListener(this);
@@ -450,6 +454,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private void idleCard() {
         //  if (isEditing) {
         isEditing = false;
+        isDragMode = false;
         ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).clearFocus();
             doneClick();
         //  }
@@ -606,9 +611,6 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.fab_sheet_item_text:
-                onAddTextClicked();
-                break;
             case R.id.fab_sheet_item_photo:
                 onTakePhotoClicked();
                 break;
@@ -628,12 +630,12 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 mViewPager.setCurrentItem(cards.size() - 1);
 
                 break;
-            case R.id.fab_folder_right:
+         /*   case R.id.fab_folder_right:
                 Intent intent = new Intent(MainActivityTabbed.this, ScrollingActivity.class);
                 intent.putExtra(Action.VIEW_FOLDER_INTENT_EXTRA, true);
                 intent.putExtra(Action.VIEW_FOLDER_INTENT_EXTRA_DATA, currentFolder);
                 startActivityForResult(intent, Util.PICK_FOLDER_REQUEST);
-                break;
+                break;*/
         }
         materialSheetFab.hideSheet();
     }

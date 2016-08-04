@@ -7,6 +7,8 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.model.Folder;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BaseViewModel;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
@@ -64,6 +66,24 @@ public class StorageController {
     }
 
     public void saveFolders(ArrayList<Folder> foldersArrayList) {
+
+        try {
+            Log.d("Storage", " try saveFolders:" + ((BubblePropertyModel) foldersArrayList.get(0).getCards().get(0).getFrontSavedViewArray().get(0)).getText());
+        } catch (Exception e) {
+
+            Log.d("Storage", "saveFolders catch ");
+
+            return;
+        }
+
+
+        if(foldersArrayList== null){
+            Log.d("Storage", "saveFolders null ");
+
+            return;
+        }
+        Log.d("Storage", "saveFolders  ");
+
         Hawk.put(FOLDERS_DATA_KEY, foldersArrayList);
     }
 

@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.activity.MainActivityTabbed;
@@ -34,6 +35,8 @@ import com.pavelsikun.vintagechroma.OnColorSelectedListener;
 import com.pavelsikun.vintagechroma.colormode.ColorMode;
 
 import java.util.ArrayList;
+
+import static com.nlt.mobileteam.cards.activity.MainActivityTabbed.isDragMode;
 
 public abstract class BaseCard extends Fragment implements EditStateListener {
 
@@ -55,6 +58,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         @Override
         public void onDeleteClick() {
             mViews.remove(mCurrentEditTextView);
+            checkTextViesState();
             mContentRootView.removeView(mCurrentEditTextView);
         }
 
@@ -66,10 +70,14 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
             mCurrentEditTextView.setInEdit(false);
             mCurrentEditTextView = bubbleTextView;
             mCurrentEditTextView.setInEdit(true);
+            isDragMode = true;
+
         }
 
         @Override
         public void onClick(BubbleTextView bubbleTextView) {
+
+            isDragMode = true;
         }
 
         @Override
@@ -110,6 +118,8 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         @Override
         public void onDeleteClick() {
             mViews.remove(mCurrentView);
+            checkTextViesState();
+
             mContentRootView.removeView(mCurrentView);
         }
 
@@ -121,6 +131,8 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
             mCurrentView.setInEdit(false);
             mCurrentView = stickerView;
             mCurrentView.setInEdit(true);
+            isDragMode = true;
+
         }
 
         @Override
@@ -133,6 +145,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
             mViews.add(mViews.size(), stickerTemp);
         }
     };
+    private TextView hintTextView;
 
 
     public static BaseCard newInstance(Card card, int flag) {
@@ -155,10 +168,12 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         View rootView = inflater.inflate(R.layout.card_front, container, false);
         rootView.requestFocus();
         mViews = new ArrayList<>();
-
         mContentRootView = (RelativeLayout) rootView.findViewById(R.id.card_container);
+        hintTextView = (TextView) rootView.findViewById(R.id.textview);
         return rootView;
     }
+
+
 
 
     public abstract void onRestoreViews(Card card);
@@ -201,9 +216,20 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
                 resultVList.add(bubblePropertyModel);
             }
         }
+        checkTextViesState();
+
         return resultVList;
     }
 
+
+    void checkTextViesState(){
+        if(mViews!= null && !mViews.isEmpty()){
+            hintTextView.setVisibility(View.GONE);
+        } else {
+            hintTextView.setVisibility(View.VISIBLE);
+
+        }
+    }
 
     public void addStickerView(String path) {
         final StickerView stickerView = new StickerView(getActivity());
@@ -214,6 +240,8 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         mContentRootView.addView(stickerView, lp);
         mViews.add(stickerView);
         setCurrentEdit(stickerView);
+        checkTextViesState();
+
     }
 
 
@@ -227,6 +255,8 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         mViews.add(stickerView);
         stickerView.restoreViewState(stickerPropertyModel);
         setCurrentEdit(stickerView);
+        checkTextViesState();
+
     }
 
 
@@ -255,7 +285,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
 
     @Override
     public void editStateChanged(boolean isInEdit) {
-        MainActivityTabbed.isDragMode = isInEdit;
+        isDragMode = isInEdit;
     }
 
 
@@ -272,6 +302,8 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
 
         bubbleTextView.restoreViewState(bubblePropertyModel);
         setCurrentEdit(bubbleTextView);
+        checkTextViesState();
+
 
     }
 
@@ -285,6 +317,8 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         mContentRootView.addView(bubbleTextView, lp);
         mViews.add(bubbleTextView);
         setCurrentEdit(bubbleTextView);
+        checkTextViesState();
+
 
     }
 

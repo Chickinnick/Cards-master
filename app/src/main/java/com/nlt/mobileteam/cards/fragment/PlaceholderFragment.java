@@ -44,6 +44,7 @@ public class PlaceholderFragment extends Fragment {
     public interface OnFragmentClickListener {
         void onFragmentClick(View v);
 
+        void onLongClick();
 
     }
 
@@ -81,6 +82,13 @@ public class PlaceholderFragment extends Fragment {
         return fragment;
     }
 
+    int clickCount = 0;
+    //variable for storing the time of first click
+    long startTime;
+    //variable for calculating the total time
+    long duration;
+    //constant for defining the time duration between the click that can be considered as double-tap
+    static final int MAX_DURATION = 100;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,11 +96,19 @@ public class PlaceholderFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main_activity_tabbed, container, false);
         rootView.requestFocus();
+
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onFragmentClickListener.onFragmentClick(v);
+            }
+        });
 
+        rootView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onFragmentClickListener.onLongClick();
+                return true;
             }
         });
 
