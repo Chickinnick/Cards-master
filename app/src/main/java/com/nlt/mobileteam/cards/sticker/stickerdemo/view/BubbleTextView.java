@@ -574,7 +574,7 @@ public class BubbleTextView extends ImageView {
                 if (clickCount == 2) {
                     if (duration <= MAX_DURATION) {
                         if (null != operationListener) {
-                            operationListener.onDoubleTap();
+                            operationListener.onDoubleTap(mStr);
                         }
                     }
                     clickCount = 0;
@@ -804,7 +804,7 @@ public class BubbleTextView extends ImageView {
 
         void onTop(BubbleTextView bubbleTextView);
 
-        void onDoubleTap();
+        void onDoubleTap(String mStr);
 
         void onEditStart(String currentText);
     }

@@ -22,6 +22,9 @@ repositories {
     maven {
         url "https://jitpack.io"
     }
+    maven {
+        url "http://github.com/wada811/Android-Material-Design-Colors/raw/master/repository/"
+    }
 }
 
 dependencies {
@@ -47,6 +50,8 @@ dependencies {
     compile 'com.github.jkwiecien:EasyImage:1.2.3'
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.github.QuadFlask:colorpicker:0.0.10'
-
+    compile 'com.thebluealliance:spectrum:0.5.0'
     compile 'com.pavelsikun:vintage-chroma:1.5'
+
+    compile 'com.wada811:android-material-design-colors:3.0.0'
 }

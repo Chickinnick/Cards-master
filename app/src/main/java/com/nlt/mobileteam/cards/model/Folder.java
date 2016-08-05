@@ -79,5 +79,13 @@ public class Folder implements Parcelable {
             return new Folder[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "Folder{" +
+                "name='" + name + '\'' +
+                ", cards=" + cards +
+                '}';
+    }
 }
 

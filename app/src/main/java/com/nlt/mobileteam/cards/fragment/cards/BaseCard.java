@@ -1,6 +1,7 @@
 package com.nlt.mobileteam.cards.fragment.cards;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,7 +16,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.nlt.mobileteam.cards.R;
@@ -29,10 +34,7 @@ import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleTextView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.EditStateListener;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.StickerView;
-import com.pavelsikun.vintagechroma.ChromaDialog;
-import com.pavelsikun.vintagechroma.IndicatorMode;
-import com.pavelsikun.vintagechroma.OnColorSelectedListener;
-import com.pavelsikun.vintagechroma.colormode.ColorMode;
+import com.thebluealliance.spectrum.SpectrumPalette;
 
 import java.util.ArrayList;
 
@@ -91,11 +93,11 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         }
 
         @Override
-        public void onDoubleTap() {
+        public void onDoubleTap(String mStr) {
             Activity activity = getActivity();
+            editTextWithDialog(mCurrentEditTextView, mStr);
 
-
-            new ChromaDialog.Builder()
+         /*   new ChromaDialog.Builder()
                     .initialColor(Color.GREEN)
                     .colorMode(ColorMode.ARGB) // RGB, ARGB, HVS, CMYK, CMYK255, HSL
                     .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL; Note that (HSV || HSL || CMYK) && IndicatorMode.HEX is a bad idea
@@ -106,12 +108,12 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
                         }
                     })
                     .create()
-                    .show(((MainActivityTabbed) getActivity()).getSupportFragmentManager(), "ChromaDialog");
+                    .show(((MainActivityTabbed) getActivity()).getSupportFragmentManager(), "ChromaDialog");*/
         }
 
         @Override
         public void onEditStart(String currentText) {
-            editTextWithDialog(mCurrentEditTextView, currentText);
+
         }
     };
     private StickerView.OperationListener stickerViewOperationListener = new StickerView.OperationListener() {
@@ -324,6 +326,60 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
 
     private void editTextWithDialog(final BubbleTextView bubbleTextView, String currentText) {
         final Context context = getActivity();
+
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.edit_dialog);
+
+        final EditText editText = (EditText) dialog.findViewById(R.id.edit_text);
+        editText.setHint("Input text here");
+
+
+        final SpectrumPalette spectrumPalette = (SpectrumPalette) dialog.findViewById(R.id.palette);
+        final int[] colors = getResources().getIntArray(R.array.demo_colors);
+        spectrumPalette.setColors(colors);
+
+        final int[] selectedColor = new int[1];
+
+        final SeekBar seekBar = (SeekBar) dialog.findViewById(R.id.seekbar);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                adjustAlpha(selectedColor[0], progress / 100f);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        spectrumPalette.setOnColorSelectedListener(new SpectrumPalette.OnColorSelectedListener() {
+            @Override
+            public void onColorSelected(@ColorInt int color) {
+                selectedColor[0] = color;
+            }
+        });
+
+
+        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = editText.getText().toString();
+                bubbleTextView.setmBgColor(selectedColor[0]);
+                bubbleTextView.setText(text);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
+        /*
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         final AppCompatEditText edittext = new AppCompatEditText(context);
         edittext.setText(currentText);
@@ -335,9 +391,16 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
             }
         });
         alert.setNegativeButton("Cancel", null);
-        alert.show();
+        alert.show();*/
     }
 
+    public int adjustAlpha(int color, float factor) {
+        int alpha = Math.round(Color.alpha(color) * factor);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
+    }
 
     public void clearFocus() {
         if (null != mCurrentView) {

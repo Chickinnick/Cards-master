@@ -46,13 +46,13 @@ public class StorageController {
 
 
     public ArrayList<Folder> getFolderFromStorage() {
-        if (Hawk.get(FOLDERS_DATA_KEY) == null) {
-            Log.d("StorageController", "FOLDERS_ null return default");
-            return getDefaultFoldersList();
-        } else {
-            Log.d("StorageController", "FOLDERS_ from storage");
-            return Hawk.get(FOLDERS_DATA_KEY);
-        }
+        //if (Hawk.get(FOLDERS_DATA_KEY) == null) {
+        //    Log.d("StorageController", "FOLDERS_ null return default");
+        //    return getDefaultFoldersList();
+        //} else {
+        //    Log.d("StorageController", "FOLDERS_ from storage");
+        return Hawk.get(FOLDERS_DATA_KEY, getDefaultFoldersList());
+        //  }
     }
 
 
@@ -67,23 +67,11 @@ public class StorageController {
 
     public void saveFolders(ArrayList<Folder> foldersArrayList) {
 
-        try {
-            Log.d("Storage", " try saveFolders:" + ((BubblePropertyModel) foldersArrayList.get(0).getCards().get(0).getFrontSavedViewArray().get(0)).getText());
-        } catch (Exception e) {
-
-            Log.d("Storage", "saveFolders catch ");
-
-            return;
-        }
-
-
         if(foldersArrayList== null){
             Log.d("Storage", "saveFolders null ");
-
             return;
         }
-        Log.d("Storage", "saveFolders  ");
-
+        Log.d("Storage", "saveFolders  " + foldersArrayList.toString());
         Hawk.put(FOLDERS_DATA_KEY, foldersArrayList);
     }
 

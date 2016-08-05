@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BaseViewModel;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,8 +81,26 @@ public class Card implements Parcelable {
 
     @Override
     public String toString() {
-        return "Card{front:" +
-                (frontSavedViewArray != null && !frontSavedViewArray.isEmpty()) +
+        String fronmt = "";
+        if (frontSavedViewArray != null && !frontSavedViewArray.isEmpty()) {
+            for (BaseViewModel baseViewModel :
+                    frontSavedViewArray) {
+                String text = "";
+                String url = "";
+
+                if (baseViewModel instanceof StickerPropertyModel) {
+                    url = ((StickerPropertyModel) baseViewModel).getStickerURL();
+                } else {
+                    text = ((BubblePropertyModel) (baseViewModel)).getText();
+                }
+
+                fronmt = fronmt.concat(" " + url + "/" + text + " ");
+            }
+        }
+        ;
+
+        return "Card{front:"
+                + fronmt +
                 ", backSavedViewArray=" + (backSavedViewArray != null && !backSavedViewArray.isEmpty()) +
                 '}';
     }

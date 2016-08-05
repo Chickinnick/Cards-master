@@ -106,7 +106,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 for (int i = 0; i < foldersFromStorage.size(); i++) {
 
                     Folder folder = foldersFromStorage.get(i);
-                    if (currentFolder.getIdentifier().equals(folder.getIdentifier())) {
+                    if (currentFolder.getName().equals(folder.getName())) {
                         foldersFromStorage.set(i, currentFolder);
                         break;
                     }
