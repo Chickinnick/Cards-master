@@ -102,7 +102,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 cards.set(mViewPager.getCurrentItem(), changedCard);
                 currentFolder.setCards(cards);
                /* mSectionsPagerAdapter.notifyDataSetChanged();*/
-                foldersFromStorage = StorageController.getInstance().getFolderFromStorage();
+               foldersFromStorage = StorageController.getInstance().getFolderFromStorage();
                 for (int i = 0; i < foldersFromStorage.size(); i++) {
 
                     Folder folder = foldersFromStorage.get(i);

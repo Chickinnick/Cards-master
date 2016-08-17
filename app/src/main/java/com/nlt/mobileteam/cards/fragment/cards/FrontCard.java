@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nlt.mobileteam.cards.model.Card;
-import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BaseViewModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
 
 import java.util.List;
@@ -41,10 +41,10 @@ public class FrontCard extends BaseCard {
     @Override
     public void onRestoreViews(Card card) {
 
-        List<BaseViewModel> frontArray = card.getFrontSavedViewArray();
+        List<SavableView> frontArray = card.getFrontSavedViewArray();
 
         if (null != frontArray) {
-            for (BaseViewModel bubblePropertyModel :
+            for (SavableView bubblePropertyModel :
                     frontArray) {
                 if (bubblePropertyModel instanceof BubblePropertyModel) {
                     addTextView((BubblePropertyModel) bubblePropertyModel);

@@ -33,6 +33,7 @@ import com.nlt.mobileteam.cards.sticker.stickerdemo.utils.DensityUtils;
 public class BubbleTextView extends ImageView {
 
     private static final String TAG = "BubbleTextView";
+    public static final int LONG_TAP_TIME_LIMIT = 500;
 
 
     private Bitmap deleteBitmap;
@@ -511,6 +512,7 @@ public class BubbleTextView extends ImageView {
                 break;
             case MotionEvent.ACTION_MOVE:
                 //双指缩放
+                Log.d("MOVE ", "time:" + (System.currentTimeMillis() - startTime));
                 if (isPointerDown) {
                     float scale;
                     float disNew = spacing(event);
@@ -548,7 +550,7 @@ public class BubbleTextView extends ImageView {
                     matrix.postScale(scale, scale, mid.x, mid.y);
 
                     invalidate();
-                } else if (isInSide) {
+                } else if (isInSide && (System.currentTimeMillis() - startTime) > LONG_TAP_TIME_LIMIT) {
                     //TODO 移动区域判断 不能超出屏幕
                     float x = event.getX(0);
                     float y = event.getY(0);
@@ -563,6 +565,8 @@ public class BubbleTextView extends ImageView {
                     lastX = x;
                     lastY = y;
                     invalidate();
+                } else {
+                    return true;
                 }
                 break;
             case MotionEvent.ACTION_CANCEL:
@@ -843,6 +847,7 @@ public class BubbleTextView extends ImageView {
         if (textWidth <= width) {
             return new String[]{content};
         }
+        width -= 40;
 
         int start = 0, end = 1, i = 0;
         int lines = (int) Math.ceil(textWidth / width); //计算行数

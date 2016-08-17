@@ -17,7 +17,7 @@ public class App extends Application {
         super.onCreate();
         appContext = this;
         Hawk.init(this)
-                .setStorage(HawkBuilder.newSharedPrefStorage(this))
+                .setStorage(HawkBuilder.newSqliteStorage(this))
                 .setLogLevel(LogLevel.FULL)
                 .build();
 

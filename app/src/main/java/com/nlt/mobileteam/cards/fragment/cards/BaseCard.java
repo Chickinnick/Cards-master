@@ -4,21 +4,17 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -28,8 +24,8 @@ import com.nlt.mobileteam.cards.activity.MainActivityTabbed;
 import com.nlt.mobileteam.cards.controller.BroadcastManager;
 import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
-import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BaseViewModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleTextView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.EditStateListener;
@@ -204,8 +200,8 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         BroadcastManager.getInstance().sendBroadcastWithParcelable(Action.SAVE_STATE.name(), cardTosave);
     }
 
-    private ArrayList<BaseViewModel> getViewArray() {
-        ArrayList<BaseViewModel> resultVList = new ArrayList<>();
+    private ArrayList<SavableView> getViewArray() {
+        ArrayList<SavableView> resultVList = new ArrayList<>();
 
         for (View view : mViews) {
             if (view instanceof StickerView) {

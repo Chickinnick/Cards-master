@@ -3,8 +3,8 @@ package com.nlt.mobileteam.cards.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BaseViewModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
 
 import java.util.ArrayList;
@@ -16,8 +16,8 @@ public class Card implements Parcelable {
     int position;
     private boolean isFavourite;
     private UUID identifier;
-    private List<BaseViewModel> frontSavedViewArray = new ArrayList<>();
-    private List<BaseViewModel> backSavedViewArray = new ArrayList<>();
+    private List<SavableView> frontSavedViewArray = new ArrayList<>();
+    private List<SavableView> backSavedViewArray = new ArrayList<>();
 
     public Card() {
         identifier = UUID.randomUUID();
@@ -42,10 +42,10 @@ public class Card implements Parcelable {
     public Card(Parcel in) {
         this.identifier = (UUID) in.readSerializable();
         this.frontSavedViewArray = new ArrayList<>();
-        in.readList(this.frontSavedViewArray, BaseViewModel.class.getClassLoader());
+        in.readList(this.frontSavedViewArray, SavableView.class.getClassLoader());
 
         this.backSavedViewArray = new ArrayList<>();
-        in.readList(this.backSavedViewArray, BaseViewModel.class.getClassLoader());
+        in.readList(this.backSavedViewArray, SavableView.class.getClassLoader());
 
 
         this.position = in.readInt();
@@ -83,15 +83,15 @@ public class Card implements Parcelable {
     public String toString() {
         String fronmt = "";
         if (frontSavedViewArray != null && !frontSavedViewArray.isEmpty()) {
-            for (BaseViewModel baseViewModel :
+            for (SavableView savableView :
                     frontSavedViewArray) {
                 String text = "";
                 String url = "";
 
-                if (baseViewModel instanceof StickerPropertyModel) {
-                    url = ((StickerPropertyModel) baseViewModel).getStickerURL();
-                } else {
-                    text = ((BubblePropertyModel) (baseViewModel)).getText();
+                if (savableView instanceof StickerPropertyModel) {
+                    url = ((StickerPropertyModel) savableView).getStickerURL();
+                } else if (savableView instanceof BubblePropertyModel) {
+                    text = ((BubblePropertyModel) (savableView)).getText();
                 }
 
                 fronmt = fronmt.concat(" " + url + "/" + text + " ");
@@ -113,20 +113,20 @@ public class Card implements Parcelable {
         isFavourite = favourite;
     }
 
-    public void setFrontSavedViewArray(ArrayList<BaseViewModel> frontSavedViewArray) {
+    public void setFrontSavedViewArray(ArrayList<SavableView> frontSavedViewArray) {
         this.frontSavedViewArray = frontSavedViewArray;
     }
 
 
-    public List<BaseViewModel> getBackSavedViewArray() {
+    public List<SavableView> getBackSavedViewArray() {
         return backSavedViewArray;
     }
 
-    public void setBackSavedViewArray(ArrayList<BaseViewModel> backSavedViewArray) {
+    public void setBackSavedViewArray(ArrayList<SavableView> backSavedViewArray) {
         this.backSavedViewArray = backSavedViewArray;
     }
 
-    public List<BaseViewModel> getFrontSavedViewArray() {
+    public List<SavableView> getFrontSavedViewArray() {
         return frontSavedViewArray;
     }
 }

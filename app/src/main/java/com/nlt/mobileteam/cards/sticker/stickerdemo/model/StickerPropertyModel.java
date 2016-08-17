@@ -8,7 +8,7 @@ import android.os.Parcelable;
  * QQ 230877476
  * Email nimengbo@gmail.com
  */
-public class StickerPropertyModel extends BaseViewModel implements Parcelable {
+public class StickerPropertyModel extends SavableView {
     private static final long serialVersionUID = 3800737478616389410L;
 
     //贴纸id
@@ -130,6 +130,7 @@ public class StickerPropertyModel extends BaseViewModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(getType());
         dest.writeLong(stickerId);
         dest.writeString(text);
         dest.writeFloat(xLocation);
@@ -157,10 +158,11 @@ public class StickerPropertyModel extends BaseViewModel implements Parcelable {
                 '}';
     }
 
-    @SuppressWarnings("unused")
     public static final Parcelable.Creator<StickerPropertyModel> CREATOR = new Parcelable.Creator<StickerPropertyModel>() {
         @Override
         public StickerPropertyModel createFromParcel(Parcel in) {
+            type = in.readString();
+
             return new StickerPropertyModel(in);
         }
 

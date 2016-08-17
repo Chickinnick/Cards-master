@@ -8,7 +8,7 @@ import android.os.Parcelable;
  * QQ 230877476
  * Email nimengbo@gmail.com
  */
-public class BubblePropertyModel extends BaseViewModel implements Parcelable {
+public class BubblePropertyModel extends SavableView {
     private static final long serialVersionUID = 6339777989485920188L;
     //气泡id
     private long bubbleId;
@@ -92,6 +92,7 @@ public class BubblePropertyModel extends BaseViewModel implements Parcelable {
     }
 
     public BubblePropertyModel() {
+        super(BubblePropertyModel.class.getSimpleName());
     }
 
     protected BubblePropertyModel(Parcel in) {
@@ -114,6 +115,7 @@ public class BubblePropertyModel extends BaseViewModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(getType());
         dest.writeLong(bubbleId);
         dest.writeString(text);
         dest.writeFloat(xLocation);
@@ -138,10 +140,10 @@ public class BubblePropertyModel extends BaseViewModel implements Parcelable {
                 '}';
     }
 
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<BubblePropertyModel> CREATOR = new Parcelable.Creator<BubblePropertyModel>() {
+    public static Parcelable.Creator<BubblePropertyModel> CREATOR = new Parcelable.Creator<BubblePropertyModel>() {
         @Override
         public BubblePropertyModel createFromParcel(Parcel in) {
+            type = in.readString();
             return new BubblePropertyModel(in);
         }
 
@@ -158,4 +160,6 @@ public class BubblePropertyModel extends BaseViewModel implements Parcelable {
     public void setBgColor(int bgColor) {
         this.bgColor = bgColor;
     }
+
+
 }
