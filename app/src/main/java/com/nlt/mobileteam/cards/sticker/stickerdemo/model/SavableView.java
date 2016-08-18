@@ -17,6 +17,7 @@ public class SavableView implements Parcelable {
     public static final Creator<SavableView> CREATOR = new Creator<SavableView>() {
         @Override
         public SavableView createFromParcel(Parcel in) {
+
             String type = in.readString();
             SavableView view = null;
             switch (type) {

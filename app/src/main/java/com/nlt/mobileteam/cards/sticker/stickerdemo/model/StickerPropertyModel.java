@@ -107,6 +107,8 @@ public class StickerPropertyModel extends SavableView {
 
 
     public StickerPropertyModel() {
+        super(StickerPropertyModel.class.getSimpleName());
+
     }
 
     protected StickerPropertyModel(Parcel in) {

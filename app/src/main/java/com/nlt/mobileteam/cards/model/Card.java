@@ -2,6 +2,7 @@ package com.nlt.mobileteam.cards.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
@@ -81,7 +82,7 @@ public class Card implements Parcelable {
 
     @Override
     public String toString() {
-        String fronmt = "";
+        String front = "";
         if (frontSavedViewArray != null && !frontSavedViewArray.isEmpty()) {
             for (SavableView savableView :
                     frontSavedViewArray) {
@@ -94,13 +95,13 @@ public class Card implements Parcelable {
                     text = ((BubblePropertyModel) (savableView)).getText();
                 }
 
-                fronmt = fronmt.concat(" " + url + "/" + text + " ");
+                front = front.concat(!TextUtils.isEmpty(text) ? text : url);
             }
         }
         ;
 
         return "Card{front:"
-                + fronmt +
+                + front +
                 ", backSavedViewArray=" + (backSavedViewArray != null && !backSavedViewArray.isEmpty()) +
                 '}';
     }

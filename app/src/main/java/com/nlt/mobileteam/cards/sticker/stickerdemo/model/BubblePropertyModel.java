@@ -131,12 +131,8 @@ public class BubblePropertyModel extends SavableView {
     public String toString() {
         return "BubblePropertyModel{" +
                 "bubbleId=" + bubbleId +
-                ", text='" + text + '\'' +
-                ", xLocation=" + xLocation +
-                ", yLocation=" + yLocation +
-                ", degree=" + degree +
-                ", scaling=" + scaling +
-                ", order=" + order +
+                ", text='" + text +
+                ", bg color: " + bgColor +
                 '}';
     }
 

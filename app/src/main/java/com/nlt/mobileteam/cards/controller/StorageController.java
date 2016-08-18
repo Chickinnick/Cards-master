@@ -7,12 +7,13 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.model.Folder;
-import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+
+import io.paperdb.Paper;
 
 /**
  * Created by Nick on 01.05.2016.
@@ -39,20 +40,23 @@ public class StorageController {
         //cards.add(new Card("Awesome question?", "answer"));
         cards.add(new Card());
         cards.add(new Card());
+        Log.d("Storage", "getDefaultCards  ");
         return cards;
     }
 
 
     public ArrayList<Folder> getFolderFromStorage() {
-        //if (Hawk.get(FOLDERS_DATA_KEY) == null) {
-        //    Log.d("StorageController", "FOLDERS_ null return default");
-        //    return getDefaultFoldersList();
-        //} else {
-        //    Log.d("StorageController", "FOLDERS_ from storage");
+        if (Paper.book().read(FOLDERS_DATA_KEY) == null) {
+            Log.d("StorageController", "FOLDERS_ null");
 
-        Log.d("Storage", "getFolderFromStorage  " + Hawk.get(FOLDERS_DATA_KEY, getDefaultFoldersList()));
-        return Hawk.get(FOLDERS_DATA_KEY, getDefaultFoldersList());
-        //  }
+            saveFolders(getDefaultFoldersList());
+            return getDefaultFoldersList();
+        } else {
+            Log.d("StorageController", "FOLDERS_ from storage");
+
+            Log.d("Storage", "getFolderFromStorage  " + Paper.book().read(FOLDERS_DATA_KEY));
+            return Paper.book().read(FOLDERS_DATA_KEY);
+        }
     }
 
 
@@ -72,9 +76,10 @@ public class StorageController {
             return;
         }
         Log.d("Storage", "saveFolders  " + foldersArrayList.toString());
-        boolean result = Hawk.put(FOLDERS_DATA_KEY, foldersArrayList);
-        Log.d("Storage", "saveFolders  " + result);
-
+        //  boolean result = Hawk.put(FOLDERS_DATA_KEY, foldersArrayList);
+        Paper.book().write(FOLDERS_DATA_KEY, foldersArrayList);
+        ;
+        // Log.d("Storage", "saveFolders  " + result);
     }
 
 
@@ -91,11 +96,11 @@ public class StorageController {
         if (!uuids.contains(card.getIdentifier())) {
             cards.add(card);
         }
-        Hawk.put(FAV_DATA_KEY, fav);
+        Paper.book().write(FAV_DATA_KEY, fav);
     }
 
     public Folder getFavourite(Context context) {
-        return Hawk.get(FAV_DATA_KEY, getEmptyFavoutite(context));
+        return Paper.book().read(FAV_DATA_KEY, getEmptyFavoutite(context));
     }
 
     private Folder getEmptyFavoutite(Context context) {
@@ -111,6 +116,7 @@ public class StorageController {
         Folder fav = getFavourite(context);
         ArrayList<Card> cards = fav.getCards();
         cards.remove(card);
-        Hawk.put(FAV_DATA_KEY, fav);
+        //  Hawk.put(FAV_DATA_KEY, fav);
+        Paper.book().write(FAV_DATA_KEY, fav);
     }
 }
