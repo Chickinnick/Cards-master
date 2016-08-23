@@ -34,7 +34,6 @@ import com.thebluealliance.spectrum.SpectrumPalette;
 
 import java.util.ArrayList;
 
-import static com.nlt.mobileteam.cards.activity.MainActivityTabbed.isDragMode;
 
 public abstract class BaseCard extends Fragment implements EditStateListener {
 
@@ -68,14 +67,14 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
             mCurrentEditTextView.setInEdit(false);
             mCurrentEditTextView = bubbleTextView;
             mCurrentEditTextView.setInEdit(true);
-            isDragMode = true;
+            ((MainActivityTabbed) getActivity()).setIsDragMode(true);
 
         }
 
         @Override
         public void onClick(BubbleTextView bubbleTextView) {
+            ((MainActivityTabbed) getActivity()).setIsDragMode(true);
 
-            isDragMode = true;
         }
 
         @Override
@@ -129,7 +128,8 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
             mCurrentView.setInEdit(false);
             mCurrentView = stickerView;
             mCurrentView.setInEdit(true);
-            isDragMode = true;
+            ((MainActivityTabbed) getActivity()).setIsDragMode(true);
+
 
         }
 
@@ -163,6 +163,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.card_front, container, false);
         rootView.requestFocus();
         mViews = new ArrayList<>();
@@ -283,7 +284,8 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
 
     @Override
     public void editStateChanged(boolean isInEdit) {
-        isDragMode = isInEdit;
+        ((MainActivityTabbed) getActivity()).setIsDragMode(isInEdit);
+
     }
 
 

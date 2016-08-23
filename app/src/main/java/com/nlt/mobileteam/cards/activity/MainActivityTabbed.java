@@ -37,6 +37,7 @@ import com.nlt.mobileteam.cards.fragment.PlaceholderFragment;
 import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.model.Folder;
+import com.nlt.mobileteam.cards.widget.CardsViewPager;
 import com.nlt.mobileteam.cards.widget.Fab;
 import com.orhanobut.hawk.Hawk;
 
@@ -57,7 +58,13 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     private static final int TYPE_FAVOURITE = 1;
     private static final int TYPE_FOLDERS = 2;
-    public static boolean isDragMode = false;
+
+    public void setIsDragMode(boolean isDragMode) {
+       this.isDragMode = isDragMode;
+        ((CardsViewPager) mViewPager).setSwipeable(!isDragMode);
+    }
+
+    private boolean isDragMode = false;
     private ArrayList<Folder> foldersFromStorage;
     public static boolean isShuffleMode;
     private boolean isFirstSwipe;
@@ -182,7 +189,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         mSectionsPagerAdapter.setSize(cards.size());
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOnPageChangeListener(this);
-        //  size.setText(String.valueOf(mSectionsPagerAdapter.getCount()));
+
+                //  size.setText(String.valueOf(mSectionsPagerAdapter.getCount()));
         int sheetColor = getResources().getColor(R.color.colorAccent);
         int fabColor = getResources().getColor(R.color.colorPrimary);
 
@@ -364,7 +372,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 Log.d("picked", "on image picked" + source + " " + imageFile.getAbsolutePath());
 
                /* onPhotoReturned(imageFile);*/
-                isDragMode = true;
+                setIsDragMode(true);
 
                 ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).savePhotoInModel("file://" + imageFile.getAbsolutePath());
 
@@ -455,7 +463,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private void idleCard() {
         //  if (isEditing) {
         isEditing = false;
-        isDragMode = false;
+        setIsDragMode(false);
+
         ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).clearFocus();
             doneClick();
         //  }
@@ -471,7 +480,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                     Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
             isEditing = false;
-            isDragMode = false;
+        setIsDragMode(false);
+
         //  }
     }
 
@@ -496,7 +506,9 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     @Override
     public void onSwipingLeft(MotionEvent event) {
-
+        if (isDragMode) {
+            return;
+        }
     }
 
     @Override
@@ -513,7 +525,9 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     @Override
     public void onSwipingRight(MotionEvent event) {
-
+        if (isDragMode) {
+            return;
+        }
 
     }
 
@@ -643,7 +657,8 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     private void onAddTextClicked() {
         ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).addText();
-        isDragMode = true;
+        setIsDragMode(true);
+
 
     }
 
