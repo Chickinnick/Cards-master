@@ -193,7 +193,10 @@ public class StickerView extends ImageView {
     @Override
     public void setImageURI(Uri uri) {
         mPath = uri.getPath();
-        setBitmap(BitmapFactory.decodeFile(uri.getPath()));
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+        Bitmap receipt = BitmapFactory.decodeFile(uri.getPath() , options);
+        setBitmap(receipt);
     }
 
     public void setScale(float bitmapScale) {

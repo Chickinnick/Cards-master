@@ -24,6 +24,9 @@ import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.utils.DensityUtils;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 
 /**
  * Created by Abner on 15/6/7.
@@ -334,8 +337,8 @@ public class BubbleTextView extends ImageView {
     @Override
     public void setImageResource(int resId) {
         matrix.reset();
-        //使用拷贝 不然会对资源文件进行引用而修改
-        setBitmap(BitmapFactory.decodeResource(getResources(), resId));
+        Bitmap receipt = BitmapFactory.decodeResource(getResources(), resId);
+        setBitmap(receipt);
     }
 
     public void setImageResource(int resId, BubblePropertyModel model) {
