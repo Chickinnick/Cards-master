@@ -76,13 +76,13 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     }
 
     @Override
-    public void onFragmentClick(View v) {
+    public void onFragmentClick() {
         toggleMenu();
         idleCard();
     }
 
     @Override
-    public void onLongClick() {
+    public void doubleClick() {
         onAddTextClicked();
     }
 

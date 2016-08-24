@@ -4,7 +4,9 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -42,9 +44,9 @@ public class PlaceholderFragment extends Fragment {
     }
 
     public interface OnFragmentClickListener {
-        void onFragmentClick(View v);
+        void onFragmentClick();
 
-        void onLongClick();
+        void doubleClick();
 
     }
 
@@ -90,25 +92,39 @@ public class PlaceholderFragment extends Fragment {
     //constant for defining the time duration between the click that can be considered as double-tap
     static final int MAX_DURATION = 100;
 
+
+    GestureDetector gestureDetector;
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            onFragmentClickListener.onFragmentClick();
+            return true;
+        }
+
+        // event when double tap occurs
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            onFragmentClickListener.doubleClick();
+            return true;
+        }
+    }
+
+    ;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        gestureDetector = new GestureDetector(getActivity(), new GestureListener());
         View rootView = inflater.inflate(R.layout.fragment_main_activity_tabbed, container, false);
         rootView.requestFocus();
 
-        rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onFragmentClickListener.onFragmentClick(v);
-            }
-        });
 
-        rootView.setOnLongClickListener(new View.OnLongClickListener() {
+        rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onLongClick(View v) {
-                onFragmentClickListener.onLongClick();
-                return true;
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
             }
         });
 

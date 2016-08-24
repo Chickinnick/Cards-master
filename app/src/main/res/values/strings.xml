@@ -30,6 +30,6 @@
     <string name="type_question_here">Write the question here</string>
     <string name="title_activity_display">DisplayActivity</string>
     <string name="double_tap_to_edit_color">Double tap to edit</string>
-    <string name="long_tap_to_add_text">Long tap to add text</string>
+    <string name="long_tap_to_add_text">Double tap to add text</string>
     <string name="edit_text">Edit text note</string>
 </resources>
