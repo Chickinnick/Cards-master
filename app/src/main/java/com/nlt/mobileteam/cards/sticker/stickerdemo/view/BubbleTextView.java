@@ -5,10 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PointF;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.support.v4.view.MotionEventCompat;
 import android.text.TextPaint;
@@ -160,6 +162,7 @@ public class BubbleTextView extends ImageView {
     static final int MAX_DURATION = 500;
 
     int mBgColor = -1;
+    private int tempColor;
 
     public BubbleTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -202,6 +205,9 @@ public class BubbleTextView extends ImageView {
 
 
     private void init() {
+
+        setmBgColor(Color.WHITE);
+        setTempColor(Color.WHITE);
         dm = getResources().getDisplayMetrics();
         dst_delete = new Rect();
         dst_resize = new Rect();
@@ -440,6 +446,7 @@ public class BubbleTextView extends ImageView {
         int action = MotionEventCompat.getActionMasked(event);
         boolean handled = true;
         isInBitmap = false;
+
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 if (isInButton(event, dst_delete)) {
@@ -555,6 +562,8 @@ public class BubbleTextView extends ImageView {
                     invalidate();
                 } else if (isInSide && (System.currentTimeMillis() - startTime) > LONG_TAP_TIME_LIMIT) {
                     //TODO 移动区域判断 不能超出屏幕
+                    int transparent = Color.argb(80, Color.red(tempColor), Color.green(tempColor), Color.blue(tempColor));
+                    setmBgColor(transparent);
                     float x = event.getX(0);
                     float y = event.getY(0);
                     //判断手指抖动距离 加上isMove判断 只要移动过 都是true
@@ -575,7 +584,7 @@ public class BubbleTextView extends ImageView {
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
 
-
+                setmBgColor(tempColor);
                 long time = System.currentTimeMillis() - startTime;
                 duration = duration + time;
                 if (clickCount == 2) {
@@ -802,6 +811,10 @@ public class BubbleTextView extends ImageView {
         }
     }
 
+    public void setTempColor(int tempColor) {
+        this.tempColor = tempColor;
+    }
+
     public interface OperationListener {
         void onDeleteClick();
 
@@ -830,6 +843,7 @@ public class BubbleTextView extends ImageView {
     }
 
     public void setmBgColor(int mBgColor) {
+        Log.d("asd", "setcolor " + mBgColor);
         this.mBgColor = mBgColor;
         invalidate();
     }

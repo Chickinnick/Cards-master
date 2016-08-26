@@ -370,6 +370,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
             public void onClick(View v) {
                 String text = editText.getText().toString();
                 bubbleTextView.setmBgColor(selectedColor[0]);
+                bubbleTextView.setTempColor(selectedColor[0]);
                 bubbleTextView.setText(text);
                 dialog.dismiss();
             }

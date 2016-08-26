@@ -1,55 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="30dp">
+    android:padding="10dp">
 
-    <TextView
-        android:id="@+id/title"
-        style="@style/TextAppearance.AppCompat.Large"
+    <LinearLayout  android:id="@+id/title"
+        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/edit_text" />
+        android:orientation="horizontal"
+        >
 
-    <RelativeLayout
-        android:id="@+id/edittxt_ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title">
+        <TextView
+            android:gravity="center_vertical"
 
-
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/edit_text"
-            android:layout_width="match_parent"
-            android:singleLine="true"
-            android:maxLength="30"
-            android:layout_toStartOf="@+id/dialogButtonOK"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:layout_alignParentEnd="true"
-            android:id="@+id/dialogButtonOK"
-            style="@style/Base.TextAppearance.AppCompat.Button"
+            style="@style/TextAppearance.AppCompat.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/mdtp_ok" />
-    </RelativeLayout>
+            android:text="@string/edit_text" />
+
+    </LinearLayout>
+
+
+    <android.support.v7.widget.AppCompatEditText
+            android:layout_below="@+id/title"
+            android:id="@+id/edit_text"
+            android:layout_width="match_parent"
+            android:maxLength="30"
+            android:layout_height="wrap_content" />
 
     <ScrollView
-        android:layout_below="@+id/edittxt_ll"
+        android:id="@+id/scroll_palette"
+        android:layout_below="@+id/edit_text"
         android:layout_centerHorizontal="true"
-        android:foregroundGravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     <com.thebluealliance.spectrum.SpectrumPalette
-        app:spectrum_columnCount="5"
+
+        app:spectrum_columnCount="4"
         android:id="@+id/palette"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         app:spectrum_outlineWidth="1dp"
         android:layout_height="wrap_content"
         app:spectrum_autoPadding="true" />
     </ScrollView>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,5 +66,15 @@
             android:layout_height="wrap_content"
             android:max="100" />
     </LinearLayout>
+
+    <Button
+        android:background="@color/white_alpha_50"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/dialogButtonOK"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="@string/mdtp_ok"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
