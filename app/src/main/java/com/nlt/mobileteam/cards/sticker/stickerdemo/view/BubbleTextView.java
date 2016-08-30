@@ -562,10 +562,18 @@ public class BubbleTextView extends ImageView {
                     invalidate();
                 } else if (isInSide && (System.currentTimeMillis() - startTime) > LONG_TAP_TIME_LIMIT) {
                     //TODO 移动区域判断 不能超出屏幕
-                    int transparent = Color.argb(80, Color.red(tempColor), Color.green(tempColor), Color.blue(tempColor));
+                    int transparent = Color.argb(230, Color.red(tempColor), Color.green(tempColor), Color.blue(tempColor));
                     setmBgColor(transparent);
+
+                    bringToFront();
+                    if (operationListener != null) {
+                        operationListener.onTop(this);
+                    }
+
+                    localPaint.setColor(getResources().getColor(R.color.black_666666));
+                    localPaint.setStrokeWidth(3.0f);
                     float x = event.getX(0);
-                    float y = event.getY(0);
+                    float y = event.getY(0) - 50;
                     //判断手指抖动距离 加上isMove判断 只要移动过 都是true
                     if (!isMove && Math.abs(x - lastX) < moveLimitDis
                             && Math.abs(y - lastY) < moveLimitDis) {
@@ -577,12 +585,15 @@ public class BubbleTextView extends ImageView {
                     lastX = x;
                     lastY = y;
                     invalidate();
-                } else {
-                    return true;
+                } else if(isInSide){
+                    return false;
                 }
                 break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
+
+                localPaint.setColor(getResources().getColor(R.color.red_e73a3d));
+                localPaint.setStrokeWidth(2.0f);
 
                 setmBgColor(tempColor);
                 long time = System.currentTimeMillis() - startTime;
