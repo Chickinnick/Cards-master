@@ -90,7 +90,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         @Override
         public void onDoubleTap(String mStr) {
             Activity activity = getActivity();
-            editTextWithDialog(mCurrentEditTextView, mStr);
+
 
          /*   new ChromaDialog.Builder()
                     .initialColor(Color.GREEN)
@@ -322,7 +322,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
 
     }
 
-    private void editTextWithDialog(final BubbleTextView bubbleTextView, String currentText) {
+    public void editTextWithDialog() {
         final Context context = getActivity();
 
         final Dialog dialog = new Dialog(context);
@@ -369,9 +369,9 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
             @Override
             public void onClick(View v) {
                 String text = editText.getText().toString();
-                bubbleTextView.setmBgColor(selectedColor[0]);
-                bubbleTextView.setTempColor(selectedColor[0]);
-                bubbleTextView.setText(text);
+                mCurrentEditTextView.setmBgColor(selectedColor[0]);
+                mCurrentEditTextView.setTempColor(selectedColor[0]);
+                mCurrentEditTextView.setText(text);
                 dialog.dismiss();
             }
         });

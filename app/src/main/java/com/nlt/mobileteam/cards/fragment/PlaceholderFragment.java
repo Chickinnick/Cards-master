@@ -43,6 +43,10 @@ public class PlaceholderFragment extends Fragment {
         //tempFragmentToReplace.calculatePropertiesAndSave();
     }
 
+    public void editText() {
+        tempFragmentToReplace.editTextWithDialog();
+    }
+
     public interface OnFragmentClickListener {
         void onFragmentClick();
 

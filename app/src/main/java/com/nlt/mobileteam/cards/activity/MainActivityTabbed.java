@@ -77,13 +77,13 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     @Override
     public void onFragmentClick() {
-        toggleMenu();
         idleCard();
     }
 
     @Override
     public void doubleClick() {
         onAddTextClicked();
+        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).editText();
     }
 
 
@@ -441,23 +441,13 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         }
 
         if (id == R.id.action_edit) {
-            toggleMenu();
-            idleCard();
+             addCard();
+
+//            idleCard();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void toggleMenu() {
-        MenuItem item = menu.findItem(R.id.action_edit);
-        if (!isEditing) {
-            item.setChecked(true);
-            item.setIcon(R.drawable.ic_ok_btn);
-        } else {
-            item.setChecked(false);
-            item.setIcon(R.drawable.ic_edit);
-        }
     }
 
     private void idleCard() {
@@ -630,9 +620,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 onTakePhotoClicked();
                 break;
             case R.id.fab_sheet_item_add:
-                cards.add(new Card());
-                mSectionsPagerAdapter.setCards(cards);
-                mViewPager.setCurrentItem(cards.size() - 1);
+                addCard();
                 break;
             case R.id.fab_sheet_item_load:
                 onPickFromDocumentsClicked();
@@ -653,6 +641,12 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
                 break;*/
         }
         materialSheetFab.hideSheet();
+    }
+
+    private void addCard() {
+        cards.add(new Card());
+        mSectionsPagerAdapter.setCards(cards);
+        mViewPager.setCurrentItem(cards.size() - 1);
     }
 
     private void onAddTextClicked() {

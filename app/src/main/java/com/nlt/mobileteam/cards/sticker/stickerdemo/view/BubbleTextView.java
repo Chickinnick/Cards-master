@@ -19,7 +19,9 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.DragEvent;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.nlt.mobileteam.cards.R;
@@ -35,7 +37,7 @@ import java.io.IOException;
  * QQ 230877476
  * Email nimengbo@gmail.com
  */
-public class BubbleTextView extends ImageView {
+public class BubbleTextView extends ImageView  {
 
     private static final String TAG = "BubbleTextView";
     public static final int LONG_TAP_TIME_LIMIT = 500;
@@ -440,6 +442,18 @@ public class BubbleTextView extends ImageView {
     private long preClicktime;
 
     private final long doubleClickTimeLimit = 1000;
+
+    @Override
+    public boolean onDragEvent(DragEvent event) {
+
+        switch (event.getAction()){
+            case DragEvent.ACTION_DRAG_STARTED:
+                break;
+        }
+        return super.onDragEvent(event);
+    }
+
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
