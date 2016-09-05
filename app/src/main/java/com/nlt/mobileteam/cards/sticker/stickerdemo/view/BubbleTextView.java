@@ -332,14 +332,21 @@ public class BubbleTextView extends ImageView  {
     }
 
     public void setText(String text) {
-//        if (TextUtils.isEmpty(text)) {
-//            mStr = defaultStr;
-//            mFontSize = mDefultSize;
-//            mMargin = mDefaultMargin;
-//        } else {
         mStr = text;
-//        }
+        checkText();
         invalidate();
+    }
+
+    private void checkText() {
+        Bitmap receipt = BitmapFactory.decodeResource(getResources(), R.mipmap.bubble_7_rb);
+        if(mStr.length() >=30 ){
+            matrix.reset();
+            setBitmap(Bitmap.createScaledBitmap(receipt, 400 ,300 , false));
+        }
+        else {
+            matrix.reset();
+            setBitmap(Bitmap.createScaledBitmap(receipt, 400 ,200 , false));
+        }
     }
 
     @Override
@@ -665,8 +672,8 @@ public class BubbleTextView extends ImageView  {
         model.setDegree((float) Math.toRadians(rAngle));
         model.setBubbleId(bubbleId);
         //TODO 占屏幕百分比
-        float precentWidth = (mBitmap.getWidth() * rScale) / mScreenwidth;
-        model.setScaling(precentWidth);
+     //   float precentWidth = (mBitmap.getWidth() * rScale) / mScreenwidth;
+       // model.setScaling(precentWidth);
         Log.d(TAG, " x " + (minX / mScreenwidth) + " y " + (minY / mScreenwidth));
         model.setxLocation(minX / mScreenwidth);
         model.setyLocation(minY / mScreenwidth);

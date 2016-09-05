@@ -91,6 +91,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         public void onDoubleTap(String mStr) {
             Activity activity = getActivity();
 
+            editTextWithDialog();
 
          /*   new ChromaDialog.Builder()
                     .initialColor(Color.GREEN)
@@ -293,7 +294,6 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         final BubbleTextView bubbleTextView = new BubbleTextView(getActivity(),
                 Color.BLACK, 0);
         bubbleTextView.setText(bubblePropertyModel.getText());
-        bubbleTextView.setImageResource(R.mipmap.bubble_7_rb);
         bubbleTextView.setOperationListener(mOperationListener);
         bubbleTextView.setmBgColor(bubblePropertyModel.getBgColor());
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
@@ -311,7 +311,6 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     public void addTextView() {
         final BubbleTextView bubbleTextView = new BubbleTextView(getActivity(),
                 Color.BLACK, 0);
-        bubbleTextView.setImageResource(R.mipmap.bubble_7_rb);
         bubbleTextView.setOperationListener(mOperationListener);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         mContentRootView.addView(bubbleTextView, lp);
