@@ -35,6 +35,8 @@ public class BubbleTextView extends ImageView  {
 
     private static final String TAG = "BubbleTextView";
     public static final int LONG_TAP_TIME_LIMIT = 500;
+    public int DEFAULT_CARD_W = 0;
+    public int DEFAULT_CARD_H = 0;
 
 
     private Bitmap deleteBitmap;
@@ -89,7 +91,7 @@ public class BubbleTextView extends ImageView  {
     /**
      * 是否在编辑模式
      */
-    private boolean isInEdit = true;
+    private boolean isInEdit = false;
 
     private float MIN_SCALE = 0.5f;
 
@@ -193,7 +195,8 @@ public class BubbleTextView extends ImageView  {
 
 
     private void init() {
-
+        DEFAULT_CARD_H = getResources().getDimensionPixelSize(R.dimen.textH);
+        DEFAULT_CARD_W = getResources().getDimensionPixelSize(R.dimen.textW);
         setmBgColor(Color.WHITE);
         setTempColor(Color.WHITE);
         dm = getResources().getDisplayMetrics();
@@ -324,8 +327,8 @@ public class BubbleTextView extends ImageView  {
 
     private void checkText() {
         Bitmap receipt = BitmapFactory.decodeResource(getResources(), R.mipmap.bubble_7_rb);
-        int defW = 330;
-        int defH = 110;
+        int defW = DEFAULT_CARD_W;
+        int defH = DEFAULT_CARD_H;
         int maxLen = 25;
         int count = Math.round(mStr.length() / (float) maxLen);
         if (count == 0){
@@ -573,6 +576,9 @@ public class BubbleTextView extends ImageView  {
                     invalidate();
                 } else if (isInSide && (System.currentTimeMillis() - startTime) > LONG_TAP_TIME_LIMIT) {
                     //TODO 移动区域判断 不能超出屏幕
+                    if (handled && operationListener != null) {
+                        operationListener.onEdit(this);
+                    }
                     int transparent = Color.argb(230, Color.red(tempColor), Color.green(tempColor), Color.blue(tempColor));
                     setmBgColor(transparent);
 
@@ -628,9 +634,7 @@ public class BubbleTextView extends ImageView  {
                 break;
 
         }
-        if (handled && operationListener != null) {
-            operationListener.onEdit(this);
-        }
+
 //        //判断是不是做了点击动作 必须在编辑状态 且在图片内 并且是双击
 //        if (isDoubleClick && isDown && !isPointerDown && !isMove && isUp && isInBitmap && isInEdit && operationListener != null) {
 //            operationListener.onClick(this);

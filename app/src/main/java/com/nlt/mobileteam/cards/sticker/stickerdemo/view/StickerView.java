@@ -29,6 +29,8 @@ public class StickerView extends ImageView {
     private Bitmap topBitmap;
     private Bitmap resizeBitmap;
     private Bitmap mBitmap;
+    public static final int LONG_TAP_TIME_LIMIT = 500;
+
     private Rect dst_delete;
     private Rect dst_resize;
     private Rect dst_flipV;
@@ -93,6 +95,7 @@ public class StickerView extends ImageView {
     private EditStateListener isInEditListener;
     private String mPath;
     private float initScale;
+    private long startTime;
 
     public StickerView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -303,6 +306,8 @@ public class StickerView extends ImageView {
                         operationListener.onTop(this);
                     }
                 } else if (isInBitmap(event)) {
+                    startTime = System.currentTimeMillis();
+
                     isInSide = true;
                     lastX = event.getX(0);
                     lastY = event.getY(0);
@@ -361,7 +366,16 @@ public class StickerView extends ImageView {
                     matrix.postScale(scale, scale, mid.x, mid.y);
 
                     invalidate();
-                } else if (isInSide) {
+                } else if (isInSide  && (System.currentTimeMillis() - startTime) > LONG_TAP_TIME_LIMIT) {
+
+                    if (handled && operationListener != null) {
+                        operationListener.onEdit(this);
+                    }
+
+                    bringToFront();
+                    if (operationListener != null) {
+                        operationListener.onTop(this);
+                    }
                     float x = event.getX(0);
                     float y = event.getY(0);
                     //TODO 移动区域判断 不能超出屏幕
@@ -379,9 +393,7 @@ public class StickerView extends ImageView {
                 break;
 
         }
-        if (handled && operationListener != null) {
-            operationListener.onEdit(this);
-        }
+
         return handled;
     }
 

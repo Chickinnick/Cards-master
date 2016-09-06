@@ -103,7 +103,6 @@ public class PlaceholderFragment extends Fragment {
 
         @Override
         public boolean onDown(MotionEvent e) {
-            onFragmentClickListener.onFragmentClick();
             return true;
         }
 
@@ -112,6 +111,12 @@ public class PlaceholderFragment extends Fragment {
         public boolean onDoubleTap(MotionEvent e) {
             onFragmentClickListener.doubleClick();
             return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            onFragmentClickListener.onFragmentClick();
+            super.onLongPress(e);
         }
     }
 

@@ -231,7 +231,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         }
     }
 
-    public void addStickerView(String path) {
+    public void addStickerView(String path ) {
         final StickerView stickerView = new StickerView(getActivity());
         stickerView.setImageURI(Uri.parse(path));
         stickerView.setIsInEditListener(this);
@@ -239,7 +239,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         mContentRootView.addView(stickerView, lp);
         mViews.add(stickerView);
-        setCurrentEdit(stickerView);
+        setCurrentEdit(stickerView , true);
         checkTextViesState();
 
     }
@@ -254,13 +254,13 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         mContentRootView.addView(stickerView, lp);
         mViews.add(stickerView);
         stickerView.restoreViewState(stickerPropertyModel);
-        setCurrentEdit(stickerView);
+        setCurrentEdit(stickerView , false);
         checkTextViesState();
 
     }
 
 
-    private void setCurrentEdit(StickerView stickerView) {
+    private void setCurrentEdit(StickerView stickerView , boolean isInEdit) {
         if (mCurrentView != null) {
             mCurrentView.setInEdit(false);
         }
@@ -268,10 +268,10 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
             mCurrentEditTextView.setInEdit(false);
         }
         mCurrentView = stickerView;
-        stickerView.setInEdit(true);
+        stickerView.setInEdit(isInEdit);
     }
 
-    private void setCurrentEdit(BubbleTextView bubbleTextView) {
+    private void setCurrentEdit(BubbleTextView bubbleTextView, boolean isEdit) {
         if (mCurrentView != null) {
             mCurrentView.setInEdit(false);
         }
@@ -279,7 +279,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
             mCurrentEditTextView.setInEdit(false);
         }
         mCurrentEditTextView = bubbleTextView;
-        mCurrentEditTextView.setInEdit(true);
+        mCurrentEditTextView.setInEdit(isEdit);
     }
 
 
@@ -301,7 +301,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         mViews.add(bubbleTextView);
 
         bubbleTextView.restoreViewState(bubblePropertyModel);
-        setCurrentEdit(bubbleTextView);
+        setCurrentEdit(bubbleTextView , false);
         checkTextViesState();
 
 
@@ -315,7 +315,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         mContentRootView.addView(bubbleTextView, lp);
         mViews.add(bubbleTextView);
-        setCurrentEdit(bubbleTextView);
+        setCurrentEdit(bubbleTextView , true);
         checkTextViesState();
 
 
