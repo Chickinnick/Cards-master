@@ -322,6 +322,12 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     }
 
     public void editTextWithDialog() {
+        String previousText = "";
+        int prevColor = 0;
+        if (null != mCurrentEditTextView) {
+            previousText = mCurrentEditTextView.getText();
+            prevColor = mCurrentEditTextView.getmBgColor();
+        }
         final Context context = getActivity();
 
         final Dialog dialog = new Dialog(context);
@@ -329,12 +335,12 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
 
         final EditText editText = (EditText) dialog.findViewById(R.id.edit_text);
         editText.setHint("Input text here");
-
+        editText.setText(previousText);
 
         final SpectrumPalette spectrumPalette = (SpectrumPalette) dialog.findViewById(R.id.palette);
         final int[] colors = getResources().getIntArray(R.array.demo_colors);
         spectrumPalette.setColors(colors);
-
+        spectrumPalette.setSelectedColor(prevColor);
         final int[] selectedColor = new int[1];
 
         final SeekBar seekBar = (SeekBar) dialog.findViewById(R.id.seekbar);

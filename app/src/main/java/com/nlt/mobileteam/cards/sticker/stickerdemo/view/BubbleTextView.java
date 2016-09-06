@@ -5,12 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PointF;
-import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.support.v4.view.MotionEventCompat;
 import android.text.TextPaint;
@@ -21,15 +19,11 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.DragEvent;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.utils.DensityUtils;
-
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 
 /**
@@ -107,10 +101,6 @@ public class BubbleTextView extends ImageView  {
 
     private DisplayMetrics dm;
 
-    /**
-     * 文字部分
-     */
-    private final String defaultStr;
     //显示的字符串
     private String mStr = "";
 
@@ -168,7 +158,6 @@ public class BubbleTextView extends ImageView  {
 
     public BubbleTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        defaultStr = getContext().getString(R.string.double_tap_to_edit_color);
         this.fontColor = Color.BLACK;
         this.mBgColor = Color.GRAY;
         bubbleId = 0;
@@ -177,7 +166,6 @@ public class BubbleTextView extends ImageView  {
 
     public BubbleTextView(Context context) {
         super(context);
-        defaultStr = getContext().getString(R.string.type_question_here);
         this.fontColor = Color.BLACK;
         this.mBgColor = Color.GRAY;
         bubbleId = 0;
@@ -186,7 +174,6 @@ public class BubbleTextView extends ImageView  {
 
     public BubbleTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        defaultStr = getContext().getString(R.string.type_question_here);
         this.fontColor = Color.BLACK;
         bubbleId = 0;
         init();
@@ -199,7 +186,6 @@ public class BubbleTextView extends ImageView  {
      */
     public BubbleTextView(Context context, int fontColor, long bubbleId) {
         super(context);
-        defaultStr = getContext().getString(R.string.double_tap_to_edit_color);
         this.fontColor = fontColor;
         this.bubbleId = bubbleId;
         init();
@@ -233,7 +219,6 @@ public class BubbleTextView extends ImageView  {
 
         baseline = fm.descent - fm.ascent;
         isInit = true;
-        mStr = defaultStr;
     }
 
     @Override
@@ -339,14 +324,19 @@ public class BubbleTextView extends ImageView  {
 
     private void checkText() {
         Bitmap receipt = BitmapFactory.decodeResource(getResources(), R.mipmap.bubble_7_rb);
-        if(mStr.length() >=30 ){
-            matrix.reset();
-            setBitmap(Bitmap.createScaledBitmap(receipt, 400 ,300 , false));
+        int defW = 330;
+        int defH = 110;
+        int maxLen = 25;
+        int count = Math.round(mStr.length() / (float) maxLen);
+        if (count == 0){
+            count = 1;}
+        if(count >=3 ){
+            defH *= 0.55;
+            defW *= 1.5;
         }
-        else {
             matrix.reset();
-            setBitmap(Bitmap.createScaledBitmap(receipt, 400 ,200 , false));
-        }
+            setBitmap(Bitmap.createScaledBitmap(receipt, defW , defH * count , false));
+
     }
 
     @Override
@@ -845,6 +835,10 @@ public class BubbleTextView extends ImageView  {
 
     public void setTempColor(int tempColor) {
         this.tempColor = tempColor;
+    }
+
+    public String getText() {
+        return mStr;
     }
 
     public interface OperationListener {

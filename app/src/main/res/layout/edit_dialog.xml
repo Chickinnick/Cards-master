@@ -26,7 +26,6 @@
             android:layout_below="@+id/title"
             android:id="@+id/edit_text"
             android:layout_width="match_parent"
-            android:maxLength="130"
             android:layout_height="wrap_content" />
 
     <ScrollView
