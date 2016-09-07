@@ -29,7 +29,7 @@ public class StickerView extends ImageView {
     private Bitmap topBitmap;
     private Bitmap resizeBitmap;
     private Bitmap mBitmap;
-    public static final int LONG_TAP_TIME_LIMIT = 500;
+    public static final int LONG_TAP_TIME_LIMIT = 1250;
 
     private Rect dst_delete;
     private Rect dst_resize;

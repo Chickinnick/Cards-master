@@ -34,7 +34,7 @@ import com.nlt.mobileteam.cards.sticker.stickerdemo.utils.DensityUtils;
 public class BubbleTextView extends ImageView  {
 
     private static final String TAG = "BubbleTextView";
-    public static final int LONG_TAP_TIME_LIMIT = 500;
+    public static final int LONG_TAP_TIME_LIMIT = 1250;
     public int DEFAULT_CARD_W = 0;
     public int DEFAULT_CARD_H = 0;
 

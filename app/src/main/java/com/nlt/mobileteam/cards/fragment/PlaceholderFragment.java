@@ -113,11 +113,15 @@ public class PlaceholderFragment extends Fragment {
             return true;
         }
 
+
         @Override
-        public void onLongPress(MotionEvent e) {
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+
             onFragmentClickListener.onFragmentClick();
-            super.onLongPress(e);
+            return super.onSingleTapConfirmed(e);
         }
+
+
     }
 
     ;
