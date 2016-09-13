@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.activity.MainActivityTabbed;
 import com.nlt.mobileteam.cards.controller.BroadcastManager;
+import com.nlt.mobileteam.cards.fragment.PlaceholderFragment;
 import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
@@ -68,6 +69,8 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
             mCurrentEditTextView = bubbleTextView;
             mCurrentEditTextView.setInEdit(true);
             ((MainActivityTabbed) getActivity()).setIsDragMode(true);
+            ((MainActivityTabbed) getActivity()).showEditControls();
+
 
         }
 
@@ -286,6 +289,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     @Override
     public void editStateChanged(boolean isInEdit) {
         ((MainActivityTabbed) getActivity()).setIsDragMode(isInEdit);
+        ((MainActivityTabbed) getActivity()).showEditControls();
 
     }
 
@@ -415,12 +419,10 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         }
     }
 
-    public void minusWidth() {
-        mCurrentEditTextView.minusWidth();
+    public void adjustHeight(int progress) {
+        mCurrentEditTextView.adjustHeight(progress);
     }
-
-    public void plusWidth() {
-        mCurrentEditTextView.plusWidth();
-
+    public void adjustWidth(int progress) {
+        mCurrentEditTextView.adjustWidth(progress);
     }
 }

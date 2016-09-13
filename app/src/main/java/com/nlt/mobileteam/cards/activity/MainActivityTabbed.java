@@ -71,6 +71,11 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private Fab viewFolderFab;
     private OnCardChangedListener onCardChangedListener;
 
+    public void showEditControls() {
+        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).showControls();
+
+    }
+
     public interface OnCardChangedListener {
         void onCardChanged(Card card);
     }
