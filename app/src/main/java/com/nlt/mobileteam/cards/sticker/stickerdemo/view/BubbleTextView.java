@@ -110,8 +110,8 @@ public class BubbleTextView extends ImageView  {
     private final float mDefultSize = 16;
     private float mFontSize = 16;
     //最大最小字号
-    private final float mMaxFontSize = 20;
-    private final float mMinFontSize = 14;
+    private final float mMaxFontSize = 40;
+    private final float mMinFontSize = 20;
 
     //字离旁边的距离
     private final float mDefaultMargin = 20;
@@ -340,6 +340,15 @@ public class BubbleTextView extends ImageView  {
             matrix.reset();
             setBitmap(Bitmap.createScaledBitmap(receipt, defW , defH * count , false));
 
+    }
+
+    public void  plusWidth(){
+        matrix.reset();
+        setBitmap(Bitmap.createScaledBitmap(mBitmap, mBitmap.getWidth() + 20 , mBitmap.getHeight()  , false));
+    }
+    public void  minusWidth(){
+        matrix.reset();
+        setBitmap(Bitmap.createScaledBitmap(mBitmap, mBitmap.getWidth() - 20, mBitmap.getHeight(), false));
     }
 
     @Override

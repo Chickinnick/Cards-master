@@ -7,6 +7,6 @@
     <dimen name="item_grid_card_h">300dp</dimen>
     <dimen name="text_size_grid">23sp</dimen>
     <dimen name="textH">110dp</dimen>
-    <dimen name="textW">330dp</dimen>
+    <dimen name="textW">110dp</dimen>
 
 </resources>

@@ -44,7 +44,7 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="text_size_grid">19sp</dimen>
     <dimen name="textH">110dp</dimen>
-    <dimen name="textW">330dp</dimen>
+    <dimen name="textW">110dp</dimen>
 
 
 </resources>

@@ -152,6 +152,23 @@ public class PlaceholderFragment extends Fragment {
         fragmentTransaction.commit();
 
 
+        View.OnClickListener plusminus  = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                switch (v.getId()){
+                    case R.id.plus:
+                        tempFragmentToReplace.plusWidth();
+                        break;
+                    case R.id.minus:
+                        tempFragmentToReplace.minusWidth();
+                        break;
+                }
+            }
+        };
+        rootView.findViewById(R.id.plus).setOnClickListener(plusminus);
+        rootView.findViewById(R.id.minus).setOnClickListener(plusminus);
+
         //
 //        Log.w("PAGE", "onCreateView" + card.toString());
 
