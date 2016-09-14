@@ -4,22 +4,18 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatSeekBar;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.fragment.cards.BackCard;
 import com.nlt.mobileteam.cards.fragment.cards.BaseCard;
 import com.nlt.mobileteam.cards.fragment.cards.FrontCard;
 import com.nlt.mobileteam.cards.model.Card;
-import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleTextView;
 
 public class PlaceholderFragment extends Fragment {
 
@@ -37,9 +33,6 @@ public class PlaceholderFragment extends Fragment {
     int sectionNumber;
     public OnFragmentClickListener onFragmentClickListener;
     private boolean isFront;
-    private AppCompatSeekBar seekbarW;
-    private AppCompatSeekBar seekbarH;
-    private RelativeLayout controlsLayout;
 
     public void setOnFragmentClickListener(OnFragmentClickListener onFragmentClickListener) {
         this.onFragmentClickListener = onFragmentClickListener;
@@ -158,60 +151,28 @@ public class PlaceholderFragment extends Fragment {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
-        controlsLayout = (RelativeLayout) rootView.findViewById(R.id.controlsContainer);
-        seekbarW = (AppCompatSeekBar) rootView.findViewById(R.id.widthSeekbar);
-        seekbarH = (AppCompatSeekBar) rootView.findViewById(R.id.heightSeekbar);
 
-        seekbarH.setMax((int) getResources().getDimension(R.dimen.card_h));
-        seekbarW.setMax((int) getResources().getDimension(R.dimen.card_w));
-
-        hideControls();
-        SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        View.OnClickListener plusminus  = new View.OnClickListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(progress < 0){
-                    return;
-                }
-                switch (seekBar.getId()) {
-                    case R.id.widthSeekbar:
-                        tempFragmentToReplace.adjustWidth(progress);
+            public void onClick(View v) {
+
+                switch (v.getId()){
+                    case R.id.plus:
+                        tempFragmentToReplace.plusWidth();
                         break;
-                    case R.id.heightSeekbar:
-                        tempFragmentToReplace.adjustHeight(progress);
+                    case R.id.minus:
+                        tempFragmentToReplace.minusWidth();
                         break;
                 }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         };
-
-        seekbarH.setOnSeekBarChangeListener(seekBarChangeListener);
-        seekbarW.setOnSeekBarChangeListener(seekBarChangeListener);
-
+        rootView.findViewById(R.id.plus).setOnClickListener(plusminus);
+        rootView.findViewById(R.id.minus).setOnClickListener(plusminus);
 
         //
 //        Log.w("PAGE", "onCreateView" + card.toString());
 
         return rootView;
-    }
-
-    public void hideControls(){
-        controlsLayout.setVisibility(View.GONE);
-    }
-    public void showControls(){
-        controlsLayout.setVisibility(View.VISIBLE);
-        BubbleTextView bubbleTextView = tempFragmentToReplace.mCurrentEditTextView;
-
-        seekbarW.setProgress(bubbleTextView.getWidth());
-        seekbarH.setProgress(bubbleTextView.getHeight());
     }
 
     public void updateCard(Card newCard) {
@@ -220,6 +181,7 @@ public class PlaceholderFragment extends Fragment {
 //            args.putParcelable(ARG_CARD, newCard);
 //            setArguments(args);
         card = newCard;
+
     }
 
 

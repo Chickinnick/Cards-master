@@ -4,56 +4,27 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/controlsContainer"
-        android:layout_below="@+id/card_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:textColor="@color/white"
-            android:id="@+id/height"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="Height" />
-
-        <TextView
-            android:textColor="@color/white"
-
-            android:id="@+id/weight"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/height"
-            android:layout_margin="3dp"
-            android:text="Weight" />
-
-        <android.support.v7.widget.AppCompatSeekBar
-            android:id="@+id/widthSeekbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="3dp"
-            android:layout_toEndOf="@+id/height" />
-
-        <android.support.v7.widget.AppCompatSeekBar
-            android:id="@+id/heightSeekbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/widthSeekbar"
-            android:layout_margin="3dp"
-            android:layout_toEndOf="@+id/weight" />
-    </RelativeLayout>
-
-
-    <RelativeLayout
+        android:layout_centerInParent="true"
         android:id="@+id/card_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/card_h"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true">
+        android:layout_height="@dimen/card_h">
 
     </RelativeLayout>
+
+    <Button
+    android:id="@+id/plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/card_layout"
+        android:text="++"/>
+
+    <Button
+        android:layout_below="@+id/plus"
+        android:text="--"
+    android:id="@+id/minus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
 
 </RelativeLayout>

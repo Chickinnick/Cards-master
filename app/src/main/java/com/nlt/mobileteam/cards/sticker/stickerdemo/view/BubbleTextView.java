@@ -342,6 +342,14 @@ public class BubbleTextView extends ImageView  {
 
     }
 
+    public void  plusWidth(){
+        matrix.reset();
+        setBitmap(Bitmap.createScaledBitmap(mBitmap, mBitmap.getWidth() + 20 , mBitmap.getHeight()  , false));
+    }
+    public void  minusWidth(){
+        matrix.reset();
+        setBitmap(Bitmap.createScaledBitmap(mBitmap, mBitmap.getWidth() - 20, mBitmap.getHeight(), false));
+    }
 
     @Override
     public void setImageResource(int resId) {
@@ -845,18 +853,6 @@ public class BubbleTextView extends ImageView  {
     public String getText() {
         return mStr;
     }
-
-    public void adjustHeight(int progress) {
-        matrix.reset();
-        setBitmap(Bitmap.createScaledBitmap(mBitmap, mBitmap.getWidth() , progress , false));
-
-    }
-
-    public void adjustWidth(int progress) {
-        matrix.reset();
-        setBitmap(Bitmap.createScaledBitmap(mBitmap, progress , mBitmap.getHeight(), false));
-    }
-
 
     public interface OperationListener {
         void onDeleteClick();
