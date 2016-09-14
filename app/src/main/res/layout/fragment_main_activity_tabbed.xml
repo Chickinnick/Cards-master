@@ -11,20 +11,5 @@
 
     </RelativeLayout>
 
-    <Button
-    android:id="@+id/plus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/card_layout"
-        android:text="++"/>
-
-    <Button
-        android:layout_below="@+id/plus"
-        android:text="--"
-    android:id="@+id/minus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-
 
 </RelativeLayout>

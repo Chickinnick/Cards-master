@@ -54,5 +54,4 @@ dependencies {
     compile 'com.pavelsikun:vintage-chroma:1.5'
     compile 'io.paperdb:paperdb:1.5'
     compile 'com.wada811:android-material-design-colors:3.0.0'
-    compile 'com.github.AndroidDeveloperLB:AutoFitTextView:3'
 }

@@ -414,13 +414,4 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
             mCurrentEditTextView.setInEdit(false);
         }
     }
-
-    public void minusWidth() {
-        mCurrentEditTextView.minusWidth();
-    }
-
-    public void plusWidth() {
-        mCurrentEditTextView.plusWidth();
-
-    }
 }
