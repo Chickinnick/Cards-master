@@ -27,8 +27,10 @@ import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BaseTextView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleTextView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.EditStateListener;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.view.ExperimentBubbleTextView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.StickerView;
 import com.thebluealliance.spectrum.SpectrumPalette;
 
@@ -46,7 +48,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
 
     public StickerView mCurrentView;
 
-    public BubbleTextView mCurrentEditTextView;
+    public BaseTextView mCurrentEditTextView;
 
     public ArrayList<View> mViews;
 
@@ -56,11 +58,11 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         public void onDeleteClick() {
             mViews.remove(mCurrentEditTextView);
             checkTextViesState();
-            mContentRootView.removeView(mCurrentEditTextView);
+            mContentRootView.removeView((View) mCurrentEditTextView);
         }
 
         @Override
-        public void onEdit(BubbleTextView bubbleTextView) {
+        public void onEdit(BaseTextView bubbleTextView) {
             if (mCurrentView != null) {
                 mCurrentView.setInEdit(false);
             }
@@ -72,13 +74,13 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         }
 
         @Override
-        public void onClick(BubbleTextView bubbleTextView) {
+        public void onClick(BaseTextView bubbleTextView) {
             ((MainActivityTabbed) getActivity()).setIsDragMode(true);
 
         }
 
         @Override
-        public void onTop(BubbleTextView bubbleTextView) {
+        public void onTop(BaseTextView bubbleTextView) {
             int position = mViews.indexOf(bubbleTextView);
             if (position == mViews.size() - 1) {
                 return;
@@ -282,6 +284,17 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         mCurrentEditTextView.setInEdit(isEdit);
     }
 
+ private void setCurrentEdit(ExperimentBubbleTextView bubbleTextView, boolean isEdit) {
+        if (mCurrentView != null) {
+            mCurrentView.setInEdit(false);
+        }
+        if (mCurrentEditTextView != null) {
+            mCurrentEditTextView.setInEdit(false);
+        }
+        mCurrentEditTextView = bubbleTextView;
+        mCurrentEditTextView.setInEdit(isEdit);
+    }
+
 
     @Override
     public void editStateChanged(boolean isInEdit) {
@@ -413,5 +426,17 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         if (null != mCurrentEditTextView) {
             mCurrentEditTextView.setInEdit(false);
         }
+    }
+
+    public void addNewTextView() {
+        final ExperimentBubbleTextView bubbleTextView = new ExperimentBubbleTextView(getActivity(),
+                Color.BLACK, 0);
+        bubbleTextView.setOperationListener(mOperationListener);
+        bubbleTextView.setText("sdfsdf");
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        mContentRootView.addView(bubbleTextView, lp);
+        mViews.add(bubbleTextView);
+        setCurrentEdit(bubbleTextView , true);
+        checkTextViesState();
     }
 }

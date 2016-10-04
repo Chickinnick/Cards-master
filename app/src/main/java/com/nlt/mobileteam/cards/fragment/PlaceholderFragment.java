@@ -47,6 +47,10 @@ public class PlaceholderFragment extends Fragment {
         tempFragmentToReplace.editTextWithDialog();
     }
 
+    public void addNewText() {
+        tempFragmentToReplace.addNewTextView();
+    }
+
     public interface OnFragmentClickListener {
         void onFragmentClick();
 

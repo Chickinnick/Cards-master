@@ -21,17 +21,12 @@ import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
-import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.utils.DensityUtils;
+import com.nlt.mobileteam.cards.R;
 
 
-/**
- * Created by Abner on 15/6/7.
- * QQ 230877476
- * Email nimengbo@gmail.com
- */
-public class BubbleTextView extends ImageView implements BaseTextView {
+public class ExperimentBubbleTextView extends ImageView implements BaseTextView {
 
     private static final String TAG = "BubbleTextView";
     public static final int LONG_TAP_TIME_LIMIT = 1250;
@@ -65,7 +60,7 @@ public class BubbleTextView extends ImageView implements BaseTextView {
     private int mScreenwidth, mScreenHeight;
     private static final float BITMAP_SCALE = 0.7f;
     private PointF mid = new PointF();
-    private OperationListener operationListener;
+    private BubbleTextView.OperationListener operationListener;
     private float lastRotateDegree;
 
     //是否是第二根手指放下
@@ -158,7 +153,7 @@ public class BubbleTextView extends ImageView implements BaseTextView {
     int mBgColor = -1;
     private int tempColor;
 
-    public BubbleTextView(Context context, AttributeSet attrs) {
+    public ExperimentBubbleTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.fontColor = Color.BLACK;
         this.mBgColor = Color.GRAY;
@@ -166,7 +161,7 @@ public class BubbleTextView extends ImageView implements BaseTextView {
         init();
     }
 
-    public BubbleTextView(Context context) {
+    public ExperimentBubbleTextView(Context context) {
         super(context);
         this.fontColor = Color.BLACK;
         this.mBgColor = Color.GRAY;
@@ -174,7 +169,7 @@ public class BubbleTextView extends ImageView implements BaseTextView {
         init();
     }
 
-    public BubbleTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ExperimentBubbleTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.fontColor = Color.BLACK;
         bubbleId = 0;
@@ -186,7 +181,7 @@ public class BubbleTextView extends ImageView implements BaseTextView {
      * @param fontColor
      * @param bubbleId  some fuck id
      */
-    public BubbleTextView(Context context, int fontColor, long bubbleId) {
+    public ExperimentBubbleTextView(Context context, int fontColor, long bubbleId) {
         super(context);
         this.fontColor = fontColor;
         this.bubbleId = bubbleId;
@@ -845,21 +840,9 @@ public class BubbleTextView extends ImageView implements BaseTextView {
         return mStr;
     }
 
-    public interface OperationListener {
-        void onDeleteClick();
 
-        void onEdit(BaseTextView bubbleTextView);
 
-        void onClick(BaseTextView bubbleTextView);
-
-        void onTop(BaseTextView bubbleTextView);
-
-        void onDoubleTap(String mStr);
-
-        void onEditStart(String currentText);
-    }
-
-    public void setOperationListener(OperationListener operationListener) {
+    public void setOperationListener(BubbleTextView.OperationListener operationListener) {
         this.operationListener = operationListener;
     }
 
