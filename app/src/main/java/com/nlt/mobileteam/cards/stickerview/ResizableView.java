@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.nlt.mobileteam.cards.R;
+
 
 public abstract class ResizableView extends FrameLayout {
 

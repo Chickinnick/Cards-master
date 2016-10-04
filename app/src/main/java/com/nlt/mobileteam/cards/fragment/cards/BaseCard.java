@@ -32,6 +32,7 @@ import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleTextView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.EditStateListener;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.ExperimentBubbleTextView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.StickerView;
+import com.nlt.mobileteam.cards.stickerview.ResizableTextView;
 import com.thebluealliance.spectrum.SpectrumPalette;
 
 import java.util.ArrayList;
@@ -429,14 +430,11 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     }
 
     public void addNewTextView() {
-        final ExperimentBubbleTextView bubbleTextView = new ExperimentBubbleTextView(getActivity(),
-                Color.BLACK, 0);
-        bubbleTextView.setOperationListener(mOperationListener);
-        bubbleTextView.setText("sdfsdf");
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        mContentRootView.addView(bubbleTextView, lp);
-        mViews.add(bubbleTextView);
-        setCurrentEdit(bubbleTextView , true);
+        ResizableTextView txt = new ResizableTextView(getActivity());
+        txt.setText("sdf");
+        mContentRootView.addView(txt);
+        mViews.add(txt);
+        //setCurrentEdit(txt , true);
         checkTextViesState();
     }
 }
