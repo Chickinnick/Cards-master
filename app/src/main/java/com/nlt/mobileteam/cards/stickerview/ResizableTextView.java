@@ -3,6 +3,7 @@ package com.nlt.mobileteam.cards.stickerview;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -64,6 +65,7 @@ public class ResizableTextView extends ResizableView {
 
         return null;
     }
+
 
     public static float pixelsToSp(Context context, float px) {
         float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;

@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +40,7 @@ import com.thebluealliance.spectrum.SpectrumPalette;
 import java.util.ArrayList;
 
 
-public abstract class BaseCard extends Fragment implements EditStateListener {
+public abstract class BaseCard extends Fragment implements EditStateListener, TextWatcher {
 
     public static final int FRONT = 1;
     public static final int BACK = 2;
@@ -148,6 +150,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         }
     };
     private TextView hintTextView;
+    private ResizableTextView txt;
 
 
     public static BaseCard newInstance(Card card, int flag) {
@@ -173,6 +176,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         mViews = new ArrayList<>();
         mContentRootView = (RelativeLayout) rootView.findViewById(R.id.card_container);
         hintTextView = (TextView) rootView.findViewById(R.id.textview);
+        ((MainActivityTabbed) getActivity()).addCardEditTxt.addTextChangedListener(this);
         return rootView;
     }
 
@@ -430,11 +434,26 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     }
 
     public void addNewTextView() {
-        ResizableTextView txt = new ResizableTextView(getActivity());
+        txt = new ResizableTextView(getActivity());
         txt.setText("sdf");
         mContentRootView.addView(txt);
         mViews.add(txt);
-        //setCurrentEdit(txt , true);
+        // setCurrentEdit(txt , true);
         checkTextViesState();
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        txt.setText(s.toString());
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }
