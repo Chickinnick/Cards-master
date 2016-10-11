@@ -40,7 +40,7 @@ import com.thebluealliance.spectrum.SpectrumPalette;
 import java.util.ArrayList;
 
 
-public abstract class BaseCard extends Fragment implements EditStateListener, TextWatcher {
+public abstract class BaseCard extends Fragment implements EditStateListener {
 
     public static final int FRONT = 1;
     public static final int BACK = 2;
@@ -176,7 +176,6 @@ public abstract class BaseCard extends Fragment implements EditStateListener, Te
         mViews = new ArrayList<>();
         mContentRootView = (RelativeLayout) rootView.findViewById(R.id.card_container);
         hintTextView = (TextView) rootView.findViewById(R.id.textview);
-        ((MainActivityTabbed) getActivity()).addCardEditTxt.addTextChangedListener(this);
         return rootView;
     }
 
@@ -435,25 +434,35 @@ public abstract class BaseCard extends Fragment implements EditStateListener, Te
 
     public void addNewTextView() {
         txt = new ResizableTextView(getActivity());
-        txt.setText("sdf");
+        txt.setText("Text view");
+        ((MainActivityTabbed) getActivity()).addCardEditTxt.setVisibility(View.VISIBLE);
+        ((MainActivityTabbed) getActivity()).doneEditBtn.setVisibility(View.VISIBLE);
+        ((MainActivityTabbed) getActivity()).doneEditBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivityTabbed) getActivity()).addCardEditTxt.setVisibility(View.GONE);
+                ((MainActivityTabbed) getActivity()).doneEditBtn.setVisibility(View.GONE);
+            }
+        });
+        ((MainActivityTabbed) getActivity()).addCardEditTxt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                txt.setText(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         mContentRootView.addView(txt);
         mViews.add(txt);
         // setCurrentEdit(txt , true);
         checkTextViesState();
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        txt.setText(s.toString());
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
     }
 }

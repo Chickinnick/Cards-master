@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -60,6 +61,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private static final int TYPE_FAVOURITE = 1;
     private static final int TYPE_FOLDERS = 2;
     public EditText addCardEditTxt;
+    public Button doneEditBtn;
 
     public void setIsDragMode(boolean isDragMode) {
        this.isDragMode = isDragMode;
@@ -184,6 +186,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         addCardEditTxt = (EditText) findViewById(R.id.addCardEditText);
+        doneEditBtn = (Button) findViewById(R.id.editing_done);
         backgroundImage = (ImageView) findViewById(R.id.background);
         //  Picasso.with(this).load(Hawk.get(Util.SELECTED_BG_EXTRA, R.drawable.bg_1)).centerInside().into(backgroundImage);
         backgroundImage.setImageResource(Hawk.get(Util.SELECTED_BG_EXTRA, R.drawable.backgr4));

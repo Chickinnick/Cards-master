@@ -43,7 +43,7 @@ public class ResizableTextView extends ResizableView {
                 Gravity.CENTER);
         tv_main.setTextSize(400);
         tv_main.setShadowLayer(4, 0, 0, Color.BLACK);
-        tv_main.setSingleLine(true);
+        //    tv_main.setSingleLine(true);
         //tv_main.setMaxLines(1);
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.gravity = Gravity.CENTER;
@@ -66,6 +66,12 @@ public class ResizableTextView extends ResizableView {
         return null;
     }
 
+    public void setLines(int lines) {
+        if (tv_main != null) {
+            tv_main.setLines(lines);
+        }
+    }
+
 
     public static float pixelsToSp(Context context, float px) {
         float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
@@ -75,5 +81,12 @@ public class ResizableTextView extends ResizableView {
     @Override
     protected void onScaling(boolean scaleUp) {
         super.onScaling(scaleUp);
+    }
+
+    public void incrementLines() {
+        // if (tv_main != null) {
+        //     int count = tv_main.getLineCount();
+        //     tv_main.setLines(++count);
+        // }
     }
 }
