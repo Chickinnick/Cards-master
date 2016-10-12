@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.utils.DensityUtils;
 import com.nlt.mobileteam.cards.R;
+import com.nlt.mobileteam.cards.widget.OperationListener;
 
 
 public class ExperimentBubbleTextView extends ImageView implements BaseTextView {
@@ -60,7 +61,7 @@ public class ExperimentBubbleTextView extends ImageView implements BaseTextView 
     private int mScreenwidth, mScreenHeight;
     private static final float BITMAP_SCALE = 0.7f;
     private PointF mid = new PointF();
-    private BubbleTextView.OperationListener operationListener;
+    private OperationListener operationListener;
     private float lastRotateDegree;
 
     //是否是第二根手指放下
@@ -841,8 +842,7 @@ public class ExperimentBubbleTextView extends ImageView implements BaseTextView 
     }
 
 
-
-    public void setOperationListener(BubbleTextView.OperationListener operationListener) {
+    public void setOperationListener(OperationListener operationListener) {
         this.operationListener = operationListener;
     }
 

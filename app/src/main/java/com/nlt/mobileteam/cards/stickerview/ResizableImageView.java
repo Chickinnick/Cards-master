@@ -60,4 +60,33 @@ public class ResizableImageView extends ResizableView {
         return ((BitmapDrawable) this.iv_main.getDrawable()).getBitmap();
     }
 
+    @Override
+    public void setInEdit(boolean inEdit) {
+
+    }
+
+    @Override
+    public String getText() {
+        return null;
+    }
+
+    @Override
+    public int getmBgColor() {
+        return 0;
+    }
+
+    @Override
+    public void setmBgColor(int color) {
+
+    }
+
+    @Override
+    public void setTempColor(int color) {
+
+    }
+
+    @Override
+    public void setText(String text) {
+
+    }
 }

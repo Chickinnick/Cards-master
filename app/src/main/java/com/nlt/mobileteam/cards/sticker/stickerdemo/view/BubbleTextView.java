@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.utils.DensityUtils;
+import com.nlt.mobileteam.cards.widget.OperationListener;
 
 
 /**
@@ -845,19 +846,7 @@ public class BubbleTextView extends ImageView implements BaseTextView {
         return mStr;
     }
 
-    public interface OperationListener {
-        void onDeleteClick();
 
-        void onEdit(BaseTextView bubbleTextView);
-
-        void onClick(BaseTextView bubbleTextView);
-
-        void onTop(BaseTextView bubbleTextView);
-
-        void onDoubleTap(String mStr);
-
-        void onEditStart(String currentText);
-    }
 
     public void setOperationListener(OperationListener operationListener) {
         this.operationListener = operationListener;

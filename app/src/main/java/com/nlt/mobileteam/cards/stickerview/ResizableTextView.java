@@ -9,7 +9,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BaseTextView;
 import com.nlt.mobileteam.cards.stickerview.util.AutoResizeTextView;
+import com.nlt.mobileteam.cards.widget.OperationListener;
+
+import java.util.ArrayList;
 
 
 /**
@@ -17,6 +21,7 @@ import com.nlt.mobileteam.cards.stickerview.util.AutoResizeTextView;
  */
 public class ResizableTextView extends ResizableView {
     private AutoResizeTextView tv_main;
+
 
     public ResizableTextView(Context context) {
         super(context);
@@ -59,11 +64,62 @@ public class ResizableTextView extends ResizableView {
         }
     }
 
+    @Override
+    public void setInEdit(boolean inEdit) {
+        this.isInEdit = inEdit;
+
+        ArrayList<View> views = new ArrayList<View>();
+        final int childCount = getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            final View child = getChildAt(i);
+            final Object tagObj = child.getTag();
+            if (tagObj != null && (
+                    tagObj.equals(IV_BORDER_TAG) ||
+                            tagObj.equals(IV_SCALE_TAG) ||
+                            tagObj.equals(IV_DELETE_TAG) ||
+                            tagObj.equals(IV_FLIP_TAG)
+            )) {
+                views.add(child);
+            }
+
+            for (View view :
+                    views) {
+                if (!inEdit) {
+                    view.setVisibility(GONE);
+                } else {
+                    view.setVisibility(VISIBLE);
+                }
+            }
+
+//        this.iv_border.setTag("iv_border");
+//        this.iv_scale.setTag("iv_scale");
+//        this.iv_delete.setTag("iv_delete");
+//        this.iv_flip.setTag("iv_flip");
+
+            invalidate();
+        }
+    }
+
     public String getText() {
         if (tv_main != null)
             return tv_main.getText().toString();
 
         return null;
+    }
+
+    @Override
+    public int getmBgColor() {
+        return 0;
+    }
+
+    @Override
+    public void setmBgColor(int color) {
+
+    }
+
+    @Override
+    public void setTempColor(int color) {
+
     }
 
     public void setLines(int lines) {
@@ -89,4 +145,6 @@ public class ResizableTextView extends ResizableView {
         //     tv_main.setLines(++count);
         // }
     }
+
+
 }

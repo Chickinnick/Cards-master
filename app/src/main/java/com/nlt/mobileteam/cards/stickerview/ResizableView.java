@@ -18,16 +18,25 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.nlt.mobileteam.cards.R;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BaseTextView;
+import com.nlt.mobileteam.cards.widget.OperationListener;
 
 
-public abstract class ResizableView extends FrameLayout {
+public abstract class ResizableView extends FrameLayout implements BaseTextView {
+
+    public static final String IV_BORDER_TAG = "iv_border";
+    public static final String IV_SCALE_TAG = "iv_scale";
+    public static final String IV_DELETE_TAG = "iv_delete";
+    public static final String IV_FLIP_TAG = "iv_flip";
+    private final Context context;
+    protected boolean isInEdit = false;
 
     public static final String TAG = "com.knef.stickerView";
     private static final float SELF_SIZE_DP_W = 300;
-    private BorderView iv_border;
-    private ImageView iv_scale;
-    private ImageView iv_delete;
-    private ImageView iv_flip;
+    protected BorderView iv_border;
+    protected ImageView iv_scale;
+    protected ImageView iv_delete;
+    protected ImageView iv_flip;
 
     // For scalling
     private float this_orgX = -1, this_orgY = -1;
@@ -42,20 +51,26 @@ public abstract class ResizableView extends FrameLayout {
 
     private final static int BUTTON_SIZE_DP = 30;
     private final static int SELF_SIZE_DP = 100;
+    private OperationListener operationListener;
 
 
     public ResizableView(Context context) {
         super(context);
+        this.context = context;
+
         init(context);
     }
 
     public ResizableView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
+
         init(context);
     }
 
     public ResizableView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.context = context;
         init(context);
     }
 
@@ -70,10 +85,10 @@ public abstract class ResizableView extends FrameLayout {
         this.iv_flip.setImageResource(R.drawable.flip);
 
         this.setTag("DraggableViewGroup");
-        this.iv_border.setTag("iv_border");
-        this.iv_scale.setTag("iv_scale");
-        this.iv_delete.setTag("iv_delete");
-        this.iv_flip.setTag("iv_flip");
+        this.iv_border.setTag(IV_BORDER_TAG);
+        this.iv_scale.setTag(IV_SCALE_TAG);
+        this.iv_delete.setTag(IV_DELETE_TAG);
+        this.iv_flip.setTag(IV_FLIP_TAG);
 
         int margin = convertDpToPixel(BUTTON_SIZE_DP, getContext()) / 2;
         int size = convertDpToPixel(SELF_SIZE_DP, getContext());
@@ -123,16 +138,19 @@ public abstract class ResizableView extends FrameLayout {
 
         this.setLayoutParams(this_params);
         this.addView(getMainView(), iv_main_params);
+        ///if (isInEdit) {
         this.addView(iv_border, iv_border_params);
         this.addView(iv_scale, iv_scale_params);
         this.addView(iv_delete, iv_delete_params);
         this.addView(iv_flip, iv_flip_params);
+        //  }
         this.setOnTouchListener(mTouchListener);
         this.iv_scale.setOnTouchListener(mTouchListener);
         this.iv_delete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (ResizableView.this.getParent() != null) {
+                    operationListener.onDeleteClick();
                     ViewGroup myCanvas = ((ViewGroup) ResizableView.this.getParent());
                     myCanvas.removeView(ResizableView.this);
                 }
@@ -169,6 +187,8 @@ public abstract class ResizableView extends FrameLayout {
                         Log.v(TAG, "sticker view action down");
                         move_orgX = event.getRawX();
                         move_orgY = event.getRawY();
+                        operationListener.onClick(ResizableView.this);
+
                         break;
                     case MotionEvent.ACTION_MOVE:
                         Log.v(TAG, "sticker view action move");
@@ -332,6 +352,10 @@ public abstract class ResizableView extends FrameLayout {
     }
 
     protected void onRotating() {
+    }
+
+    public void setOperationListener(OperationListener operationListener) {
+        this.operationListener = operationListener;
     }
 
     private class BorderView extends View {

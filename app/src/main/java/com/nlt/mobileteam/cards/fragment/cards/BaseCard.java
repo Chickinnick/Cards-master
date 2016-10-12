@@ -35,6 +35,7 @@ import com.nlt.mobileteam.cards.sticker.stickerdemo.view.EditStateListener;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.ExperimentBubbleTextView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.StickerView;
 import com.nlt.mobileteam.cards.stickerview.ResizableTextView;
+import com.nlt.mobileteam.cards.widget.OperationListener;
 import com.thebluealliance.spectrum.SpectrumPalette;
 
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     public ArrayList<View> mViews;
 
     public RelativeLayout mContentRootView;
-    private BubbleTextView.OperationListener mOperationListener = new BubbleTextView.OperationListener() {
+    private OperationListener mOperationListener = new OperationListener() {
         @Override
         public void onDeleteClick() {
             mViews.remove(mCurrentEditTextView);
@@ -288,14 +289,14 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         mCurrentEditTextView.setInEdit(isEdit);
     }
 
- private void setCurrentEdit(ExperimentBubbleTextView bubbleTextView, boolean isEdit) {
+    private void setCurrentEdit(BaseTextView textView, boolean isEdit) {
         if (mCurrentView != null) {
             mCurrentView.setInEdit(false);
         }
         if (mCurrentEditTextView != null) {
             mCurrentEditTextView.setInEdit(false);
         }
-        mCurrentEditTextView = bubbleTextView;
+        mCurrentEditTextView = textView;
         mCurrentEditTextView.setInEdit(isEdit);
     }
 
@@ -435,6 +436,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     public void addNewTextView() {
         txt = new ResizableTextView(getActivity());
         txt.setText("Text view");
+        txt.setOperationListener(mOperationListener);
         ((MainActivityTabbed) getActivity()).addCardEditTxt.setVisibility(View.VISIBLE);
         ((MainActivityTabbed) getActivity()).doneEditBtn.setVisibility(View.VISIBLE);
         ((MainActivityTabbed) getActivity()).doneEditBtn.setOnClickListener(new View.OnClickListener() {
@@ -462,7 +464,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         });
         mContentRootView.addView(txt);
         mViews.add(txt);
-        // setCurrentEdit(txt , true);
+        setCurrentEdit(txt, true);
         checkTextViesState();
     }
 }
