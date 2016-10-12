@@ -89,8 +89,8 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
             if (position == mViews.size() - 1) {
                 return;
             }
-            BubbleTextView textView = (BubbleTextView) mViews.remove(position);
-            mViews.add(mViews.size(), textView);
+            BaseTextView textView = (BaseTextView) mViews.remove(position);
+            mViews.add(mViews.size(), (View) textView);
         }
 
         @Override

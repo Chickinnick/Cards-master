@@ -30,6 +30,8 @@ public abstract class ResizableView extends FrameLayout implements BaseTextView 
     public static final String IV_FLIP_TAG = "iv_flip";
     private final Context context;
     protected boolean isInEdit = false;
+    long startTime;
+    public static final int LONG_TAP_TIME_LIMIT = 1250;
 
     public static final String TAG = "com.knef.stickerView";
     private static final float SELF_SIZE_DP_W = 300;
@@ -188,16 +190,25 @@ public abstract class ResizableView extends FrameLayout implements BaseTextView 
                         move_orgX = event.getRawX();
                         move_orgY = event.getRawY();
                         operationListener.onClick(ResizableView.this);
+                        startTime = System.currentTimeMillis();
 
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        Log.v(TAG, "sticker view action move");
-                        float offsetX = event.getRawX() - move_orgX;
-                        float offsetY = event.getRawY() - move_orgY;
-                        ResizableView.this.setX(ResizableView.this.getX() + offsetX);
-                        ResizableView.this.setY(ResizableView.this.getY() + offsetY);
-                        move_orgX = event.getRawX();
-                        move_orgY = event.getRawY();
+                        if ((System.currentTimeMillis() - startTime) > LONG_TAP_TIME_LIMIT) {
+                            Log.v(TAG, "sticker view action move");
+                            float offsetX = event.getRawX() - move_orgX;
+                            float offsetY = event.getRawY() - move_orgY;
+                            ResizableView.this.setX(ResizableView.this.getX() + offsetX);
+                            ResizableView.this.setY(ResizableView.this.getY() + offsetY);
+                            move_orgX = event.getRawX();
+                            move_orgY = event.getRawY();
+
+                            if (operationListener != null) {
+                                operationListener.onTop(ResizableView.this);
+                            }
+                            operationListener.onEdit(ResizableView.this);
+                        }
+
                         break;
                     case MotionEvent.ACTION_UP:
                         Log.v(TAG, "sticker view action up");

@@ -76,8 +76,7 @@ public class ResizableTextView extends ResizableView {
             if (tagObj != null && (
                     tagObj.equals(IV_BORDER_TAG) ||
                             tagObj.equals(IV_SCALE_TAG) ||
-                            tagObj.equals(IV_DELETE_TAG) ||
-                            tagObj.equals(IV_FLIP_TAG)
+                            tagObj.equals(IV_DELETE_TAG)
             )) {
                 views.add(child);
             }
