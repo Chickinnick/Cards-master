@@ -70,25 +70,25 @@
 
 
             <EditText
-                android:visibility="gone"
-                android:layout_margin="100dp"
+                android:id="@+id/addCardEditText"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="100dp"
                 android:background="@drawable/dialog_edit_text_bg"
                 android:hint="Write content here"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/addCardEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:padding="5dp"
+                android:visibility="gone" />
 
             <Button
-                android:layout_centerHorizontal="true"
-                android:visibility="gone"
                 android:id="@+id/editing_done"
-                android:text="@string/done"
-                android:layout_below="@+id/addCardEditText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/addCardEditText"
+                android:layout_toEndOf="@+id/addCardEditText"
+                android:layout_toRightOf="@+id/addCardEditText"
+                android:text="@string/done"
+                android:visibility="gone" />
 
 
             <!-- Overlay that dims the screen -->
@@ -166,10 +166,10 @@
 
                                 android:id="@+id/fab_sheet_item_add"
                                 style="@style/TextAppearance.MaterialSheetFab.Sheet.Item"
-                                android:drawableLeft="@drawable/ic_add_text"
-                                android:drawableStart="@drawable/ic_add_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/ic_add_text"
+                                android:drawableStart="@drawable/ic_add_text"
                                 android:text="@string/add" />
                         </LinearLayout>
 

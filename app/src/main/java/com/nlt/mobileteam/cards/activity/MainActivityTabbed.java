@@ -662,7 +662,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     }
 
     private void onAddTextClicked() {
-        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).addText();
+        ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).addNewText();
         setIsDragMode(true);
 
 

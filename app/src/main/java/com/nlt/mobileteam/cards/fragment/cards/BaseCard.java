@@ -32,13 +32,14 @@ import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BaseTextView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleTextView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.EditStateListener;
-import com.nlt.mobileteam.cards.sticker.stickerdemo.view.ExperimentBubbleTextView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.StickerView;
 import com.nlt.mobileteam.cards.stickerview.ResizableTextView;
 import com.nlt.mobileteam.cards.widget.OperationListener;
 import com.thebluealliance.spectrum.SpectrumPalette;
 
 import java.util.ArrayList;
+
+import static android.view.View.VISIBLE;
 
 
 public abstract class BaseCard extends Fragment implements EditStateListener {
@@ -74,6 +75,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
             mCurrentEditTextView = bubbleTextView;
             mCurrentEditTextView.setInEdit(true);
             ((MainActivityTabbed) getActivity()).setIsDragMode(true);
+            setTextEditDialogVisibility(VISIBLE);
 
         }
 
@@ -96,8 +98,8 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         @Override
         public void onDoubleTap(String mStr) {
             Activity activity = getActivity();
-
-            editTextWithDialog();
+            setTextEditDialogVisibility(VISIBLE);
+            //editTextWithDialog();
 
          /*   new ChromaDialog.Builder()
                     .initialColor(Color.GREEN)
@@ -233,7 +235,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         if(mViews!= null && !mViews.isEmpty()){
             hintTextView.setVisibility(View.GONE);
         } else {
-            hintTextView.setVisibility(View.VISIBLE);
+            hintTextView.setVisibility(VISIBLE);
 
         }
     }
@@ -335,8 +337,6 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         mViews.add(bubbleTextView);
         setCurrentEdit(bubbleTextView , true);
         checkTextViesState();
-
-
     }
 
     public void editTextWithDialog() {
@@ -437,13 +437,19 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         txt = new ResizableTextView(getActivity());
         txt.setText("Text view");
         txt.setOperationListener(mOperationListener);
-        ((MainActivityTabbed) getActivity()).addCardEditTxt.setVisibility(View.VISIBLE);
-        ((MainActivityTabbed) getActivity()).doneEditBtn.setVisibility(View.VISIBLE);
+        initTextEditDialog();
+        mContentRootView.addView(txt);
+        mViews.add(txt);
+        setCurrentEdit(txt, true);
+        checkTextViesState();
+    }
+
+    private void initTextEditDialog() {
+        setTextEditDialogVisibility(VISIBLE);
         ((MainActivityTabbed) getActivity()).doneEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivityTabbed) getActivity()).addCardEditTxt.setVisibility(View.GONE);
-                ((MainActivityTabbed) getActivity()).doneEditBtn.setVisibility(View.GONE);
+                setTextEditDialogVisibility(View.GONE);
             }
         });
         ((MainActivityTabbed) getActivity()).addCardEditTxt.addTextChangedListener(new TextWatcher() {
@@ -462,9 +468,10 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
 
             }
         });
-        mContentRootView.addView(txt);
-        mViews.add(txt);
-        setCurrentEdit(txt, true);
-        checkTextViesState();
+    }
+
+    public void setTextEditDialogVisibility(int visible) {
+        ((MainActivityTabbed) getActivity()).addCardEditTxt.setVisibility(visible);
+        ((MainActivityTabbed) getActivity()).doneEditBtn.setVisibility(visible);
     }
 }

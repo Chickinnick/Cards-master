@@ -44,7 +44,7 @@ public class PlaceholderFragment extends Fragment {
     }
 
     public void editText() {
-        tempFragmentToReplace.editTextWithDialog();
+        tempFragmentToReplace.setTextEditDialogVisibility(View.VISIBLE);
     }
 
     public void addNewText() {
