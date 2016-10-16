@@ -9,6 +9,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
+
 
 public class ResizableImageView extends ResizableView {
 
@@ -88,5 +90,10 @@ public class ResizableImageView extends ResizableView {
     @Override
     public void setText(String text) {
 
+    }
+
+    @Override
+    public void restoreViewState(SavableView savableView) {
+        super.restoreViewState(savableView);
     }
 }

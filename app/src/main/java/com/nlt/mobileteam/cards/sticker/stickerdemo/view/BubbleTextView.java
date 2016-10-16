@@ -23,6 +23,7 @@ import android.widget.ImageView;
 
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.utils.DensityUtils;
 import com.nlt.mobileteam.cards.widget.OperationListener;
 
@@ -678,10 +679,10 @@ public class BubbleTextView extends ImageView implements BaseTextView {
         return model;
     }
 
-
-    public void restoreViewState(BubblePropertyModel bubblePropertyModel) {
+    @Override
+    public void restoreViewState(SavableView bubblePropertyModel) {
         matrix.reset();
-        matrix.setValues(bubblePropertyModel.getMatrixValues());
+        matrix.setValues(((BubblePropertyModel) bubblePropertyModel).getMatrixValues());
         invalidate();
     }
 

@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nlt.mobileteam.cards.model.Card;
-import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.TextPropertyModel;
 
 import java.util.List;
 
@@ -46,8 +46,8 @@ public class FrontCard extends BaseCard {
         if (null != frontArray) {
             for (SavableView bubblePropertyModel :
                     frontArray) {
-                if (bubblePropertyModel instanceof BubblePropertyModel) {
-                    addTextView((BubblePropertyModel) bubblePropertyModel);
+                if (bubblePropertyModel instanceof TextPropertyModel) {
+                    addTextView((TextPropertyModel) bubblePropertyModel);
                 } else if (bubblePropertyModel instanceof StickerPropertyModel) {
                     addStickerView((StickerPropertyModel) bubblePropertyModel);
                 }

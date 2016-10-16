@@ -18,6 +18,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.nlt.mobileteam.cards.R;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.TextPropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BaseTextView;
 import com.nlt.mobileteam.cards.widget.OperationListener;
 
@@ -153,8 +155,8 @@ public abstract class ResizableView extends FrameLayout implements BaseTextView 
             public void onClick(View view) {
                 if (ResizableView.this.getParent() != null) {
                     operationListener.onDeleteClick();
-                    ViewGroup myCanvas = ((ViewGroup) ResizableView.this.getParent());
-                    myCanvas.removeView(ResizableView.this);
+                   /* ViewGroup myCanvas = ((ViewGroup) ResizableView.this.getParent());
+                    myCanvas.removeView(ResizableView.this);*/
                 }
             }
         });
@@ -202,6 +204,7 @@ public abstract class ResizableView extends FrameLayout implements BaseTextView 
                             ResizableView.this.setY(ResizableView.this.getY() + offsetY);
                             move_orgX = event.getRawX();
                             move_orgY = event.getRawY();
+                            Log.v(TAG, "sticker view action move: x" + move_orgX + " y:" + move_orgY);
 
                             if (operationListener != null) {
                                 operationListener.onTop(ResizableView.this);
@@ -339,6 +342,44 @@ public abstract class ResizableView extends FrameLayout implements BaseTextView 
         Log.v(TAG, "getRelativePos absY:" + absY);
         Log.v(TAG, "getRelativePos relativeY:" + pos[1]);
         return pos;
+    }
+
+
+    @Override
+    public void restoreViewState(final SavableView savableView) {
+
+        ResizableView.this.setX(((TextPropertyModel) savableView).getxLocation());
+        ResizableView.this.setY(((TextPropertyModel) savableView).getyLocation());
+
+
+     /*   RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) getLayoutParams();
+        layoutParams.leftMargin = (int) ((TextPropertyModel) savableView).getxLocation();
+        layoutParams.topMargin = (int) ((TextPropertyModel) savableView).getyLocation();
+        setLayoutParams(layoutParams);*/
+        // this.getMatrix().setValues(((TextPropertyModel) savableView).getMatrixValues());
+
+        Log.v(TAG, "restoreViewState: x:" + ((TextPropertyModel) savableView).getxLocation() + " y:" + ((TextPropertyModel) savableView).getyLocation());
+
+//        setRotationX(((TextPropertyModel) savableView).getXDegree());
+//        setRotationY(((TextPropertyModel) savableView).getYDegree());
+//         setScaleX(((TextPropertyModel) savableView).getXScaling());
+//         setScaleY(((TextPropertyModel) savableView).getYScaling());
+//        postInvalidate();
+//        requestLayout();
+    }
+
+    public TextPropertyModel saveViewState() {
+        TextPropertyModel textPropertyModel = new TextPropertyModel();
+        textPropertyModel.setxLocation(move_orgX);
+        textPropertyModel.setyLocation(move_orgY);
+        textPropertyModel.setXDegree(rotate_orgX);
+        textPropertyModel.setYDegree(rotate_orgY);
+        textPropertyModel.setXScaling(scale_orgX);
+        textPropertyModel.setYScaling(scale_orgY);
+        float[] values = new float[9];
+        getMatrix().getValues(values);
+        textPropertyModel.setMatrixValues(values);
+        return textPropertyModel;
     }
 
     public void setControlItemsHidden(boolean isHidden) {

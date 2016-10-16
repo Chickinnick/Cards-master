@@ -22,6 +22,7 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.utils.DensityUtils;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.widget.OperationListener;
@@ -319,6 +320,11 @@ public class ExperimentBubbleTextView extends ImageView implements BaseTextView 
         mStr = text;
         checkText();
         invalidate();
+    }
+
+    @Override
+    public void restoreViewState(SavableView savableView) {
+
     }
 
     private void checkText() {

@@ -29,11 +29,13 @@ import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.TextPropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BaseTextView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BubbleTextView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.EditStateListener;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.StickerView;
 import com.nlt.mobileteam.cards.stickerview.ResizableTextView;
+import com.nlt.mobileteam.cards.stickerview.ResizableView;
 import com.nlt.mobileteam.cards.widget.OperationListener;
 import com.thebluealliance.spectrum.SpectrumPalette;
 
@@ -219,16 +221,16 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
                 StickerPropertyModel stickerPropertyModel = new StickerPropertyModel();
                 stickerPropertyModel = ((StickerView) view).calculate(stickerPropertyModel);
                 resultVList.add(stickerPropertyModel);
-            } else if (view instanceof BubbleTextView) {
-                BubblePropertyModel bubblePropertyModel = new BubblePropertyModel();
-                bubblePropertyModel = ((BubbleTextView) view).calculate(bubblePropertyModel);
-                resultVList.add(bubblePropertyModel);
+            } else if (view instanceof ResizableTextView) {
+                TextPropertyModel textPropertyModel = ((ResizableView) view).saveViewState();
+                resultVList.add(textPropertyModel);
             }
         }
         checkTextViesState();
 
         return resultVList;
     }
+
 
 
     void checkTextViesState(){
@@ -325,6 +327,28 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         checkTextViesState();
 
 
+    }
+
+    public void addTextView(TextPropertyModel bubblePropertyModel) {
+        txt = new ResizableTextView(getActivity());
+        txt.setText(bubblePropertyModel.getText() + " restored");
+        txt.setOperationListener(mOperationListener);
+        mContentRootView.addView(txt);
+        mViews.add(txt);
+
+        txt.restoreViewState(bubblePropertyModel);
+        setCurrentEdit(txt, false);
+        checkTextViesState();
+
+
+     /*   txt = new ResizableTextView(getActivity());
+        txt.setText("Text view");
+        txt.setOperationListener(mOperationListener);
+        initTextEditDialog();
+        mContentRootView.addView(txt);
+        mViews.add(txt);
+        setCurrentEdit(txt, true);
+        checkTextViesState();*/
     }
 
 

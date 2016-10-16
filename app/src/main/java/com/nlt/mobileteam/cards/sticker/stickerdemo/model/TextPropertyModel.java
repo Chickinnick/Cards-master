@@ -20,6 +20,10 @@ public class TextPropertyModel extends SavableView {
     private int order;
     private float[] matrixValues;
     private int bgColor;
+    private float XDegree;
+    private float YDegree;
+    private float XScaling;
+    private float YScaling;
 
     public int getBgColor() {
         return bgColor;
@@ -77,6 +81,23 @@ public class TextPropertyModel extends SavableView {
         this.scaling = scaling;
     }
 
+
+    public float getYScaling() {
+        return YScaling;
+    }
+
+    public float getXScaling() {
+        return XScaling;
+    }
+
+    public float getYDegree() {
+        return YDegree;
+    }
+
+    public float getXDegree() {
+        return XDegree;
+    }
+
     public int getOrder() {
         return order;
     }
@@ -95,7 +116,11 @@ public class TextPropertyModel extends SavableView {
         xLocation = in.readFloat();
         yLocation = in.readFloat();
         degree = in.readFloat();
+        XDegree = in.readFloat();
+        YDegree = in.readFloat();
         scaling = in.readFloat();
+        XScaling = in.readFloat();
+        YScaling = in.readFloat();
         order = in.readInt();
         matrixValues = new float[9];
         in.readFloatArray(matrixValues);
@@ -114,8 +139,13 @@ public class TextPropertyModel extends SavableView {
         dest.writeString(text);
         dest.writeFloat(xLocation);
         dest.writeFloat(yLocation);
+
         dest.writeFloat(degree);
+        dest.writeFloat(XDegree);
+        dest.writeFloat(YDegree);
         dest.writeFloat(scaling);
+        dest.writeFloat(XScaling);
+        dest.writeFloat(YScaling);
         dest.writeInt(order);
         dest.writeFloatArray(matrixValues);
         dest.writeInt(bgColor);
@@ -152,4 +182,19 @@ public class TextPropertyModel extends SavableView {
     }
 
 
+    public void setXDegree(float XDegree) {
+        this.XDegree = XDegree;
+    }
+
+    public void setYDegree(float YDegree) {
+        this.YDegree = YDegree;
+    }
+
+    public void setXScaling(float XScaling) {
+        this.XScaling = XScaling;
+    }
+
+    public void setYScaling(float YScaling) {
+        this.YScaling = YScaling;
+    }
 }

@@ -3,15 +3,15 @@ package com.nlt.mobileteam.cards.stickerview;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BaseTextView;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.TextPropertyModel;
 import com.nlt.mobileteam.cards.stickerview.util.AutoResizeTextView;
-import com.nlt.mobileteam.cards.widget.OperationListener;
 
 import java.util.ArrayList;
 
@@ -37,8 +37,10 @@ public class ResizableTextView extends ResizableView {
 
     @Override
     public View getMainView() {
-        if (tv_main != null)
+        if (tv_main != null) {
+            Log.d(TAG, "obtained existing");
             return tv_main;
+        }
 
         tv_main = new AutoResizeTextView(getContext());
         //tv_main.setTextSize(22);
@@ -55,6 +57,8 @@ public class ResizableTextView extends ResizableView {
         tv_main.setLayoutParams(params);
         if (getImageViewFlip() != null)
             getImageViewFlip().setVisibility(View.GONE);
+        Log.d(TAG, "obtained new");
+
         return tv_main;
     }
 
@@ -119,6 +123,20 @@ public class ResizableTextView extends ResizableView {
     @Override
     public void setTempColor(int color) {
 
+    }
+
+    @Override
+    public TextPropertyModel saveViewState() {
+        TextPropertyModel textPropertyModel = super.saveViewState();
+        textPropertyModel.setText(tv_main.getText().toString());
+        return textPropertyModel;
+    }
+
+
+    @Override
+    public void restoreViewState(SavableView savableView) {
+        super.restoreViewState(savableView);
+        this.tv_main.setText(((TextPropertyModel) savableView).getText());
     }
 
     public void setLines(int lines) {
