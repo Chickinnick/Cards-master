@@ -56,6 +56,7 @@ public abstract class ResizableView extends FrameLayout implements BaseTextView 
     private final static int BUTTON_SIZE_DP = 30;
     private final static int SELF_SIZE_DP = 100;
     private OperationListener operationListener;
+    private double angle;
 
 
     public ResizableView(Context context) {
@@ -296,7 +297,7 @@ public abstract class ResizableView extends FrameLayout implements BaseTextView 
 
                         //rotate
 
-                        double angle = Math.atan2(event.getRawY() - centerY, event.getRawX() - centerX) * 180 / Math.PI;
+                        angle = Math.atan2(event.getRawY() - centerY, event.getRawX() - centerX) * 180 / Math.PI;
                         Log.v(TAG, "log angle: " + angle);
 
                         //setRotation((float) angle - 45);
@@ -350,32 +351,28 @@ public abstract class ResizableView extends FrameLayout implements BaseTextView 
 
         ResizableView.this.setX(((TextPropertyModel) savableView).getxLocation());
         ResizableView.this.setY(((TextPropertyModel) savableView).getyLocation());
+        ResizableView.this.setRotation(((TextPropertyModel) savableView).getXDegree() - 45);
+
+        ResizableView.this.getLayoutParams().width = (int) ((TextPropertyModel) savableView).getXScaling();
+        ResizableView.this.getLayoutParams().height = (int) ((TextPropertyModel) savableView).getYScaling();
 
 
-     /*   RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) getLayoutParams();
-        layoutParams.leftMargin = (int) ((TextPropertyModel) savableView).getxLocation();
-        layoutParams.topMargin = (int) ((TextPropertyModel) savableView).getyLocation();
-        setLayoutParams(layoutParams);*/
-        // this.getMatrix().setValues(((TextPropertyModel) savableView).getMatrixValues());
+//        ResizableView.this.setRotationX(((TextPropertyModel) savableView).getXDegree());
+//        ResizableView.this.setRotationY(((TextPropertyModel) savableView).getYDegree());
 
         Log.v(TAG, "restoreViewState: x:" + ((TextPropertyModel) savableView).getxLocation() + " y:" + ((TextPropertyModel) savableView).getyLocation());
 
-//        setRotationX(((TextPropertyModel) savableView).getXDegree());
-//        setRotationY(((TextPropertyModel) savableView).getYDegree());
-//         setScaleX(((TextPropertyModel) savableView).getXScaling());
-//         setScaleY(((TextPropertyModel) savableView).getYScaling());
-//        postInvalidate();
-//        requestLayout();
     }
 
     public TextPropertyModel saveViewState() {
         TextPropertyModel textPropertyModel = new TextPropertyModel();
-        textPropertyModel.setxLocation(move_orgX);
-        textPropertyModel.setyLocation(move_orgY);
-        textPropertyModel.setXDegree(rotate_orgX);
-        textPropertyModel.setYDegree(rotate_orgY);
-        textPropertyModel.setXScaling(scale_orgX);
-        textPropertyModel.setYScaling(scale_orgY);
+        textPropertyModel.setxLocation(getX());
+        textPropertyModel.setyLocation(getY());
+
+        textPropertyModel.setXDegree((float) angle);
+        textPropertyModel.setXScaling(ResizableView.this.getLayoutParams().width);
+        textPropertyModel.setYScaling(ResizableView.this.getLayoutParams().height);
+
         float[] values = new float[9];
         getMatrix().getValues(values);
         textPropertyModel.setMatrixValues(values);
