@@ -21,9 +21,6 @@ public class SavableView implements Parcelable {
             String type = in.readString();
             SavableView view = null;
             switch (type) {
-                case "BubblePropertyModel":
-                    view = new BubblePropertyModel(in);
-                    break;
                 case "StickerPropertyModel":
                     view = new StickerPropertyModel(in);
                     break;

@@ -1,4 +1,4 @@
-package com.nlt.mobileteam.cards.stickerview;
+package com.nlt.mobileteam.cards.sticker.stickerdemo.view;
 
 
 import android.content.Context;
@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.TextPropertyModel;
-import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BaseTextView;
 import com.nlt.mobileteam.cards.widget.OperationListener;
 
 
@@ -348,19 +347,17 @@ public abstract class ResizableView extends FrameLayout implements BaseTextView 
 
     @Override
     public void restoreViewState(final SavableView savableView) {
+        TextPropertyModel model = (TextPropertyModel) savableView;
 
-        ResizableView.this.setX(((TextPropertyModel) savableView).getxLocation());
-        ResizableView.this.setY(((TextPropertyModel) savableView).getyLocation());
-        ResizableView.this.setRotation(((TextPropertyModel) savableView).getXDegree() - 45);
+        ResizableView.this.setX(model.getxLocation());
+        ResizableView.this.setY(model.getyLocation());
+        if (model.getAngle() != 0) {
+            ResizableView.this.setRotation(model.getAngle() - 45);
+        }
+        ResizableView.this.getLayoutParams().width = (int) model.getScaleWidth();
+        ResizableView.this.getLayoutParams().height = (int) model.getScaleHeight();
 
-        ResizableView.this.getLayoutParams().width = (int) ((TextPropertyModel) savableView).getXScaling();
-        ResizableView.this.getLayoutParams().height = (int) ((TextPropertyModel) savableView).getYScaling();
-
-
-//        ResizableView.this.setRotationX(((TextPropertyModel) savableView).getXDegree());
-//        ResizableView.this.setRotationY(((TextPropertyModel) savableView).getYDegree());
-
-        Log.v(TAG, "restoreViewState: x:" + ((TextPropertyModel) savableView).getxLocation() + " y:" + ((TextPropertyModel) savableView).getyLocation());
+        Log.v(TAG, "restoreViewState: x:" + model.getxLocation() + " y:" + model.getyLocation());
 
     }
 
@@ -368,14 +365,9 @@ public abstract class ResizableView extends FrameLayout implements BaseTextView 
         TextPropertyModel textPropertyModel = new TextPropertyModel();
         textPropertyModel.setxLocation(getX());
         textPropertyModel.setyLocation(getY());
-
-        textPropertyModel.setXDegree((float) angle);
-        textPropertyModel.setXScaling(ResizableView.this.getLayoutParams().width);
-        textPropertyModel.setYScaling(ResizableView.this.getLayoutParams().height);
-
-        float[] values = new float[9];
-        getMatrix().getValues(values);
-        textPropertyModel.setMatrixValues(values);
+        textPropertyModel.setAngle((float) angle);
+        textPropertyModel.setScaleWidth(ResizableView.this.getLayoutParams().width);
+        textPropertyModel.setScaleHeight(ResizableView.this.getLayoutParams().height);
         return textPropertyModel;
     }
 

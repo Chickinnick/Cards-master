@@ -4,9 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
-import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.TextPropertyModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,8 +91,8 @@ public class Card implements Parcelable {
 
                 if (savableView instanceof StickerPropertyModel) {
                     url = ((StickerPropertyModel) savableView).getStickerURL();
-                } else if (savableView instanceof BubblePropertyModel) {
-                    text = ((BubblePropertyModel) (savableView)).getText();
+                } else if (savableView instanceof TextPropertyModel) {
+                    text = ((TextPropertyModel) (savableView)).getText();
                 }
 
                 front = front.concat(!TextUtils.isEmpty(text) ? text : url);

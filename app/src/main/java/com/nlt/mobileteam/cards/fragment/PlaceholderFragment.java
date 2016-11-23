@@ -38,10 +38,6 @@ public class PlaceholderFragment extends Fragment {
         this.onFragmentClickListener = onFragmentClickListener;
     }
 
-    public void addText() {
-        tempFragmentToReplace.addTextView();
-        //tempFragmentToReplace.calculatePropertiesAndSave();
-    }
 
     public void editText() {
         tempFragmentToReplace.setTextEditDialogVisibility(View.VISIBLE);

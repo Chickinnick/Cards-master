@@ -189,7 +189,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         doneEditBtn = (Button) findViewById(R.id.editing_done);
         backgroundImage = (ImageView) findViewById(R.id.background);
         //  Picasso.with(this).load(Hawk.get(Util.SELECTED_BG_EXTRA, R.drawable.bg_1)).centerInside().into(backgroundImage);
-        backgroundImage.setImageResource(Hawk.get(Util.SELECTED_BG_EXTRA, R.drawable.backgr4));
+        backgroundImage.setImageResource(Hawk.get(Util.SELECTED_BG_EXTRA, R.drawable.backgr6));
         // mViewPager.setPageTransformer(false, );
         mSectionsPagerAdapter = new MainFragmentPagerAdapter(getFragmentManager(), cards, this);
         mSectionsPagerAdapter.setSize(cards.size());

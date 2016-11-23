@@ -18,8 +18,8 @@ import com.nlt.mobileteam.cards.controller.BroadcastManager;
 import com.nlt.mobileteam.cards.controller.StorageController;
 import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
-import com.nlt.mobileteam.cards.sticker.stickerdemo.model.BubblePropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.TextPropertyModel;
 import com.nlt.mobileteam.cards.widget.ItemTouchHelperClass;
 
 import java.util.ArrayList;
@@ -166,8 +166,8 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
 
     private String getFirstTextFromArr(Card item) {
         for (SavableView savableView : item.getFrontSavedViewArray()) {
-            if (savableView instanceof BubblePropertyModel) {
-                return ((BubblePropertyModel) savableView).getText();
+            if (savableView instanceof TextPropertyModel) {
+                return ((TextPropertyModel) savableView).getText();
             }
         }
 

@@ -10,20 +10,20 @@ public class TextPropertyModel extends SavableView {
     private String text;
 
     private float xLocation;
-    //y坐标
+
     private float yLocation;
-    //角度
+
     private float degree;
-    //缩放值
     private float scaling;
     //气泡顺序
     private int order;
-    private float[] matrixValues;
+
     private int bgColor;
-    private float XDegree;
-    private float YDegree;
-    private float XScaling;
-    private float YScaling;
+
+    private float angle;
+
+    private float scaleWidth;
+    private float scaleHeight;
 
     public int getBgColor() {
         return bgColor;
@@ -37,9 +37,6 @@ public class TextPropertyModel extends SavableView {
         this.bubbleId = bubbleId;
     }
 
-    public float[] getMatrixValues() {
-        return matrixValues;
-    }
 
     public String getText() {
         return text;
@@ -82,20 +79,16 @@ public class TextPropertyModel extends SavableView {
     }
 
 
-    public float getYScaling() {
-        return YScaling;
+    public float getScaleHeight() {
+        return scaleHeight;
     }
 
-    public float getXScaling() {
-        return XScaling;
+    public float getScaleWidth() {
+        return scaleWidth;
     }
 
-    public float getYDegree() {
-        return YDegree;
-    }
-
-    public float getXDegree() {
-        return XDegree;
+    public float getAngle() {
+        return angle;
     }
 
     public int getOrder() {
@@ -116,14 +109,11 @@ public class TextPropertyModel extends SavableView {
         xLocation = in.readFloat();
         yLocation = in.readFloat();
         degree = in.readFloat();
-        XDegree = in.readFloat();
-        YDegree = in.readFloat();
+        angle = in.readFloat();
         scaling = in.readFloat();
-        XScaling = in.readFloat();
-        YScaling = in.readFloat();
+        scaleWidth = in.readFloat();
+        scaleHeight = in.readFloat();
         order = in.readInt();
-        matrixValues = new float[9];
-        in.readFloatArray(matrixValues);
         bgColor = in.readInt();
     }
 
@@ -141,13 +131,11 @@ public class TextPropertyModel extends SavableView {
         dest.writeFloat(yLocation);
 
         dest.writeFloat(degree);
-        dest.writeFloat(XDegree);
-        dest.writeFloat(YDegree);
+        dest.writeFloat(angle);
         dest.writeFloat(scaling);
-        dest.writeFloat(XScaling);
-        dest.writeFloat(YScaling);
+        dest.writeFloat(scaleWidth);
+        dest.writeFloat(scaleHeight);
         dest.writeInt(order);
-        dest.writeFloatArray(matrixValues);
         dest.writeInt(bgColor);
     }
 
@@ -173,28 +161,21 @@ public class TextPropertyModel extends SavableView {
         }
     };
 
-    public void setMatrixValues(float[] matrixValues) {
-        this.matrixValues = matrixValues;
-    }
 
     public void setBgColor(int bgColor) {
         this.bgColor = bgColor;
     }
 
 
-    public void setXDegree(float XDegree) {
-        this.XDegree = XDegree;
+    public void setAngle(float angle) {
+        this.angle = angle;
     }
 
-    public void setYDegree(float YDegree) {
-        this.YDegree = YDegree;
+    public void setScaleWidth(float XScaling) {
+        this.scaleWidth = XScaling;
     }
 
-    public void setXScaling(float XScaling) {
-        this.XScaling = XScaling;
-    }
-
-    public void setYScaling(float YScaling) {
-        this.YScaling = YScaling;
+    public void setScaleHeight(float scaleHeight) {
+        this.scaleHeight = scaleHeight;
     }
 }
