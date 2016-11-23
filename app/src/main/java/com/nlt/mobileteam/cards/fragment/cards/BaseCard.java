@@ -339,7 +339,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         checkTextViesState();
 
         float centerY = mContentRootView.getHeight() / 3;
-        float centerX = mContentRootView.getWidth() / 4;
+        float centerX = mContentRootView.getWidth() / 8;
         txt.setX(centerX);
         txt.setY(centerY);
     }

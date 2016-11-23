@@ -48,7 +48,7 @@ public class ResizableTextView extends ResizableView {
                 Color.BLACK);
         tv_main.setGravity(
                 Gravity.CENTER);
-        tv_main.setTextSize(400);
+        tv_main.setTextSize(350);
         tv_main.setShadowLayer(2, 0, 0, Color.GRAY);
         //    tv_main.setSingleLine(true);
         //tv_main.setMaxLines(1);
