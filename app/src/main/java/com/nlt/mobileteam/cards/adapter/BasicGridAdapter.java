@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +20,10 @@ import com.nlt.mobileteam.cards.controller.StorageController;
 import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.TextPropertyModel;
 import com.nlt.mobileteam.cards.widget.ItemTouchHelperClass;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,11 +35,8 @@ import java.util.Collections;
 
 public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.ViewHolder> implements ItemTouchHelperClass.ItemTouchHelperAdapter {
     private final Context context;
-    private final RecyclerView rootView;
     private ArrayList<Card> items;
     private OnItemClickListener onItemClickListener;
-    private Card mJustDeletedItem;
-    private int mIndexOfDeletedItem;
     private RelativeLayout layout;
 
     @Override
@@ -55,22 +55,7 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
 
     @Override
     public void onItemRemoved(final int position) {
-        mJustDeletedItem = items.remove(position);
-        mIndexOfDeletedItem = position;
         notifyItemRemoved(position);
-        /*if (!TextUtils.isEmpty(mJustDeletedItem.getFrontText())) {
-            String toShow = (mJustDeletedItem.getFrontText().length() > 20) ? mJustDeletedItem.getFrontText().substring(0, 20) + "..." : mJustDeletedItem.getFrontText();
-            if (layout != null && layout.getContext() != null) {
-                Snackbar.make(rootView, "Deleted " + toShow, Snackbar.LENGTH_LONG)
-                        .setAction("UNDO", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                items.add(mIndexOfDeletedItem, mJustDeletedItem);
-                                notifyItemInserted(mIndexOfDeletedItem);
-                            }
-                        }).show();
-            }
-        }*/
     }
 
     @Override
@@ -84,83 +69,22 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
     @Override
     public void onBindViewHolder(final BasicGridAdapter.ViewHolder holder, final int position) {
         Card item = items.get(position);
-//            if(item.getToDoDate()!=null && item.getToDoDate().before(new Date())){
-//                item.setToDoDate(null);
-//            }
-        //   SharedPreferences sharedPreferences = getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE);
-        //Background color for each to-do item. Necessary for night/day mode
         int bgColor = Color.WHITE;
-        //color of title text in our to-do item. White for night mode, dark gray for day mode
         int todoTextColor = context.getResources().getColor(R.color.secondary_text);
-        //  if (sharedPreferences.getString(THEME_SAVED, LIGHTTHEME).equals(LIGHTTHEME)) {
-        //      bgColor = Color.WHITE;
-        //      todoTextColor = getResources().getColor(R.color.secondary_text);
-        //  } else {
-        //      bgColor = Color.DKGRAY;
-        //      todoTextColor = Color.WHITE;
-        //  }
-        // holder.relativeLayout.setBackgroundColor(bgColor);
         layout = holder.relativeLayout;
-        /*    if (item.hasReminder() && item.getToDoDate() != null) {
-                holder.textView.setMaxLines(1);
-                holder.countTextView.setVisibility(View.VISIBLE);
-//                holder.textView.setVisibility(View.GONE);
-            } else {
-                holder.countTextView.setVisibility(View.GONE);
-                holder.textView.setMaxLines(2);
-            }
-        */
         holder.textView.setText(getFirstTextFromArr(item));
+
+        String firstImgFromArr = getFirstImgFromArr(item);
+        if (!TextUtils.isEmpty(firstImgFromArr)) {
+            Picasso.with(context).load(firstImgFromArr).resizeDimen(R.dimen.preview_grid_w, R.dimen.preview_grid_h).into(holder.cardImageView);
+        }
         if (item.isFavourite()) {
             holder.starImageBtn.setImageResource(R.drawable.ic_star_selected);
         } else {
             holder.starImageBtn.setImageResource(R.drawable.ic_star);
 
         }
-
-
-//        holder.titleTextView.setText(item.getTitle());
-//
-//        String path = item.getLinkToFrontImage();
-
-//            Picasso.with(context)
-//                    .load(path)
-//                    .resize(300, 200)
-//                    .centerCrop()
-//                    .into(holder.cardImageView);
-
-
-        //holder.countTextView.setText(item.getCards().size() + " cards");
         holder.textView.setTextColor(todoTextColor);
-//            holder.mColorTextView.setBackgroundColor(Color.parseColor(item.getTodoColor()));
-
-//            TextDrawable myDrawable = TextDrawable.builder().buildRoundRect(item.getToDoText().substring(0,1),Color.RED, 10);
-        //We check if holder.color is set or not
-       /* if (item.getColor() == 0) {
-            ColorGenerator generator = ColorGenerator.MATERIAL;
-            int color = generator.getRandomColor();
-            item.setColor(color);
-        }*/
-
-       /* TextDrawable myDrawable = TextDrawable.builder().beginConfig()
-                .textColor(Color.WHITE)
-                .useFont(Typeface.DEFAULT)
-                .toUpperCase()
-                .endConfig()
-                .buildRound(item.getName().substring(0, 1), item.getColor());
-*/
-        //      holder.cardImageView.setImageDrawable(myDrawable);
-      /*      if (item.getToDoDate() != null) {
-                String timeToShow;
-                //  if(android.text.format.DateFormat.is24HourFormat(FoldersActivity.this)){
-                //      timeToShow = AddToDoActivity.formatDate(FoldersActivity.DATE_TIME_FORMAT_24_HOUR, item.getToDoDate());
-                //  }
-                //  else{
-                //      timeToShow = AddToDoActivity.formatDate(FoldersActivity.DATE_TIME_FORMAT_12_HOUR, item.getToDoDate());
-                //  }
-                // holder.countTextView.setText(timeToShow);
-            }*/
-
 
     }
 
@@ -174,16 +98,24 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
         return "";
     }
 
+    private String getFirstImgFromArr(Card item) {
+        for (SavableView savableView : item.getFrontSavedViewArray()) {
+            if (savableView instanceof StickerPropertyModel) {
+                return ((StickerPropertyModel) savableView).getStickerURL();
+            }
+        }
+
+        return "";
+    }
+
     @Override
     public int getItemCount() {
         return items.size();
     }
 
-    public BasicGridAdapter(Context context, ArrayList<Card> items, RecyclerView root) {
+    public BasicGridAdapter(Context context, ArrayList<Card> items) {
         this.context = context;
         this.items = items;
-        this.rootView = root;
-
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -202,11 +134,8 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
         RelativeLayout relativeLayout;
         TextView textView;
         TextView titleTextView;
-        //            TextView mColorTextView;
         ImageView cardImageView;
         ImageButton starImageBtn;
-        private String LOG_TAG = "HolderView";
-//            int color = -1;
 
         public ViewHolder(View v) {
             super(v);
@@ -223,7 +152,6 @@ public class BasicGridAdapter extends RecyclerView.Adapter<BasicGridAdapter.View
             });
             textView = (TextView) v.findViewById(R.id.item_textview);
             titleTextView = (TextView) v.findViewById(R.id.title_grid);
-//                mColorTextView = (TextView)v.findViewById(R.id.toDoColorTextView);
             cardImageView = (ImageView) v.findViewById(R.id.item_imageview);
             relativeLayout = (RelativeLayout) v.findViewById(R.id.item_grid_root);
             starImageBtn = (ImageButton) v.findViewById(R.id.favourite_btn);

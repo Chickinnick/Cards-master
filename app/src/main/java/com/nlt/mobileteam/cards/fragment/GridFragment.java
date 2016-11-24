@@ -63,7 +63,7 @@ public class GridFragment extends Fragment implements BasicGridAdapter.OnItemCli
         View view = inflater.inflate(R.layout.fragment_grid, container, false);
         foldersRecyclerView = (ScrollRecyclerView) view.findViewById(R.id.cardsRecyclerView);
         cardsArrayList = currentFolder.getCards();
-        gridAdapter = new BasicGridAdapter(getActivity(), cardsArrayList, foldersRecyclerView);
+        gridAdapter = new BasicGridAdapter(getActivity(), cardsArrayList);
         gridAdapter.setOnItemClickListener(this);
 
         //  foldersRecyclerView.setHasFixedSize(true);
