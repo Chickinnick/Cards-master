@@ -43,6 +43,7 @@ import com.thebluealliance.spectrum.SpectrumPalette;
 
 import java.util.ArrayList;
 
+import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 
@@ -73,6 +74,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
             mCurrentEditTextView.setInEdit(false);
             mCurrentEditTextView = view;
             mCurrentEditTextView.setInEdit(true);
+            initTextEditDialog();
             ((MainActivityTabbed) getActivity()).setIsDragMode(true);
             setTextEditDialogVisibility(VISIBLE);
 
@@ -121,7 +123,6 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     };
 
     private TextView hintTextView;
-    private ResizableTextView txt;
     private Activity mActivity;
 
 
@@ -150,8 +151,6 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         hintTextView = (TextView) rootView.findViewById(R.id.textview);
         return rootView;
     }
-
-
 
 
     public abstract void onRestoreViews(Card card);
@@ -211,16 +210,15 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     }
 
 
-
-    void checkTextViesState(){
-        if(mViews!= null && !mViews.isEmpty()){
-            hintTextView.setVisibility(View.GONE);
+    void checkTextViesState() {
+        if (mViews != null && !mViews.isEmpty()) {
+            hintTextView.setVisibility(GONE);
         } else {
             hintTextView.setVisibility(VISIBLE);
         }
     }
 
-    public void addStickerView(String path ) {
+    public void addStickerView(String path) {
         final StickerView stickerView = new StickerView(getActivity());
         stickerView.setImageURI(Uri.parse(path));
         stickerView.setIsInEditListener(this);
@@ -228,7 +226,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         mContentRootView.addView(stickerView, lp);
         mViews.add(stickerView);
-        setCurrentEdit(stickerView , true);
+        setCurrentEdit(stickerView, true);
         checkTextViesState();
 
     }
@@ -243,7 +241,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         mContentRootView.addView(stickerView, lp);
         mViews.add(stickerView);
         stickerView.restoreViewState(stickerPropertyModel);
-        setCurrentEdit(stickerView , false);
+        setCurrentEdit(stickerView, false);
         checkTextViesState();
 
     }
@@ -278,7 +276,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
 
 
     public void addTextView(TextPropertyModel bubblePropertyModel) {
-        txt = new ResizableTextView(getActivity());
+        ResizableTextView txt = new ResizableTextView(getActivity());
         txt.setText(bubblePropertyModel.getText() + " restored");
         txt.setOperationListener(mOperationListener);
         mContentRootView.addView(txt);
@@ -289,14 +287,13 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     }
 
     public void addNewTextView() {
-        txt = new ResizableTextView(getActivity());
+        ResizableTextView txt = new ResizableTextView(getActivity());
         mCurrentEditTextView = txt;
         txt.setOperationListener(mOperationListener);
 
         mContentRootView.addView(txt);
         mViews.add(txt);
         txt.setText("Type your text");
-        initTextEditDialog();
 
         setCurrentEdit(txt, true);
         checkTextViesState();
@@ -400,29 +397,37 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     }
 
     private void initTextEditDialog() {
-        setTextEditDialogVisibility(VISIBLE);
-        ((MainActivityTabbed) getActivity()).doneEditBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setTextEditDialogVisibility(View.GONE);
-            }
-        });
-        ((MainActivityTabbed) getActivity()).addCardEditTxt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        if (mCurrentEditTextView instanceof ResizableTextView) {
 
-            }
+            setTextEditDialogVisibility(VISIBLE);
+            ((MainActivityTabbed) getActivity()).doneEditBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setTextEditDialogVisibility(GONE);
+                }
+            });
+            ((MainActivityTabbed) getActivity()).addCardEditTxt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                txt.setText(s.toString());
-            }
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (mCurrentEditTextView instanceof ResizableTextView) {
+                        ((ResizableTextView) mCurrentEditTextView).setText(s.toString());
+                    }
+                }
 
-            }
-        });
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+        } else {
+            setTextEditDialogVisibility(GONE);
+
+        }
     }
 
     public void setTextEditDialogVisibility(int visible) {
