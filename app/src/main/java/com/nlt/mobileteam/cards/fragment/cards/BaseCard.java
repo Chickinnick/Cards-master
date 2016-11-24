@@ -33,6 +33,7 @@ import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.TextPropertyModel;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BaseTextView;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.view.BaseView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.EditStateListener;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.StickerView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.view.ResizableTextView;
@@ -53,10 +54,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     private static final String LOG_TAG = "BaseCard";
 
 
-
-    public StickerView mCurrentView;
-
-    public BaseTextView mCurrentEditTextView;
+    public BaseView mCurrentEditTextView;
 
     public ArrayList<View> mViews;
 
@@ -70,12 +68,10 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         }
 
         @Override
-        public void onEdit(BaseTextView bubbleTextView) {
-            if (mCurrentView != null) {
-                mCurrentView.setInEdit(false);
-            }
+        public void onEdit(BaseView view) {
+
             mCurrentEditTextView.setInEdit(false);
-            mCurrentEditTextView = bubbleTextView;
+            mCurrentEditTextView = view;
             mCurrentEditTextView.setInEdit(true);
             ((MainActivityTabbed) getActivity()).setIsDragMode(true);
             setTextEditDialogVisibility(VISIBLE);
@@ -83,18 +79,18 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         }
 
         @Override
-        public void onClick(BaseTextView bubbleTextView) {
+        public void onClick(BaseView view) {
             ((MainActivityTabbed) getActivity()).setIsDragMode(true);
 
         }
 
         @Override
-        public void onTop(BaseTextView bubbleTextView) {
+        public void onTop(BaseView bubbleTextView) {
             int position = mViews.indexOf(bubbleTextView);
             if (position == mViews.size() - 1) {
                 return;
             }
-            BaseTextView textView = (BaseTextView) mViews.remove(position);
+            BaseView textView = (BaseView) mViews.remove(position);
             mViews.add(mViews.size(), (View) textView);
         }
 
@@ -123,38 +119,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
 
         }
     };
-    private StickerView.OperationListener stickerViewOperationListener = new StickerView.OperationListener() {
-        @Override
-        public void onDeleteClick() {
-            mViews.remove(mCurrentView);
-            checkTextViesState();
 
-            mContentRootView.removeView(mCurrentView);
-        }
-
-        @Override
-        public void onEdit(StickerView stickerView) {
-            if (mCurrentEditTextView != null) {
-                mCurrentEditTextView.setInEdit(false);
-            }
-            mCurrentView.setInEdit(false);
-            mCurrentView = stickerView;
-            mCurrentView.setInEdit(true);
-            ((MainActivityTabbed) getActivity()).setIsDragMode(true);
-
-
-        }
-
-        @Override
-        public void onTop(StickerView stickerView) {
-            int position = mViews.indexOf(stickerView);
-            if (position == mViews.size() - 1) {
-                return;
-            }
-            StickerView stickerTemp = (StickerView) mViews.remove(position);
-            mViews.add(mViews.size(), stickerTemp);
-        }
-    };
     private TextView hintTextView;
     private ResizableTextView txt;
     private Activity mActivity;
@@ -259,7 +224,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         final StickerView stickerView = new StickerView(getActivity());
         stickerView.setImageURI(Uri.parse(path));
         stickerView.setIsInEditListener(this);
-        stickerView.setOperationListener(stickerViewOperationListener);
+        stickerView.setOperationListener(mOperationListener);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         mContentRootView.addView(stickerView, lp);
         mViews.add(stickerView);
@@ -273,7 +238,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         final StickerView stickerView = new StickerView(getActivity());
         stickerView.setImageURI(Uri.parse(stickerPropertyModel.getStickerURL()));
         stickerView.setIsInEditListener(this);
-        stickerView.setOperationListener(stickerViewOperationListener);
+        stickerView.setOperationListener(mOperationListener);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         mContentRootView.addView(stickerView, lp);
         mViews.add(stickerView);
@@ -284,17 +249,15 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     }
 
 
-    private void setCurrentEdit(StickerView stickerView , boolean isInEdit) {
-        if (mCurrentView != null) {
-            mCurrentView.setInEdit(false);
-        }
+    private void setCurrentEdit(BaseView stickerView, boolean isInEdit) {
+
         if (mCurrentEditTextView != null) {
             mCurrentEditTextView.setInEdit(false);
         }
-        mCurrentView = stickerView;
+        mCurrentEditTextView = stickerView;
         stickerView.setInEdit(isInEdit);
     }
-
+/*
     private void setCurrentEdit(BaseTextView textView, boolean isEdit) {
         if (mCurrentView != null) {
             mCurrentView.setInEdit(false);
@@ -304,7 +267,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         }
         mCurrentEditTextView = textView;
         mCurrentEditTextView.setInEdit(isEdit);
-    }
+    }*/
 
 
     @Override
@@ -348,8 +311,8 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
         String previousText = "";
         int prevColor = 0;
         if (null != mCurrentEditTextView) {
-            previousText = mCurrentEditTextView.getText();
-            prevColor = mCurrentEditTextView.getmBgColor();
+//            previousText = mCurrentEditTextView.getText();
+//            prevColor = mCurrentEditTextView.getmBgColor();
         }
         final Context context = getActivity();
 
@@ -397,9 +360,9 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
             @Override
             public void onClick(View v) {
                 String text = editText.getText().toString();
-                mCurrentEditTextView.setmBgColor(selectedColor[0]);
-                mCurrentEditTextView.setTempColor(selectedColor[0]);
-                mCurrentEditTextView.setText(text);
+//                mCurrentEditTextView.setmBgColor(selectedColor[0]);
+//                mCurrentEditTextView.setTempColor(selectedColor[0]);
+//                mCurrentEditTextView.setText(text);
                 dialog.dismiss();
             }
         });
@@ -430,9 +393,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     }
 
     public void clearFocus() {
-        if (null != mCurrentView) {
-            mCurrentView.setInEdit(false);
-        }
+
         if (null != mCurrentEditTextView) {
             mCurrentEditTextView.setInEdit(false);
         }
@@ -467,6 +428,9 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
     public void setTextEditDialogVisibility(int visible) {
         ((MainActivityTabbed) getActivity()).addCardEditTxt.setVisibility(visible);
         ((MainActivityTabbed) getActivity()).doneEditBtn.setVisibility(visible);
-        ((MainActivityTabbed) getActivity()).addCardEditTxt.setText(mCurrentEditTextView.getText());
+
+        if (mCurrentEditTextView instanceof ResizableTextView) {
+            ((MainActivityTabbed) getActivity()).addCardEditTxt.setText(((ResizableTextView) mCurrentEditTextView).getText());
+        }
     }
 }

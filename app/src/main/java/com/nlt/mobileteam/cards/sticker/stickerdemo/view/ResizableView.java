@@ -23,7 +23,7 @@ import com.nlt.mobileteam.cards.sticker.stickerdemo.model.TextPropertyModel;
 import com.nlt.mobileteam.cards.widget.OperationListener;
 
 
-public abstract class ResizableView extends FrameLayout implements BaseTextView {
+public abstract class ResizableView extends FrameLayout implements BaseTextView, BaseView {
 
     public static final String IV_BORDER_TAG = "iv_border";
     public static final String IV_SCALE_TAG = "iv_scale";
@@ -205,7 +205,7 @@ public abstract class ResizableView extends FrameLayout implements BaseTextView 
                             move_orgX = event.getRawX();
                             move_orgY = event.getRawY();
                             Log.v(TAG, "sticker view action move: x" + move_orgX + " y:" + move_orgY);
-
+                            bringToFront();
                             if (operationListener != null) {
                                 operationListener.onTop(ResizableView.this);
                             }
