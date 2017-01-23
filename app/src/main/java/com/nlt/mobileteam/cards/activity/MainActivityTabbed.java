@@ -39,6 +39,7 @@ import com.nlt.mobileteam.cards.fragment.PlaceholderFragment;
 import com.nlt.mobileteam.cards.model.Action;
 import com.nlt.mobileteam.cards.model.Card;
 import com.nlt.mobileteam.cards.model.Folder;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.view.ResizableTextView;
 import com.nlt.mobileteam.cards.widget.CardsViewPager;
 import com.nlt.mobileteam.cards.widget.Fab;
 import com.orhanobut.hawk.Hawk;
@@ -60,6 +61,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
 
     private static final int TYPE_FAVOURITE = 1;
     private static final int TYPE_FOLDERS = 2;
+
     public EditText addCardEditTxt;
     public Button doneEditBtn;
 
@@ -73,11 +75,6 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     public static boolean isShuffleMode;
     private boolean isFirstSwipe;
     private Fab viewFolderFab;
-    private OnCardChangedListener onCardChangedListener;
-
-    public interface OnCardChangedListener {
-        void onCardChanged(Card card);
-    }
 
     @Override
     public void onFragmentClick() {
@@ -146,7 +143,6 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
     private ArrayList<Card> cards;
     private int randomItem;
     private ImageView backgroundImage;
-    private boolean isEditing;
     private Folder currentFolder;
     private Toolbar toolbar;
     StorageActionReciever storageActionReciever;
@@ -457,14 +453,14 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
         return super.onOptionsItemSelected(item);
     }
 
-    private void idleCard() {
+    public void idleCard() {
         //  if (isEditing) {
-        isEditing = false;
         setIsDragMode(false);
 
         ((PlaceholderFragment) mSectionsPagerAdapter.getCurrentFragment()).clearFocus();
             doneClick();
-        //  }
+        addCardEditTxt.setVisibility(View.GONE);
+        doneEditBtn.setVisibility(View.GONE);
     }
 
     private void doneClick() {
@@ -476,7 +472,7 @@ public class MainActivityTabbed extends AppCompatActivity implements NavigationV
             final InputMethodManager imm = (InputMethodManager) getSystemService(
                     Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(mViewPager.getWindowToken(), 0);
-            isEditing = false;
+
         setIsDragMode(false);
 
         //  }

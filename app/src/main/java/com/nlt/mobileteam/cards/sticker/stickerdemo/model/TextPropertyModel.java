@@ -3,7 +3,6 @@ package com.nlt.mobileteam.cards.sticker.stickerdemo.model;
 import android.os.Parcel;
 
 public class TextPropertyModel extends SavableView {
-    private static final long serialVersionUID = 6339777989485920188L;
 
     private long bubbleId;
 
@@ -14,8 +13,9 @@ public class TextPropertyModel extends SavableView {
     private float yLocation;
 
     private float degree;
+
     private float scaling;
-    //气泡顺序
+
     private int order;
 
     private int bgColor;

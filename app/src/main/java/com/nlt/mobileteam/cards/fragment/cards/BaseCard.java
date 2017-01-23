@@ -404,6 +404,7 @@ public abstract class BaseCard extends Fragment implements EditStateListener {
                 @Override
                 public void onClick(View v) {
                     setTextEditDialogVisibility(GONE);
+                    ((MainActivityTabbed) getActivity()).idleCard();
                 }
             });
             ((MainActivityTabbed) getActivity()).addCardEditTxt.addTextChangedListener(new TextWatcher() {

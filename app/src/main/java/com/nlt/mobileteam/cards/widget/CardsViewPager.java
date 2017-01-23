@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.nlt.mobileteam.cards.R;
@@ -39,6 +40,7 @@ public class CardsViewPager extends ViewPager {
     }
 
     public void setSwipeable(boolean swipeable) {
+        Log.i("CardsViewPager" , "is swipable "  + swipeable );
         this.swipeable = swipeable;
     }
 }
