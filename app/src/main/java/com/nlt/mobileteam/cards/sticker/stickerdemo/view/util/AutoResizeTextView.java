@@ -1,4 +1,4 @@
-package com.nlt.mobileteam.cards.stickerview.util;
+package com.nlt.mobileteam.cards.sticker.stickerdemo.view.util;
 
 import android.annotation.TargetApi;
 import android.content.Context;

@@ -7,7 +7,6 @@ import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
  */
 
 public interface BaseTextView {
-    void setInEdit(boolean inEdit);
 
     String getText();
 

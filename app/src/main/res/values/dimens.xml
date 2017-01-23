@@ -45,6 +45,8 @@
     <dimen name="text_size_grid">19sp</dimen>
     <dimen name="textH">110dp</dimen>
     <dimen name="textW">330dp</dimen>
+    <dimen name="preview_grid_w">250dp</dimen>
+    <dimen name="preview_grid_h">175dp</dimen>
 
 
 </resources>

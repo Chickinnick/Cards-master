@@ -7,7 +7,6 @@
     <string name="action_settings" translatable="false">Settings</string>
     <string name="title_activity_main_activity_tabbed" translatable="false">MainActivityTabbed</string>
 
-    <string name="action_shuffle" translatable="false">Random</string>
     <string name="action_favourite" translatable="false">Favourite</string>
     <string name="action_repeat" translatable="false">Repeat</string>
     <string name="title_activity_scrolling" translatable="false">Categories</string>
@@ -22,14 +21,14 @@
     <string name="Photo">Photo</string>
     <string name="Upload">Upload</string>
     <string name="add">Add</string>
-    <string name="text_add">Text</string>
+    <string name="text_add" translatable="false">Text</string>
     <string name="cards">cards</string>
     <string name="Name_cat">Name category</string>
     <string name="done">Done</string>
     <string name="title">Title</string>
     <string name="type_question_here">Write the question here</string>
-    <string name="title_activity_display">DisplayActivity</string>
-    <string name="double_tap_to_edit_color">Double tap to edit</string>
-    <string name="long_tap_to_add_text">Double tap to add text</string>
-    <string name="edit_text">Edit text note</string>
+    <string name="title_activity_display" translatable="false">DisplayActivity</string>
+    <string name="double_tap_to_edit_color" translatable="false">Double tap to edit</string>
+    <string name="long_tap_to_add_text" translatable="false">Double tap to add text</string>
+    <string name="edit_text" translatable="false">Edit text note</string>
 </resources>

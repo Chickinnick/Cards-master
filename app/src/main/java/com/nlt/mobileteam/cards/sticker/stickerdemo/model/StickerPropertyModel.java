@@ -9,27 +9,23 @@ import android.os.Parcelable;
  * Email nimengbo@gmail.com
  */
 public class StickerPropertyModel extends SavableView {
-    private static final long serialVersionUID = 3800737478616389410L;
 
-    //贴纸id
     private long stickerId;
-    //文本
+
     private String text;
-    //x坐标
+
     private float xLocation;
-    //y坐标
+
     private float yLocation;
-    //角度
+
     private float degree;
-    //缩放值
+
     private float scaling;
-    //气泡顺序
+
     private int order;
 
-    //水平镜像 1镜像 2未镜像
     private int horizonMirror;
 
-    //贴纸PNG URL
     private String stickerURL;
     private float[] matrixValues;
 

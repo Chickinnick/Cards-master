@@ -1,4 +1,4 @@
-package com.nlt.mobileteam.cards.stickerview;
+package com.nlt.mobileteam.cards.sticker.stickerdemo.view;
 
 
 import android.content.Context;
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.SavableView;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.TextPropertyModel;
-import com.nlt.mobileteam.cards.stickerview.util.AutoResizeTextView;
+import com.nlt.mobileteam.cards.sticker.stickerdemo.view.util.AutoResizeTextView;
 
 import java.util.ArrayList;
 
@@ -45,18 +45,18 @@ public class ResizableTextView extends ResizableView {
         tv_main = new AutoResizeTextView(getContext());
         //tv_main.setTextSize(22);
         tv_main.setTextColor(
-                Color.WHITE);
+                Color.BLACK);
         tv_main.setGravity(
                 Gravity.CENTER);
-        tv_main.setTextSize(400);
-        tv_main.setShadowLayer(4, 0, 0, Color.BLACK);
+        tv_main.setTextSize(350);
+        tv_main.setShadowLayer(2, 0, 0, Color.GRAY);
         //    tv_main.setSingleLine(true);
         //tv_main.setMaxLines(1);
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.gravity = Gravity.CENTER;
         tv_main.setLayoutParams(params);
         if (getImageViewFlip() != null)
-            getImageViewFlip().setVisibility(View.GONE);
+            getImageViewFlip().setVisibility(GONE);
         Log.d(TAG, "obtained new");
 
         return tv_main;

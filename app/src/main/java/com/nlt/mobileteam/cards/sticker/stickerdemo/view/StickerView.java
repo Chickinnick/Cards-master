@@ -18,10 +18,11 @@ import android.widget.ImageView;
 
 import com.nlt.mobileteam.cards.R;
 import com.nlt.mobileteam.cards.sticker.stickerdemo.model.StickerPropertyModel;
+import com.nlt.mobileteam.cards.widget.OperationListener;
 import com.orhanobut.hawk.Hawk;
 
 
-public class StickerView extends ImageView {
+public class StickerView extends ImageView implements BaseView {
     private static final String TAG = "StickerView";
 
     private Bitmap deleteBitmap;
@@ -626,13 +627,6 @@ public class StickerView extends ImageView {
     }
 
 
-    public interface OperationListener {
-        void onDeleteClick();
-
-        void onEdit(StickerView stickerView);
-
-        void onTop(StickerView stickerView);
-    }
 
     public void setOperationListener(OperationListener operationListener) {
         this.operationListener = operationListener;

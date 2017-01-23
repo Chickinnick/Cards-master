@@ -19,6 +19,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             R.drawable.backgr2,
             R.drawable.backgr4,
             R.drawable.backgr5,
+            R.drawable.backgr6,
             R.drawable.bg_1,
             R.drawable.bg_2,
             R.drawable.bg_3
